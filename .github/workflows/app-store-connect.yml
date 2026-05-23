@@ -1,0 +1,38 @@
+name: App Store Connect Metadata
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-metadata:
+    name: Upload metadata and screenshots
+    runs-on: ubuntu-latest
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+      APP_REVIEW_FIRST_NAME: ${{ secrets.APP_REVIEW_FIRST_NAME }}
+      APP_REVIEW_LAST_NAME: ${{ secrets.APP_REVIEW_LAST_NAME }}
+      APP_REVIEW_PHONE: ${{ secrets.APP_REVIEW_PHONE }}
+      APP_REVIEW_EMAIL: ${{ secrets.APP_REVIEW_EMAIL }}
+      FASTLANE_SKIP_UPDATE_CHECK: "1"
+      FASTLANE_HIDE_GITHUB_ISSUES: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Prepare screenshot folders
+        shell: bash
+        run: |
+          rm -rf fastlane/screenshots
+          mkdir -p fastlane/screenshots/en-GB
+          cp AppStoreAssets/iPhone-6.5/*.png fastlane/screenshots/en-GB/
+          cp AppStoreAssets/iPad-13/*.png fastlane/screenshots/en-GB/
+
+      - name: Upload metadata and screenshots
+        run: bundle exec fastlane ios metadata

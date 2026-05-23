@@ -1,0 +1,31 @@
+{
+  "products": [
+    {
+      "reference_name": "Starter Cosmetic Pack",
+      "product_id": "com.nightfallprotocol.cosmetic.starter",
+      "type": "non_consumable",
+      "price_placeholder": "GBP 4.99",
+      "display_name": "Starter Cosmetic Pack",
+      "description": "A cosmetic starter pack with an operator skin, flare tint, and profile frame.",
+      "review_note": "Cosmetic-only content. Does not unlock gameplay power, progression, objectives, or competitive advantages."
+    },
+    {
+      "reference_name": "Premium Pass",
+      "product_id": "com.nightfallprotocol.pass.premium",
+      "type": "non_consumable",
+      "price_placeholder": "GBP 9.99",
+      "display_name": "Premium Pass",
+      "description": "A placeholder premium pass for seasonal cosmetic rewards and bonus lore presentation.",
+      "review_note": "Cosmetic and lore-presentation content only. No pay-to-win mechanics."
+    },
+    {
+      "reference_name": "Nightmare Skin Pack",
+      "product_id": "com.nightfallprotocol.cosmetic.nightmare",
+      "type": "non_consumable",
+      "price_placeholder": "GBP 14.99",
+      "display_name": "Nightmare Skin Pack",
+      "description": "A cosmetic skin pack with nightmare trails, extraction animations, and flashlight finishes.",
+      "review_note": "Cosmetic-only content. Does not affect mission rewards, enemy behavior, survivability, or extraction odds."
+    }
+  ]
+}

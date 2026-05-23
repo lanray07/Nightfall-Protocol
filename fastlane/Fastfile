@@ -1,0 +1,62 @@
+require "base64"
+require "json"
+
+default_platform(:ios)
+
+def nightfall_api_key
+  key = ENV["ASC_KEY_P8_BASE64"]
+  UI.user_error!("Set ASC_KEY_ID, ASC_ISSUER_ID, and ASC_KEY_P8_BASE64 in GitHub Secrets.") if key.to_s.empty?
+
+  app_store_connect_api_key(
+    key_id: ENV.fetch("ASC_KEY_ID"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+    key_content: Base64.decode64(key),
+    is_key_content_base64: false,
+    duration: 1200,
+    in_house: false
+  )
+end
+
+def app_review_information_payload
+  required = {
+    first_name: ENV["APP_REVIEW_FIRST_NAME"],
+    last_name: ENV["APP_REVIEW_LAST_NAME"],
+    phone_number: ENV["APP_REVIEW_PHONE"],
+    email_address: ENV["APP_REVIEW_EMAIL"]
+  }
+
+  missing = required.select { |_key, value| value.to_s.empty? }.keys
+  if missing.any?
+    UI.important("Skipping App Review contact upload. Missing secrets: #{missing.join(', ')}")
+    return nil
+  end
+
+  required.merge(notes: File.read(File.expand_path("review_notes.txt", __dir__)).strip)
+end
+
+platform :ios do
+  desc "Upload App Store metadata and screenshots without submitting for review."
+  lane :metadata do
+    options = {
+      api_key: nightfall_api_key,
+      metadata_path: "fastlane/metadata",
+      screenshots_path: "fastlane/screenshots",
+      skip_binary_upload: true,
+      submit_for_review: false,
+      force: true,
+      overwrite_screenshots: true,
+      automatic_release: true,
+      run_precheck_before_submit: false
+    }
+
+    review_payload = app_review_information_payload
+    options[:app_review_information] = review_payload if review_payload
+
+    deliver(**options)
+  end
+
+  desc "Print the cosmetic-only in-app purchase manifest for App Store setup."
+  lane :iap_manifest do
+    UI.message(JSON.pretty_generate(JSON.parse(File.read("fastlane/iap_products.json"))))
+  end
+end

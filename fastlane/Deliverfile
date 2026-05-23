@@ -1,0 +1,11 @@
+app_identifier("com.nightfallprotocol.prototype")
+apple_id("6772583753")
+
+metadata_path("./fastlane/metadata")
+screenshots_path("./fastlane/screenshots")
+
+skip_binary_upload(true)
+submit_for_review(false)
+force(true)
+overwrite_screenshots(true)
+run_precheck_before_submit(false)
