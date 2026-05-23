@@ -1,0 +1,57 @@
+{
+  "identifier" : "NightfallProtocolStoreKit",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "starter-cosmetic-pack",
+      "localizations" : [
+        {
+          "description" : "Starter cosmetic pack with operator skin, flare tint, and profile frame.",
+          "displayName" : "Starter Cosmetic Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.nightfallprotocol.cosmetic.starter",
+      "referenceName" : "Starter Cosmetic Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "premium-pass",
+      "localizations" : [
+        {
+          "description" : "Seasonal cosmetic rewards and premium lore placeholders.",
+          "displayName" : "Premium Pass",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.nightfallprotocol.pass.premium",
+      "referenceName" : "Premium Pass",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "14.99",
+      "familyShareable" : false,
+      "internalID" : "nightmare-skin-pack",
+      "localizations" : [
+        {
+          "description" : "A cosmetic skin pack with nightmare trails and flashlight finishes.",
+          "displayName" : "Nightmare Skin Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.nightfallprotocol.cosmetic.nightmare",
+      "referenceName" : "Nightmare Skin Pack",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {},
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
