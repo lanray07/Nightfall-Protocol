@@ -123,6 +123,25 @@ struct MissionCard: View {
                     .foregroundStyle(.white.opacity(0.58))
                     .lineLimit(4)
 
+                VStack(alignment: .leading, spacing: 4) {
+                    Label {
+                        Text(LocalizedStringKey(mission.modifierTitleKey))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.78)
+                    } icon: {
+                        Image(systemName: "bolt.trianglebadge.exclamationmark.fill")
+                    }
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.red.opacity(0.95))
+
+                    Text(LocalizedStringKey(mission.modifierDescriptionKey))
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.62))
+                        .lineLimit(2)
+                }
+                .padding(10)
+                .background(Color.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
+
                 HStack {
                     Label {
                         LocalizedValueText("profile.xp.reward.format", mission.rewardXP)

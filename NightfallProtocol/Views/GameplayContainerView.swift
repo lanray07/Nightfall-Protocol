@@ -55,6 +55,15 @@ struct GameplayContainerView: View {
                 scene.applyNightmareEvent(event)
             }
         }
+        .onChange(of: viewModel.scorePulseKey) { _, pulseKey in
+            guard let pulseKey else { return }
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(2))
+                if viewModel.scorePulseKey == pulseKey {
+                    viewModel.scorePulseKey = nil
+                }
+            }
+        }
         .onReceive(viewModel.$result.compactMap { $0 }) { summary in
             guard !deliveredResult else { return }
             deliveredResult = true
@@ -88,6 +97,7 @@ struct GameplayContainerView: View {
 
             CollapseMeter(progress: viewModel.collapseLevel)
             SanityBar(health: viewModel.health, sanity: viewModel.sanity)
+            runStatus
 
             VStack(alignment: .leading, spacing: 8) {
                 Label {
@@ -145,7 +155,47 @@ struct GameplayContainerView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .nightfallPanel()
+        } else if let pulse = viewModel.scorePulseKey {
+            HStack {
+                Image(systemName: "sparkles")
+                    .foregroundStyle(.yellow)
+                Text(LocalizedStringKey(pulse))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .nightfallPanel()
         }
+    }
+
+    private var runStatus: some View {
+        HStack(spacing: 10) {
+            Label {
+                LocalizedValueText("gameplay.score.format", viewModel.runScore)
+            } icon: {
+                Image(systemName: "scope")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Label {
+                LocalizedValueText("gameplay.combo.format", viewModel.momentumMultiplier)
+            } icon: {
+                Image(systemName: "flame.fill")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Label {
+                Text(LocalizedStringKey(viewModel.threatKey))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
+            } icon: {
+                Image(systemName: "waveform.path.ecg")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .font(.caption.weight(.bold))
+        .foregroundStyle(.white.opacity(0.9))
     }
 
     private var controls: some View {

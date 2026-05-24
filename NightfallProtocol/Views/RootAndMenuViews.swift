@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import Foundation
 
 struct AppRootView: View {
     @Environment(\.modelContext) private var modelContext
@@ -285,6 +286,10 @@ struct MainHubView: View {
                         onMissionSelect(.daily)
                     }
 
+                    ProtocolPulseCard(dailySignalCode: dailySignalCode) {
+                        onMissionSelect(.daily)
+                    }
+
                     SectionHeader(titleKey: "title.collection", symbol: "cube.transparent.fill")
                     artifactPreview
 
@@ -351,6 +356,11 @@ struct MainHubView: View {
             LocalizedButton(titleKey: "action.view.artifacts", systemImage: "square.grid.2x2.fill", action: onArtifacts)
         }
     }
+
+    private var dailySignalCode: String {
+        let daySeed = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? Int(Date().timeIntervalSince1970 / 86_400)
+        return "DAILY-\(daySeed % 10_000)"
+    }
 }
 
 private struct SectionHeader: View {
@@ -380,6 +390,29 @@ private struct DailyChallengeCard: View {
                 .lineLimit(3)
 
             LocalizedButton(titleKey: "mode.daily", systemImage: "calendar", prominent: true, action: action)
+        }
+        .nightfallPanel()
+    }
+}
+
+private struct ProtocolPulseCard: View {
+    let dailySignalCode: String
+    let action: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            SectionHeader(titleKey: "title.protocol.pulse", symbol: "antenna.radiowaves.left.and.right")
+
+            Text(LocalizedStringKey("hub.pulse.body"))
+                .font(.subheadline)
+                .foregroundStyle(.white.opacity(0.72))
+                .lineLimit(3)
+
+            LocalizedValueText("hub.pulse.code.format", dailySignalCode)
+                .font(.caption.monospaced().weight(.bold))
+                .foregroundStyle(.cyan)
+
+            LocalizedButton(titleKey: "hub.pulse.cta", systemImage: "bolt.fill", prominent: true, action: action)
         }
         .nightfallPanel()
     }

@@ -10,13 +10,15 @@
       "review_note": "Cosmetic-only content. Does not unlock gameplay power, progression, objectives, or competitive advantages."
     },
     {
-      "reference_name": "Premium Pass",
-      "product_id": "com.nightfallprotocol.pass.premium",
-      "type": "non_consumable",
-      "price_placeholder": "GBP 9.99",
+      "reference_name": "Premium Pass Monthly",
+      "product_id": "com.nightfallprotocol.subscription.premium.monthly",
+      "type": "auto_renewable_subscription",
+      "price_placeholder": "GBP 9.99/month",
       "display_name": "Premium Pass",
-      "description": "A placeholder premium pass for seasonal cosmetic rewards and bonus lore presentation.",
-      "review_note": "Cosmetic and lore-presentation content only. No pay-to-win mechanics."
+      "description": "Monthly cosmetic-only rewards, nightmare trails, extraction animations, and premium lore presentation.",
+      "review_note": "Cosmetic-only monthly subscription. Does not unlock gameplay power, loot odds, survivability, ads, chat, or real-money wagering.",
+      "subscription_group": "Nightfall Premium Protocol",
+      "duration": "1 month"
     },
     {
       "reference_name": "Nightmare Skin Pack",

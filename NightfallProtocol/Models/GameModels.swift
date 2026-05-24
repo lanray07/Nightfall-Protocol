@@ -243,6 +243,9 @@ struct MissionPlan: Identifiable, Hashable, Codable {
     var descriptionKey: String
     var nightmareNameKey: String
     var briefingKey: String
+    var modifierTitleKey: String
+    var modifierDescriptionKey: String
+    var modifierScoreBonus: Int
     var difficulty: Difficulty
     var objectiveType: ObjectiveType
     var rewardXP: Int
@@ -255,6 +258,9 @@ struct MissionPlan: Identifiable, Hashable, Codable {
         descriptionKey: String,
         nightmareNameKey: String,
         briefingKey: String,
+        modifierTitleKey: String,
+        modifierDescriptionKey: String,
+        modifierScoreBonus: Int,
         difficulty: Difficulty,
         objectiveType: ObjectiveType,
         rewardXP: Int,
@@ -266,6 +272,9 @@ struct MissionPlan: Identifiable, Hashable, Codable {
         self.descriptionKey = descriptionKey
         self.nightmareNameKey = nightmareNameKey
         self.briefingKey = briefingKey
+        self.modifierTitleKey = modifierTitleKey
+        self.modifierDescriptionKey = modifierDescriptionKey
+        self.modifierScoreBonus = modifierScoreBonus
         self.difficulty = difficulty
         self.objectiveType = objectiveType
         self.rewardXP = rewardXP
@@ -308,6 +317,10 @@ struct ExtractionSummary: Identifiable, Hashable, Codable {
     var loreKey: String
     var messageKey: String
     var collapseLevel: Double
+    var score: Int
+    var rankKey: String
+    var highlightKey: String
+    var runCode: String
 
     init(
         id: UUID = UUID(),
@@ -317,7 +330,11 @@ struct ExtractionSummary: Identifiable, Hashable, Codable {
         loot: [LootReward],
         loreKey: String,
         messageKey: String,
-        collapseLevel: Double
+        collapseLevel: Double,
+        score: Int,
+        rankKey: String,
+        highlightKey: String,
+        runCode: String
     ) {
         self.id = id
         self.missionTitleKey = missionTitleKey
@@ -327,6 +344,10 @@ struct ExtractionSummary: Identifiable, Hashable, Codable {
         self.loreKey = loreKey
         self.messageKey = messageKey
         self.collapseLevel = collapseLevel
+        self.score = score
+        self.rankKey = rankKey
+        self.highlightKey = highlightKey
+        self.runCode = runCode
     }
 }
 

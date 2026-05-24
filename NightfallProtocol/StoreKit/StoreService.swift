@@ -11,7 +11,7 @@ enum StoreServiceError: Error {
 @Observable
 final class StoreService {
     static let starterPackID = "com.nightfallprotocol.cosmetic.starter"
-    static let premiumPassID = "com.nightfallprotocol.pass.premium"
+    static let premiumPassID = "com.nightfallprotocol.subscription.premium.monthly"
     static let nightmareSkinPackID = "com.nightfallprotocol.cosmetic.nightmare"
 
     private(set) var products: [Product] = []

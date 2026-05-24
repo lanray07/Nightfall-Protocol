@@ -1,284 +1,4844 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "achievement.artifactHunter.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifact Hunter"}}}},
-    "achievement.firstExtraction.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"First Extraction"}}}},
-    "achievement.survivor.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Collapse Survivor"}}}},
-    "action.cancel" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cancel"}},"es":{"stringUnit":{"state":"translated","value":"Cancelar"}},"fr":{"stringUnit":{"state":"translated","value":"Annuler"}},"de":{"stringUnit":{"state":"translated","value":"Abbrechen"}}}},
-    "action.close" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Close"}},"es":{"stringUnit":{"state":"translated","value":"Cerrar"}},"fr":{"stringUnit":{"state":"translated","value":"Fermer"}},"de":{"stringUnit":{"state":"translated","value":"Schließen"}}}},
-    "action.confirm" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Confirm"}}}},
-    "action.continue" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Continue"}},"es":{"stringUnit":{"state":"translated","value":"Continuar"}},"fr":{"stringUnit":{"state":"translated","value":"Continuer"}},"de":{"stringUnit":{"state":"translated","value":"Fortsetzen"}}}},
-    "action.extract" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extract"}},"es":{"stringUnit":{"state":"translated","value":"Extraer"}},"fr":{"stringUnit":{"state":"translated","value":"Extraire"}},"de":{"stringUnit":{"state":"translated","value":"Extrahieren"}}}},
-    "action.finish" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Finish"}},"es":{"stringUnit":{"state":"translated","value":"Terminar"}},"fr":{"stringUnit":{"state":"translated","value":"Terminer"}},"de":{"stringUnit":{"state":"translated","value":"Fertig"}}}},
-    "action.interact" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Interact"}},"es":{"stringUnit":{"state":"translated","value":"Interactuar"}},"fr":{"stringUnit":{"state":"translated","value":"Interagir"}},"de":{"stringUnit":{"state":"translated","value":"Interagieren"}}}},
-    "action.language" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Language"}},"es":{"stringUnit":{"state":"translated","value":"Idioma"}},"fr":{"stringUnit":{"state":"translated","value":"Langue"}},"de":{"stringUnit":{"state":"translated","value":"Sprache"}}}},
-    "action.next" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Next"}},"es":{"stringUnit":{"state":"translated","value":"Siguiente"}},"fr":{"stringUnit":{"state":"translated","value":"Suivant"}},"de":{"stringUnit":{"state":"translated","value":"Weiter"}}}},
-    "action.purchase" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Purchase"}},"es":{"stringUnit":{"state":"translated","value":"Comprar"}},"fr":{"stringUnit":{"state":"translated","value":"Acheter"}},"de":{"stringUnit":{"state":"translated","value":"Kaufen"}}}},
-    "action.regenerate" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Regenerate"}}}},
-    "action.reset" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reset"}},"es":{"stringUnit":{"state":"translated","value":"Restablecer"}},"fr":{"stringUnit":{"state":"translated","value":"Réinitialiser"}},"de":{"stringUnit":{"state":"translated","value":"Zurücksetzen"}}}},
-    "action.restore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Restore Purchases"}}}},
-    "action.return.hub" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Return to Hub"}},"es":{"stringUnit":{"state":"translated","value":"Volver al centro"}},"fr":{"stringUnit":{"state":"translated","value":"Retour au hub"}},"de":{"stringUnit":{"state":"translated","value":"Zurück zur Zentrale"}}}},
-    "action.select" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Select"}}}},
-    "action.settings" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Settings"}},"es":{"stringUnit":{"state":"translated","value":"Ajustes"}},"fr":{"stringUnit":{"state":"translated","value":"Réglages"}},"de":{"stringUnit":{"state":"translated","value":"Einstellungen"}}}},
-    "action.start" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Start"}},"es":{"stringUnit":{"state":"translated","value":"Iniciar"}},"fr":{"stringUnit":{"state":"translated","value":"Commencer"}},"de":{"stringUnit":{"state":"translated","value":"Starten"}}}},
-    "action.store" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Store"}},"es":{"stringUnit":{"state":"translated","value":"Tienda"}},"fr":{"stringUnit":{"state":"translated","value":"Boutique"}},"de":{"stringUnit":{"state":"translated","value":"Shop"}}}},
-    "action.view.artifacts" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"View Artifact Collection"}}}},
-    "alert.notification.denied" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Notifications are disabled for this device."}}}},
-    "alert.notification.enabled" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Daily Nightmare reminders are enabled."}}}},
-    "alert.notification.failed" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Unable to schedule the reminder."}}}},
-    "app.tagline" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Enter the dream. Escape the nightmare."}},"es":{"stringUnit":{"state":"translated","value":"Entra en el sueño. Escapa de la pesadilla."}},"fr":{"stringUnit":{"state":"translated","value":"Entre dans le rêve. Échappe au cauchemar."}},"de":{"stringUnit":{"state":"translated","value":"Betritt den Traum. Entkomme dem Albtraum."}}}},
-    "app.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Nightfall Protocol"}},"es":{"stringUnit":{"state":"translated","value":"Protocolo Nightfall"}},"fr":{"stringUnit":{"state":"translated","value":"Protocole Nightfall"}},"de":{"stringUnit":{"state":"translated","value":"Nightfall-Protokoll"}}}},
-    "artifact.blackCompass.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction zones stay visible longer."}}}},
-    "artifact.blackCompass.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A compass that points toward the place you fear most."}}}},
-    "artifact.blackCompass.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Its needle refuses north and follows the last open exit."}}}},
-    "artifact.blackCompass.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Black Compass"}}}},
-    "artifact.blackCompass.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cold Archive"}}}},
-    "artifact.echoLens.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Enemy warnings trigger sooner."}}}},
-    "artifact.echoLens.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A cracked lens that catches movement one second before it happens."}}}},
-    "artifact.echoLens.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Operators report seeing their own footprints appear ahead of them."}}}},
-    "artifact.echoLens.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Echo Lens"}}}},
-    "artifact.echoLens.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Glass Ward"}}}},
-    "artifact.mirrorAsh.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Mirror clone events inflict less sanity loss."}}}},
-    "artifact.mirrorAsh.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Fine ash that reflects faces in the wrong order."}}}},
-    "artifact.mirrorAsh.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The ash was recovered from a corridor that burned without heat."}}}},
-    "artifact.mirrorAsh.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Mirror Ash"}}}},
-    "artifact.mirrorAsh.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Static Cathedral"}}}},
-    "artifact.nullBell.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Panic pulse events are slightly delayed."}}}},
-    "artifact.nullBell.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A silent bell with a clapper made of shadow."}}}},
-    "artifact.nullBell.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"When it rings, everyone remembers a different sound."}}}},
-    "artifact.nullBell.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Null Bell"}}}},
-    "artifact.nullBell.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Null Harbor"}}}},
-    "artifact.redThread.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"False exits are easier to identify."}}}},
-    "artifact.redThread.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A red thread that knots whenever the map changes."}}}},
-    "artifact.redThread.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"No one has found the other end."}}}},
-    "artifact.redThread.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Red Thread"}}}},
-    "artifact.redThread.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Red Platform"}}}},
-    "artifact.sleepingKey.bonus" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Sleeper becomes visible from farther away."}}}},
-    "artifact.sleepingKey.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A key that opens only doors seen in dreams."}}}},
-    "artifact.sleepingKey.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Its teeth rearrange whenever a lullaby is heard."}}}},
-    "artifact.sleepingKey.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Sleeping Key"}}}},
-    "artifact.sleepingKey.origin" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Asylum of Rain"}}}},
-    "difficulty.extreme" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extreme"}},"es":{"stringUnit":{"state":"translated","value":"Extrema"}},"fr":{"stringUnit":{"state":"translated","value":"Extrême"}},"de":{"stringUnit":{"state":"translated","value":"Extrem"}}}},
-    "difficulty.high" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"High"}},"es":{"stringUnit":{"state":"translated","value":"Alta"}},"fr":{"stringUnit":{"state":"translated","value":"Élevée"}},"de":{"stringUnit":{"state":"translated","value":"Hoch"}}}},
-    "difficulty.low" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Low"}},"es":{"stringUnit":{"state":"translated","value":"Baja"}},"fr":{"stringUnit":{"state":"translated","value":"Faible"}},"de":{"stringUnit":{"state":"translated","value":"Niedrig"}}}},
-    "difficulty.medium" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Medium"}},"es":{"stringUnit":{"state":"translated","value":"Media"}},"fr":{"stringUnit":{"state":"translated","value":"Moyenne"}},"de":{"stringUnit":{"state":"translated","value":"Mittel"}}}},
-    "difficulty.unknown" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Unknown"}},"es":{"stringUnit":{"state":"translated","value":"Desconocida"}},"fr":{"stringUnit":{"state":"translated","value":"Inconnue"}},"de":{"stringUnit":{"state":"translated","value":"Unbekannt"}}}},
-    "enemy.archivist.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Archivist"}}}},
-    "enemy.archivist.warning" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Archivist is guarding the artifact."}}}},
-    "enemy.echo.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Echo"}}}},
-    "enemy.echo.warning" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Echo is retracing your path."}}}},
-    "enemy.hollow.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Hollow"}}}},
-    "enemy.hollow.warning" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Hollow is rushing through the collapse."}}}},
-    "enemy.sleeper.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Sleeper"}}}},
-    "enemy.sleeper.warning" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Sleeper is close enough to hear you breathe."}}}},
-    "enemy.watcher.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Watcher"}}}},
-    "enemy.watcher.warning" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Watcher detected movement."}}}},
-    "equipment.artifactCase.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Protects one rare find during extraction."}}}},
-    "equipment.artifactCase.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifact Case"}}}},
-    "equipment.decoyBeacon.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Pulls patrols away for a few seconds."}}}},
-    "equipment.decoyBeacon.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Decoy Beacon"}}}},
-    "equipment.escapeFlare.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Marks the nearest extraction signal."}}}},
-    "equipment.escapeFlare.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Escape Flare"}}}},
-    "equipment.flashlight.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reveals nearby hidden threats."}}}},
-    "equipment.flashlight.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Flashlight"}}}},
-    "equipment.signalScanner.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Finds objectives through unstable walls."}}}},
-    "equipment.signalScanner.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Signal Scanner"}}}},
-    "equipment.silenceInjector.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Briefly masks operator movement."}}}},
-    "equipment.silenceInjector.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Silence Injector"}}}},
-    "error.bootstrap" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Save data could not be loaded."}}}},
-    "error.purchase.failed" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The purchase could not be completed."}}}},
-    "error.store.unavailable" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Store products are unavailable. Mock purchases are enabled."}}}},
-    "event.entitySurge.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Patrols accelerate as the room fills with static."}}}},
-    "event.entitySurge.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Entity Surge"}}}},
-    "event.falseExit.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"An exit signal moved when you looked away."}}}},
-    "event.falseExit.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"False Exit"}}}},
-    "event.gravityShift.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The floor forgets which way it promised to fall."}}}},
-    "event.gravityShift.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Gravity Shift"}}}},
-    "event.lightsOut.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The zone cuts power and listens."}}}},
-    "event.lightsOut.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Lights Out"}}}},
-    "event.mirrorClone.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A copy appears where your reflection should be."}}}},
-    "event.mirrorClone.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Mirror Clone"}}}},
-    "event.panicPulse.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A pressure wave attacks your sanity."}}}},
-    "event.panicPulse.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Panic Pulse"}}}},
-    "event.roomRearrangement.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Walls slide into new positions without sound."}}}},
-    "event.roomRearrangement.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Room Rearrangement"}}}},
-    "event.whisperWarning.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A voice names the danger before it arrives."}}}},
-    "event.whisperWarning.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Whisper Warning"}}}},
-    "extraction.failure.message" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The zone collapsed. Temporary loot was lost, but long-term progress remains."}}}},
-    "extraction.partial.message" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction succeeded, but the nightmare followed the signal home."}}}},
-    "extraction.success.message" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction clean. The protocol archived the evidence."}}}},
-    "gameplay.collapse" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reality Collapse"}},"es":{"stringUnit":{"state":"translated","value":"Colapso de realidad"}},"fr":{"stringUnit":{"state":"translated","value":"Effondrement de réalité"}},"de":{"stringUnit":{"state":"translated","value":"Realitätskollaps"}}}},
-    "gameplay.health" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Health"}}}},
-    "gameplay.loot.found" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Loot Found"}}}},
-    "gameplay.percent.format" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"%d%%"}}}},
-    "gameplay.sanity" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Sanity"}}}},
-    "graphics.high" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"High"}}}},
-    "graphics.low" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Low"}}}},
-    "graphics.medium" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Medium"}}}},
-    "hub.battlepass.placeholder" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Premium pass placeholder: cosmetic-only seasonal rewards, no power advantage."}}}},
-    "hub.daily.subtitle" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"One unstable nightmare generated each day with a fixed seed and escalating collapse."}}}},
-    "inventory.quantity.format" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"x%d"}}}},
-    "itemType.artifact" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifact"}}}},
-    "itemType.corruptedKey" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Corrupted Key"}}}},
-    "itemType.cosmeticShard" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cosmetic Shard"}}}},
-    "itemType.dreamFragment" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Dream Fragment"}}}},
-    "itemType.loreFile" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Lore File"}}}},
-    "itemType.protocolToken" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Protocol Token"}}}},
-    "language.ar" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Arabic"}},"ar":{"stringUnit":{"state":"needs_review","value":"العربية"}}}},
-    "language.de" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"German"}},"de":{"stringUnit":{"state":"translated","value":"Deutsch"}}}},
-    "language.en" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"English"}}}},
-    "language.es" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Spanish"}},"es":{"stringUnit":{"state":"translated","value":"Español"}}}},
-    "language.fr" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"French"}},"fr":{"stringUnit":{"state":"translated","value":"Français"}}}},
-    "language.hi" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Hindi"}},"hi":{"stringUnit":{"state":"needs_review","value":"हिन्दी"}}}},
-    "language.it" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Italian"}},"it":{"stringUnit":{"state":"needs_review","value":"Italiano"}}}},
-    "language.ja" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Japanese"}},"ja":{"stringUnit":{"state":"needs_review","value":"日本語"}}}},
-    "language.ko" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Korean"}},"ko":{"stringUnit":{"state":"needs_review","value":"한국어"}}}},
-    "language.pt" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Portuguese"}},"pt":{"stringUnit":{"state":"needs_review","value":"Português"}}}},
-    "language.zhHans" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Simplified Chinese"}},"zh-Hans":{"stringUnit":{"state":"needs_review","value":"简体中文"}}}},
-    "loot.artifact.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A rare object with a memory attached."}}}},
-    "loot.artifact.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Dream Artifact"}}}},
-    "loot.corruptedKey.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Unlocks unstable mission branches."}}}},
-    "loot.corruptedKey.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Corrupted Key"}}}},
-    "loot.cosmeticShard.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Used for cosmetic skins and trails."}}}},
-    "loot.cosmeticShard.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cosmetic Shard"}}}},
-    "loot.dreamFragment.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A splinter of a memory that should not exist."}}}},
-    "loot.dreamFragment.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Dream Fragment"}}}},
-    "loot.loreFile.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Unlocks archived nightmare reports."}}}},
-    "loot.loreFile.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Lore File"}}}},
-    "loot.protocolToken.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Earned through extraction and spent on cosmetics."}}}},
-    "loot.protocolToken.name" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Protocol Token"}}}},
-    "lore.artifact.01" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The file describes a room that appeared inside three unrelated dreams."}}}},
-    "lore.artifact.02" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A recovered signal repeats the operator's name before they speak it."}}}},
-    "lore.artifact.03" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The artifact vibrates when a false exit is nearby."}}}},
-    "lore.artifact.04" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"No camera recorded the pickup, but every camera recorded the return."}}}},
-    "lore.artifact.05" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A black-site memo labels the object as evidence and witness."}}}},
-    "lore.artifact.06" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The protocol sealed the entry twice. The second seal is handwritten."}}}},
-    "lore.briefing.01" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A low signal is leaking from a room that was never built. Recover proof and leave before it notices."}}}},
-    "lore.briefing.02" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The dream keeps rearranging its own evidence. Trust the scanner, not the walls."}}}},
-    "lore.briefing.03" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"An echo requested extraction using your voice. Confirm identity, then break contact."}}}},
-    "lore.briefing.04" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The rift is widening under the archive floor. Seal it before the lights learn your route."}}}},
-    "lore.briefing.05" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A black-site corridor has returned with new doors. Investigate only what you can carry out."}}}},
-    "lore.briefing.06" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The nightmare is quiet. That usually means it has started counting."}}}},
-    "mission.extract.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Locate the artifact, secure it, and escape before collapse."}}}},
-    "mission.extract.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extract Dream Artifact"}},"es":{"stringUnit":{"state":"translated","value":"Extraer artefacto onírico"}},"fr":{"stringUnit":{"state":"translated","value":"Extraire l’artefact de rêve"}},"de":{"stringUnit":{"state":"translated","value":"Traumartefakt extrahieren"}}}},
-    "mission.investigate.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Scan the black-site anomaly and recover a memory trace."}}}},
-    "mission.investigate.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Investigate Black Site"}},"es":{"stringUnit":{"state":"translated","value":"Investigar sitio negro"}},"fr":{"stringUnit":{"state":"translated","value":"Enquêter sur le site noir"}},"de":{"stringUnit":{"state":"translated","value":"Black Site untersuchen"}}}},
-    "mission.recover.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Recover a memory fragment from a shifting nightmare zone."}}}},
-    "mission.recover.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Recover Memory Fragment"}},"es":{"stringUnit":{"state":"translated","value":"Recuperar fragmento de memoria"}},"fr":{"stringUnit":{"state":"translated","value":"Récupérer un fragment de mémoire"}},"de":{"stringUnit":{"state":"translated","value":"Erinnerungsfragment bergen"}}}},
-    "mission.rescue.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Find the lost echo and guide it to extraction."}}}},
-    "mission.rescue.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Rescue Lost Echo"}},"es":{"stringUnit":{"state":"translated","value":"Rescatar eco perdido"}},"fr":{"stringUnit":{"state":"translated","value":"Sauver l’écho perdu"}},"de":{"stringUnit":{"state":"translated","value":"Verlorenes Echo retten"}}}},
-    "mission.seal.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Seal a nightmare rift while hostile entities converge."}}}},
-    "mission.seal.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Seal Nightmare Rift"}},"es":{"stringUnit":{"state":"translated","value":"Sellar grieta de pesadilla"}},"fr":{"stringUnit":{"state":"translated","value":"Sceller la faille cauchemardesque"}},"de":{"stringUnit":{"state":"translated","value":"Albtraumriss versiegeln"}}}},
-    "mission.survive.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Stay alive until the extraction window opens."}}}},
-    "mission.survive.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Survive Until Extraction"}},"es":{"stringUnit":{"state":"translated","value":"Sobrevivir hasta la extracción"}},"fr":{"stringUnit":{"state":"translated","value":"Survivre jusqu’à l’extraction"}},"de":{"stringUnit":{"state":"translated","value":"Bis zur Extraktion überleben"}}}},
-    "mode.coop" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Co-op Placeholder"}},"es":{"stringUnit":{"state":"translated","value":"Cooperativo provisional"}},"fr":{"stringUnit":{"state":"translated","value":"Coopératif provisoire"}},"de":{"stringUnit":{"state":"translated","value":"Koop-Platzhalter"}}}},
-    "mode.daily" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Daily Nightmare"}},"es":{"stringUnit":{"state":"translated","value":"Pesadilla diaria"}},"fr":{"stringUnit":{"state":"translated","value":"Cauchemar quotidien"}},"de":{"stringUnit":{"state":"translated","value":"Täglicher Albtraum"}}}},
-    "mode.endless" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Endless Descent"}},"es":{"stringUnit":{"state":"translated","value":"Descenso infinito"}},"fr":{"stringUnit":{"state":"translated","value":"Descente infinie"}},"de":{"stringUnit":{"state":"translated","value":"Endloser Abstieg"}}}},
-    "mode.solo" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Solo Extraction"}},"es":{"stringUnit":{"state":"translated","value":"Extracción en solitario"}},"fr":{"stringUnit":{"state":"translated","value":"Extraction solo"}},"de":{"stringUnit":{"state":"translated","value":"Solo-Extraktion"}}}},
-    "mode.story" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Story Protocol Missions"}},"es":{"stringUnit":{"state":"translated","value":"Misiones de protocolo narrativo"}},"fr":{"stringUnit":{"state":"translated","value":"Missions du protocole narratif"}},"de":{"stringUnit":{"state":"translated","value":"Story-Protokollmissionen"}}}},
-    "nightmare.name.asylum" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Asylum of Rain"}}}},
-    "nightmare.name.coldArchive" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cold Archive"}}}},
-    "nightmare.name.glassWard" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Glass Ward"}}}},
-    "nightmare.name.nullHarbor" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Null Harbor"}}}},
-    "nightmare.name.redPlatform" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Red Platform"}}}},
-    "nightmare.name.staticCathedral" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Static Cathedral"}}}},
-    "notification.daily.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A new unstable zone is available for extraction."}}}},
-    "notification.daily.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Daily Nightmare Ready"}}}},
-    "objective.collectArtifact.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Find the marked artifact inside the zone."}}}},
-    "objective.collectArtifact.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Collect Artifact"}}}},
-    "objective.investigateBlackSite.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Scan the anomaly without drawing attention."}}}},
-    "objective.investigateBlackSite.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Investigate Black Site"}}}},
-    "objective.reachExtraction.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reach the active extraction signal."}}}},
-    "objective.reachExtraction.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reach Extraction"}}}},
-    "objective.recoverMemory.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Recover a memory fragment before it decays."}}}},
-    "objective.recoverMemory.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Recover Memory"}}}},
-    "objective.rescueEcho.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Guide the lost echo back to the signal."}}}},
-    "objective.rescueEcho.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Rescue Echo"}}}},
-    "objective.scanEcho.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Use the scanner to identify the real echo."}}}},
-    "objective.scanEcho.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Scan Echo"}}}},
-    "objective.secureCase.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Lock the artifact case before extraction."}}}},
-    "objective.secureCase.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Secure Case"}}}},
-    "objective.stabilizeRift.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Hold the rift steady through the pulse."}}}},
-    "objective.stabilizeRift.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Stabilize Rift"}}}},
-    "objective.survive.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Avoid entities until extraction opens."}}}},
-    "objective.survive.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Survive"}}}},
-    "objective.survivePulse.detail" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Endure the collapse pulse."}}}},
-    "objective.survivePulse.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Survive Pulse"}}}},
-    "privacy.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Prototype privacy policy placeholder. No personal data leaves the device in mock mode."}}}},
-    "privacy.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Privacy Policy"}}}},
-    "profile.level.format" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Level %d"}},"es":{"stringUnit":{"state":"translated","value":"Nivel %d"}},"fr":{"stringUnit":{"state":"translated","value":"Niveau %d"}},"de":{"stringUnit":{"state":"translated","value":"Stufe %d"}}}},
-    "profile.xp.format" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"XP %d"}}}},
-    "profile.xp.reward.format" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"+%d XP"}}}},
-    "rarity.common" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Common"}}}},
-    "rarity.corrupted" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Corrupted"}}}},
-    "rarity.epic" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Epic"}}}},
-    "rarity.legendary" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Legendary"}}}},
-    "rarity.rare" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Rare"}}}},
-    "rarity.uncommon" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Uncommon"}}}},
-    "result.failure.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction Failed"}}}},
-    "result.loot.lost" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Temporary loot was lost in the collapse."}}}},
-    "result.success.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction Complete"}}}},
-    "settings.graphics" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Graphics Quality"}}}},
-    "settings.haptics" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Haptics"}}}},
-    "settings.language" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Language"}}}},
-    "settings.music" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Music"}}}},
-    "settings.notifications" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Notifications"}}}},
-    "settings.privacy" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Privacy Policy"}}}},
-    "settings.reset" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reset Progress"}}}},
-    "settings.reset.message" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"This removes local progress, inventory, artifacts, and mock purchases."}}}},
-    "settings.reset.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reset Progress?"}}}},
-    "settings.sound" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Sound"}}}},
-    "settings.terms" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Terms of Use"}}}},
-    "state.empty" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Empty"}}}},
-    "state.error" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Something went wrong."}}}},
-    "state.loading" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Loading protocol..."}}}},
-    "state.locked" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Locked"}}}},
-    "state.owned" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Owned"}}}},
-    "state.placeholder" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Placeholder"}}}},
-    "store.category.cosmetic" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cosmetic"}}}},
-    "store.category.lore" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Lore"}}}},
-    "store.category.pass" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Pass"}}}},
-    "store.ethical.note" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cosmetics, animations, trails, and lore packs only. No paid power advantages."}}}},
-    "store.mock.purchase" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Mock purchase completed for prototype testing."}}}},
-    "store.nightmareSkin.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"A cosmetic skin pack with nightmare trails and flashlight finishes."}}}},
-    "store.nightmareSkin.price" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"£14.99"}}}},
-    "store.nightmareSkin.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Nightmare Skin Pack"}}}},
-    "store.premiumPass.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Seasonal cosmetic rewards and premium lore placeholders."}}}},
-    "store.premiumPass.price" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"£9.99"}}}},
-    "store.premiumPass.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Premium Pass"}}}},
-    "store.starter.description" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Starter cosmetic pack with operator skin, flare tint, and profile frame."}}}},
-    "store.starter.price" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"£4.99"}}}},
-    "store.starter.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Starter Cosmetic Pack"}}}},
-    "terms.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Prototype terms placeholder. All monetization entries are cosmetic-only test items."}}}},
-    "terms.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Terms of Use"}}}},
-    "title.artifacts" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifact Collection"}},"es":{"stringUnit":{"state":"translated","value":"Colección de artefactos"}},"fr":{"stringUnit":{"state":"translated","value":"Collection d’artefacts"}},"de":{"stringUnit":{"state":"translated","value":"Artefaktsammlung"}}}},
-    "title.battle.pass" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Battle Pass"}}}},
-    "title.collection" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifact Collection"}}}},
-    "title.daily" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Daily Challenge"}}}},
-    "title.hub" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Main Hub"}},"es":{"stringUnit":{"state":"translated","value":"Centro principal"}},"fr":{"stringUnit":{"state":"translated","value":"Hub principal"}},"de":{"stringUnit":{"state":"translated","value":"Hauptzentrale"}}}},
-    "title.inventory" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Inventory"}}}},
-    "title.loadout" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Current Loadout"}}}},
-    "title.mission.select" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Mission Select"}},"es":{"stringUnit":{"state":"translated","value":"Selección de misión"}},"fr":{"stringUnit":{"state":"translated","value":"Choix de mission"}},"de":{"stringUnit":{"state":"translated","value":"Missionsauswahl"}}}},
-    "title.objectives" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Objectives"}}}},
-    "title.onboarding" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Operator Tutorial"}}}},
-    "title.protocols" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Unlocked Lore"}}}},
-    "title.rewards" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Rewards"}}}},
-    "title.settings" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Settings"}},"es":{"stringUnit":{"state":"translated","value":"Ajustes"}},"fr":{"stringUnit":{"state":"translated","value":"Réglages"}},"de":{"stringUnit":{"state":"translated","value":"Einstellungen"}}}},
-    "title.store" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Store"}},"es":{"stringUnit":{"state":"translated","value":"Tienda"}},"fr":{"stringUnit":{"state":"translated","value":"Boutique"}},"de":{"stringUnit":{"state":"translated","value":"Shop"}}}},
-    "tutorial.collapse.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"The Reality Collapse meter rises over time. High collapse triggers flicker, map shifts, surges, and exit relocation."}}}},
-    "tutorial.collapse.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reality Collapse"}}}},
-    "tutorial.enemies.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Entities adapt as collapse rises. Avoid detection, break contact, and never assume a patrol stays predictable."}}}},
-    "tutorial.enemies.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Adaptive Entities"}}}},
-    "tutorial.extraction.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reach the extraction zone and interact before the collapse completes. Failed extraction loses temporary loot only."}}}},
-    "tutorial.extraction.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Extraction"}}}},
-    "tutorial.inventory.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Artifacts, fragments, keys, tokens, cosmetics, and lore files are collected during missions."}}}},
-    "tutorial.inventory.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Inventory"}}}},
-    "tutorial.movement.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Drag or tap inside the nightmare zone to move. Keep distance from patrols and use rooms for cover."}}}},
-    "tutorial.movement.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Movement"}}}},
-    "tutorial.objectives.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Each mission rolls objectives at launch. Complete them for XP, loot, cosmetics, and lore unlocks."}}}},
-    "tutorial.objectives.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Objectives"}}}},
-    "tutorial.stealth.body" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Detection damages health and sanity. The Watcher sees movement, while the Echo follows your path."}}}},
-    "tutorial.stealth.title" : {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Stealth"}}}}
+  "sourceLanguage": "en",
+  "strings": {
+    "achievement.artifactHunter.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact Hunter"
+          }
+        }
+      }
+    },
+    "achievement.firstExtraction.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First Extraction"
+          }
+        }
+      }
+    },
+    "achievement.survivor.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse Survivor"
+          }
+        }
+      }
+    },
+    "action.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbrechen"
+          }
+        }
+      }
+    },
+    "action.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        }
+      }
+    },
+    "action.confirm": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm"
+          }
+        }
+      }
+    },
+    "action.continue": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortsetzen"
+          }
+        }
+      }
+    },
+    "action.copy.recap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Recap"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar resumen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier le recap"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zusammenfassung kopieren"
+          }
+        }
+      }
+    },
+    "action.extract": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extract"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extrahieren"
+          }
+        }
+      }
+    },
+    "action.finish": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig"
+          }
+        }
+      }
+    },
+    "action.interact": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interactuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interagir"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interagieren"
+          }
+        }
+      }
+    },
+    "action.language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idioma"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprache"
+          }
+        }
+      }
+    },
+    "action.next": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siguiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivant"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiter"
+          }
+        }
+      }
+    },
+    "action.purchase": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acheter"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaufen"
+          }
+        }
+      }
+    },
+    "action.regenerate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regenerate"
+          }
+        }
+      }
+    },
+    "action.reset": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restablecer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücksetzen"
+          }
+        }
+      }
+    },
+    "action.restore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Purchases"
+          }
+        }
+      }
+    },
+    "action.return.hub": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to Hub"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver al centro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour au hub"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück zur Zentrale"
+          }
+        }
+      }
+    },
+    "action.select": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        }
+      }
+    },
+    "action.settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        }
+      }
+    },
+    "action.share.recap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share Protocol Recap"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir resumen del protocolo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager le recap protocole"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokollbericht teilen"
+          }
+        }
+      }
+    },
+    "action.start": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starten"
+          }
+        }
+      }
+    },
+    "action.store": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Store"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tienda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boutique"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shop"
+          }
+        }
+      }
+    },
+    "action.view.artifacts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View Artifact Collection"
+          }
+        }
+      }
+    },
+    "alert.notification.denied": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are disabled for this device."
+          }
+        }
+      }
+    },
+    "alert.notification.enabled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Nightmare reminders are enabled."
+          }
+        }
+      }
+    },
+    "alert.notification.failed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to schedule the reminder."
+          }
+        }
+      }
+    },
+    "app.tagline": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the dream. Escape the nightmare."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entra en el sueño. Escapa de la pesadilla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entre dans le rêve. Échappe au cauchemar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Betritt den Traum. Entkomme dem Albtraum."
+          }
+        }
+      }
+    },
+    "app.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall Protocol"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocolo Nightfall"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocole Nightfall"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall-Protokoll"
+          }
+        }
+      }
+    },
+    "artifact.blackCompass.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction zones stay visible longer."
+          }
+        }
+      }
+    },
+    "artifact.blackCompass.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A compass that points toward the place you fear most."
+          }
+        }
+      }
+    },
+    "artifact.blackCompass.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Its needle refuses north and follows the last open exit."
+          }
+        }
+      }
+    },
+    "artifact.blackCompass.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black Compass"
+          }
+        }
+      }
+    },
+    "artifact.blackCompass.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cold Archive"
+          }
+        }
+      }
+    },
+    "artifact.echoLens.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enemy warnings trigger sooner."
+          }
+        }
+      }
+    },
+    "artifact.echoLens.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A cracked lens that catches movement one second before it happens."
+          }
+        }
+      }
+    },
+    "artifact.echoLens.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operators report seeing their own footprints appear ahead of them."
+          }
+        }
+      }
+    },
+    "artifact.echoLens.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Echo Lens"
+          }
+        }
+      }
+    },
+    "artifact.echoLens.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glass Ward"
+          }
+        }
+      }
+    },
+    "artifact.mirrorAsh.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirror clone events inflict less sanity loss."
+          }
+        }
+      }
+    },
+    "artifact.mirrorAsh.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fine ash that reflects faces in the wrong order."
+          }
+        }
+      }
+    },
+    "artifact.mirrorAsh.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ash was recovered from a corridor that burned without heat."
+          }
+        }
+      }
+    },
+    "artifact.mirrorAsh.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirror Ash"
+          }
+        }
+      }
+    },
+    "artifact.mirrorAsh.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Static Cathedral"
+          }
+        }
+      }
+    },
+    "artifact.nullBell.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panic pulse events are slightly delayed."
+          }
+        }
+      }
+    },
+    "artifact.nullBell.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A silent bell with a clapper made of shadow."
+          }
+        }
+      }
+    },
+    "artifact.nullBell.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When it rings, everyone remembers a different sound."
+          }
+        }
+      }
+    },
+    "artifact.nullBell.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Null Bell"
+          }
+        }
+      }
+    },
+    "artifact.nullBell.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Null Harbor"
+          }
+        }
+      }
+    },
+    "artifact.redThread.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "False exits are easier to identify."
+          }
+        }
+      }
+    },
+    "artifact.redThread.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A red thread that knots whenever the map changes."
+          }
+        }
+      }
+    },
+    "artifact.redThread.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No one has found the other end."
+          }
+        }
+      }
+    },
+    "artifact.redThread.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red Thread"
+          }
+        }
+      }
+    },
+    "artifact.redThread.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red Platform"
+          }
+        }
+      }
+    },
+    "artifact.sleepingKey.bonus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Sleeper becomes visible from farther away."
+          }
+        }
+      }
+    },
+    "artifact.sleepingKey.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A key that opens only doors seen in dreams."
+          }
+        }
+      }
+    },
+    "artifact.sleepingKey.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Its teeth rearrange whenever a lullaby is heard."
+          }
+        }
+      }
+    },
+    "artifact.sleepingKey.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sleeping Key"
+          }
+        }
+      }
+    },
+    "artifact.sleepingKey.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asylum of Rain"
+          }
+        }
+      }
+    },
+    "difficulty.extreme": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extreme"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extrema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extrême"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extrem"
+          }
+        }
+      }
+    },
+    "difficulty.high": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Élevée"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoch"
+          }
+        }
+      }
+    },
+    "difficulty.low": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baja"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faible"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niedrig"
+          }
+        }
+      }
+    },
+    "difficulty.medium": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medium"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Media"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moyenne"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mittel"
+          }
+        }
+      }
+    },
+    "difficulty.unknown": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desconocida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inconnue"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannt"
+          }
+        }
+      }
+    },
+    "enemy.archivist.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Archivist"
+          }
+        }
+      }
+    },
+    "enemy.archivist.warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Archivist is guarding the artifact."
+          }
+        }
+      }
+    },
+    "enemy.echo.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Echo"
+          }
+        }
+      }
+    },
+    "enemy.echo.warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Echo is retracing your path."
+          }
+        }
+      }
+    },
+    "enemy.hollow.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Hollow"
+          }
+        }
+      }
+    },
+    "enemy.hollow.warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Hollow is rushing through the collapse."
+          }
+        }
+      }
+    },
+    "enemy.sleeper.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Sleeper"
+          }
+        }
+      }
+    },
+    "enemy.sleeper.warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Sleeper is close enough to hear you breathe."
+          }
+        }
+      }
+    },
+    "enemy.watcher.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Watcher"
+          }
+        }
+      }
+    },
+    "enemy.watcher.warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Watcher detected movement."
+          }
+        }
+      }
+    },
+    "equipment.artifactCase.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protects one rare find during extraction."
+          }
+        }
+      }
+    },
+    "equipment.artifactCase.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact Case"
+          }
+        }
+      }
+    },
+    "equipment.decoyBeacon.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulls patrols away for a few seconds."
+          }
+        }
+      }
+    },
+    "equipment.decoyBeacon.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decoy Beacon"
+          }
+        }
+      }
+    },
+    "equipment.escapeFlare.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marks the nearest extraction signal."
+          }
+        }
+      }
+    },
+    "equipment.escapeFlare.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escape Flare"
+          }
+        }
+      }
+    },
+    "equipment.flashlight.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveals nearby hidden threats."
+          }
+        }
+      }
+    },
+    "equipment.flashlight.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flashlight"
+          }
+        }
+      }
+    },
+    "equipment.signalScanner.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finds objectives through unstable walls."
+          }
+        }
+      }
+    },
+    "equipment.signalScanner.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal Scanner"
+          }
+        }
+      }
+    },
+    "equipment.silenceInjector.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Briefly masks operator movement."
+          }
+        }
+      }
+    },
+    "equipment.silenceInjector.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silence Injector"
+          }
+        }
+      }
+    },
+    "error.bootstrap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save data could not be loaded."
+          }
+        }
+      }
+    },
+    "error.purchase.failed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The purchase could not be completed."
+          }
+        }
+      }
+    },
+    "error.store.unavailable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Store products are unavailable. Mock purchases are enabled."
+          }
+        }
+      }
+    },
+    "event.entitySurge.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patrols accelerate as the room fills with static."
+          }
+        }
+      }
+    },
+    "event.entitySurge.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entity Surge"
+          }
+        }
+      }
+    },
+    "event.falseExit.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An exit signal moved when you looked away."
+          }
+        }
+      }
+    },
+    "event.falseExit.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "False Exit"
+          }
+        }
+      }
+    },
+    "event.gravityShift.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The floor forgets which way it promised to fall."
+          }
+        }
+      }
+    },
+    "event.gravityShift.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gravity Shift"
+          }
+        }
+      }
+    },
+    "event.lightsOut.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The zone cuts power and listens."
+          }
+        }
+      }
+    },
+    "event.lightsOut.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lights Out"
+          }
+        }
+      }
+    },
+    "event.mirrorClone.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A copy appears where your reflection should be."
+          }
+        }
+      }
+    },
+    "event.mirrorClone.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirror Clone"
+          }
+        }
+      }
+    },
+    "event.panicPulse.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A pressure wave attacks your sanity."
+          }
+        }
+      }
+    },
+    "event.panicPulse.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panic Pulse"
+          }
+        }
+      }
+    },
+    "event.roomRearrangement.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Walls slide into new positions without sound."
+          }
+        }
+      }
+    },
+    "event.roomRearrangement.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Room Rearrangement"
+          }
+        }
+      }
+    },
+    "event.whisperWarning.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A voice names the danger before it arrives."
+          }
+        }
+      }
+    },
+    "event.whisperWarning.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Whisper Warning"
+          }
+        }
+      }
+    },
+    "extraction.failure.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The zone collapsed. Temporary loot was lost, but long-term progress remains."
+          }
+        }
+      }
+    },
+    "extraction.partial.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction succeeded, but the nightmare followed the signal home."
+          }
+        }
+      }
+    },
+    "extraction.success.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction clean. The protocol archived the evidence."
+          }
+        }
+      }
+    },
+    "gameplay.collapse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reality Collapse"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colapso de realidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effondrement de réalité"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Realitätskollaps"
+          }
+        }
+      }
+    },
+    "gameplay.combo.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "x%d momentum"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "impulso x%d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "elan x%d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Momentum x%d"
+          }
+        }
+      }
+    },
+    "gameplay.health": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health"
+          }
+        }
+      }
+    },
+    "gameplay.loot.found": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loot Found"
+          }
+        }
+      }
+    },
+    "gameplay.percent.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d%%"
+          }
+        }
+      }
+    },
+    "gameplay.pulse.anomaly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anomaly survived. Score boosted."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anomalia superada. Puntuacion aumentada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anomalie survecue. Score augmente."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anomalie ueberstanden. Punktzahl erhoeht."
+          }
+        }
+      }
+    },
+    "gameplay.pulse.hit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contact broke momentum."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El contacto rompio el impulso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le contact a brise l elan."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontakt hat das Momentum gebrochen."
+          }
+        }
+      }
+    },
+    "gameplay.pulse.loot": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rare signal secured."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senal rara asegurada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal rare securise."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seltenes Signal gesichert."
+          }
+        }
+      }
+    },
+    "gameplay.pulse.objective": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objective chained. Momentum rising."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivo encadenado. Impulso en aumento."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectif enchaine. L elan monte."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziel verkettet. Momentum steigt."
+          }
+        }
+      }
+    },
+    "gameplay.sanity": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sanity"
+          }
+        }
+      }
+    },
+    "gameplay.score.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puntuacion %d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte %d"
+          }
+        }
+      }
+    },
+    "gameplay.threat.critical": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Critical Threat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amenaza critica"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menace critique"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kritische Gefahr"
+          }
+        }
+      }
+    },
+    "gameplay.threat.elevated": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elevated Threat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amenaza elevada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menace elevee"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erhoehte Gefahr"
+          }
+        }
+      }
+    },
+    "gameplay.threat.low": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low Threat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amenaza baja"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menace faible"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geringe Gefahr"
+          }
+        }
+      }
+    },
+    "gameplay.threat.severe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Severe Threat"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amenaza severa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menace severe"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schwere Gefahr"
+          }
+        }
+      }
+    },
+    "graphics.high": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High"
+          }
+        }
+      }
+    },
+    "graphics.low": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low"
+          }
+        }
+      }
+    },
+    "graphics.medium": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medium"
+          }
+        }
+      }
+    },
+    "hub.battlepass.placeholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium pass placeholder: cosmetic-only seasonal rewards, no power advantage."
+          }
+        }
+      }
+    },
+    "hub.daily.subtitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One unstable nightmare generated each day with a fixed seed and escalating collapse."
+          }
+        }
+      }
+    },
+    "hub.pulse.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everyone receives the same Daily Nightmare signal. Beat the code, extract clean, and share the recap."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todos reciben la misma senal diaria. Supera el codigo, extrae limpio y comparte el resumen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout le monde recoit le meme signal quotidien. Bats le code, extrais proprement et partage le recap."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle erhalten dasselbe taegliche Signal. Besiege den Code, extrahiere sauber und teile den Bericht."
+          }
+        }
+      }
+    },
+    "hub.pulse.code.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared signal: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senal compartida: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal partage : %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geteiltes Signal: %@"
+          }
+        }
+      }
+    },
+    "hub.pulse.cta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Today's Signal"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jugar la senal de hoy"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancer le signal du jour"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heutiges Signal starten"
+          }
+        }
+      }
+    },
+    "inventory.quantity.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "x%d"
+          }
+        }
+      }
+    },
+    "itemType.artifact": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact"
+          }
+        }
+      }
+    },
+    "itemType.corruptedKey": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrupted Key"
+          }
+        }
+      }
+    },
+    "itemType.cosmeticShard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosmetic Shard"
+          }
+        }
+      }
+    },
+    "itemType.dreamFragment": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dream Fragment"
+          }
+        }
+      }
+    },
+    "itemType.loreFile": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lore File"
+          }
+        }
+      }
+    },
+    "itemType.protocolToken": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol Token"
+          }
+        }
+      }
+    },
+    "language.ar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arabic"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "العربية"
+          }
+        }
+      }
+    },
+    "language.de": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "German"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deutsch"
+          }
+        }
+      }
+    },
+    "language.en": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        }
+      }
+    },
+    "language.es": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spanish"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Español"
+          }
+        }
+      }
+    },
+    "language.fr": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "French"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Français"
+          }
+        }
+      }
+    },
+    "language.hi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hindi"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "हिन्दी"
+          }
+        }
+      }
+    },
+    "language.it": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italian"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Italiano"
+          }
+        }
+      }
+    },
+    "language.ja": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japanese"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "日本語"
+          }
+        }
+      }
+    },
+    "language.ko": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Korean"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "한국어"
+          }
+        }
+      }
+    },
+    "language.pt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portuguese"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Português"
+          }
+        }
+      }
+    },
+    "language.zhHans": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simplified Chinese"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "简体中文"
+          }
+        }
+      }
+    },
+    "loot.artifact.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A rare object with a memory attached."
+          }
+        }
+      }
+    },
+    "loot.artifact.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dream Artifact"
+          }
+        }
+      }
+    },
+    "loot.corruptedKey.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlocks unstable mission branches."
+          }
+        }
+      }
+    },
+    "loot.corruptedKey.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrupted Key"
+          }
+        }
+      }
+    },
+    "loot.cosmeticShard.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used for cosmetic skins and trails."
+          }
+        }
+      }
+    },
+    "loot.cosmeticShard.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosmetic Shard"
+          }
+        }
+      }
+    },
+    "loot.dreamFragment.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A splinter of a memory that should not exist."
+          }
+        }
+      }
+    },
+    "loot.dreamFragment.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dream Fragment"
+          }
+        }
+      }
+    },
+    "loot.loreFile.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlocks archived nightmare reports."
+          }
+        }
+      }
+    },
+    "loot.loreFile.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lore File"
+          }
+        }
+      }
+    },
+    "loot.protocolToken.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Earned through extraction and spent on cosmetics."
+          }
+        }
+      }
+    },
+    "loot.protocolToken.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol Token"
+          }
+        }
+      }
+    },
+    "lore.artifact.01": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file describes a room that appeared inside three unrelated dreams."
+          }
+        }
+      }
+    },
+    "lore.artifact.02": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A recovered signal repeats the operator's name before they speak it."
+          }
+        }
+      }
+    },
+    "lore.artifact.03": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The artifact vibrates when a false exit is nearby."
+          }
+        }
+      }
+    },
+    "lore.artifact.04": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No camera recorded the pickup, but every camera recorded the return."
+          }
+        }
+      }
+    },
+    "lore.artifact.05": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A black-site memo labels the object as evidence and witness."
+          }
+        }
+      }
+    },
+    "lore.artifact.06": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The protocol sealed the entry twice. The second seal is handwritten."
+          }
+        }
+      }
+    },
+    "lore.briefing.01": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A low signal is leaking from a room that was never built. Recover proof and leave before it notices."
+          }
+        }
+      }
+    },
+    "lore.briefing.02": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The dream keeps rearranging its own evidence. Trust the scanner, not the walls."
+          }
+        }
+      }
+    },
+    "lore.briefing.03": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An echo requested extraction using your voice. Confirm identity, then break contact."
+          }
+        }
+      }
+    },
+    "lore.briefing.04": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The rift is widening under the archive floor. Seal it before the lights learn your route."
+          }
+        }
+      }
+    },
+    "lore.briefing.05": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A black-site corridor has returned with new doors. Investigate only what you can carry out."
+          }
+        }
+      }
+    },
+    "lore.briefing.06": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The nightmare is quiet. That usually means it has started counting."
+          }
+        }
+      }
+    },
+    "mission.extract.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locate the artifact, secure it, and escape before collapse."
+          }
+        }
+      }
+    },
+    "mission.extract.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extract Dream Artifact"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraer artefacto onírico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraire l’artefact de rêve"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traumartefakt extrahieren"
+          }
+        }
+      }
+    },
+    "mission.investigate.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan the black-site anomaly and recover a memory trace."
+          }
+        }
+      }
+    },
+    "mission.investigate.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Investigate Black Site"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Investigar sitio negro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enquêter sur le site noir"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black Site untersuchen"
+          }
+        }
+      }
+    },
+    "mission.recover.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover a memory fragment from a shifting nightmare zone."
+          }
+        }
+      }
+    },
+    "mission.recover.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover Memory Fragment"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recuperar fragmento de memoria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Récupérer un fragment de mémoire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnerungsfragment bergen"
+          }
+        }
+      }
+    },
+    "mission.rescue.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find the lost echo and guide it to extraction."
+          }
+        }
+      }
+    },
+    "mission.rescue.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rescue Lost Echo"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rescatar eco perdido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauver l’écho perdu"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlorenes Echo retten"
+          }
+        }
+      }
+    },
+    "mission.seal.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seal a nightmare rift while hostile entities converge."
+          }
+        }
+      }
+    },
+    "mission.seal.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seal Nightmare Rift"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sellar grieta de pesadilla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sceller la faille cauchemardesque"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Albtraumriss versiegeln"
+          }
+        }
+      }
+    },
+    "mission.survive.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stay alive until the extraction window opens."
+          }
+        }
+      }
+    },
+    "mission.survive.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survive Until Extraction"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobrevivir hasta la extracción"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survivre jusqu’à l’extraction"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bis zur Extraktion überleben"
+          }
+        }
+      }
+    },
+    "mode.coop": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Co-op Placeholder"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cooperativo provisional"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coopératif provisoire"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koop-Platzhalter"
+          }
+        }
+      }
+    },
+    "mode.daily": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Nightmare"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesadilla diaria"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cauchemar quotidien"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Täglicher Albtraum"
+          }
+        }
+      }
+    },
+    "mode.endless": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endless Descent"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descenso infinito"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descente infinie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endloser Abstieg"
+          }
+        }
+      }
+    },
+    "mode.solo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo Extraction"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extracción en solitario"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction solo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo-Extraktion"
+          }
+        }
+      }
+    },
+    "mode.story": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Story Protocol Missions"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Misiones de protocolo narrativo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missions du protocole narratif"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Story-Protokollmissionen"
+          }
+        }
+      }
+    },
+    "modifier.blackout.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lights fail faster and panic pulses pay extra score."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las luces fallan antes y los pulsos de panico dan mas puntos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les lumieres cedent plus vite et les impulsions rapportent plus."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lichter fallen schneller aus und Panikimpulse geben mehr Punkte."
+          }
+        }
+      }
+    },
+    "modifier.blackout.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total Blackout"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagon total"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noir total"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totaler Blackout"
+          }
+        }
+      }
+    },
+    "modifier.echoTrail.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Echo remembers more of your route. Clean movement builds momentum."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Eco recuerda mas de tu ruta. El movimiento limpio crea impulso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L Echo retient plus de ton trajet. Un mouvement net cree de l elan."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Echo merkt sich mehr deiner Route. Saubere Bewegung baut Momentum auf."
+          }
+        }
+      }
+    },
+    "modifier.echoTrail.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Echo Trail"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rastro de eco"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trace d echo"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Echospur"
+          }
+        }
+      }
+    },
+    "modifier.glassMaze.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction routes distort, but artifact chains are worth more."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las rutas de extraccion se distorsionan, pero las cadenas de artefactos valen mas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les routes d extraction se tordent, mais les chaines d artefacts valent plus."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraktionsrouten verzerren sich, aber Artefaktketten zaehlen mehr."
+          }
+        }
+      }
+    },
+    "modifier.glassMaze.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glass Maze"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laberinto de cristal"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Labyrinthe de verre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glaslabyrinth"
+          }
+        }
+      }
+    },
+    "modifier.hunted.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Hollow surges earlier. Survive contact-free for a higher rank."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Hueco aparece antes. Sobrevive sin contacto para subir rango."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Vide surgit plus tot. Survis sans contact pour un meilleur rang."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Hollow jagt frueher. Kontaktfrei ueberleben bringt hoeheren Rang."
+          }
+        }
+      }
+    },
+    "modifier.hunted.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marked by The Hollow"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcado por el Hueco"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marque par le Vide"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vom Hollow markiert"
+          }
+        }
+      }
+    },
+    "modifier.redSignal.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "False exits multiply, but collapse drama boosts the final recap."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las salidas falsas se multiplican, pero el colapso mejora el resumen final."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les fausses sorties se multiplient, mais le drame du collapse booste le recap."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Falsche Ausgaenge nehmen zu, doch Kollapsdrama staerkt den Abschlussbericht."
+          }
+        }
+      }
+    },
+    "modifier.redSignal.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red Signal"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senal roja"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal rouge"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rotes Signal"
+          }
+        }
+      }
+    },
+    "modifier.zeroHour.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reality accelerates from the first second. Only sharp extractions trend."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La realidad acelera desde el primer segundo. Solo las extracciones precisas destacan."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La realite accelere des la premiere seconde. Seules les extractions nettes percent."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Realitaet beschleunigt sofort. Nur praezise Extraktionen fallen auf."
+          }
+        }
+      }
+    },
+    "modifier.zeroHour.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zero Hour"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora cero"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heure zero"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stunde Null"
+          }
+        }
+      }
+    },
+    "nightmare.name.asylum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asylum of Rain"
+          }
+        }
+      }
+    },
+    "nightmare.name.coldArchive": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cold Archive"
+          }
+        }
+      }
+    },
+    "nightmare.name.glassWard": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glass Ward"
+          }
+        }
+      }
+    },
+    "nightmare.name.nullHarbor": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Null Harbor"
+          }
+        }
+      }
+    },
+    "nightmare.name.redPlatform": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red Platform"
+          }
+        }
+      }
+    },
+    "nightmare.name.staticCathedral": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Static Cathedral"
+          }
+        }
+      }
+    },
+    "notification.daily.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new unstable zone is available for extraction."
+          }
+        }
+      }
+    },
+    "notification.daily.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Nightmare Ready"
+          }
+        }
+      }
+    },
+    "objective.collectArtifact.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find the marked artifact inside the zone."
+          }
+        }
+      }
+    },
+    "objective.collectArtifact.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collect Artifact"
+          }
+        }
+      }
+    },
+    "objective.investigateBlackSite.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan the anomaly without drawing attention."
+          }
+        }
+      }
+    },
+    "objective.investigateBlackSite.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Investigate Black Site"
+          }
+        }
+      }
+    },
+    "objective.reachExtraction.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reach the active extraction signal."
+          }
+        }
+      }
+    },
+    "objective.reachExtraction.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reach Extraction"
+          }
+        }
+      }
+    },
+    "objective.recoverMemory.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover a memory fragment before it decays."
+          }
+        }
+      }
+    },
+    "objective.recoverMemory.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover Memory"
+          }
+        }
+      }
+    },
+    "objective.rescueEcho.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guide the lost echo back to the signal."
+          }
+        }
+      }
+    },
+    "objective.rescueEcho.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rescue Echo"
+          }
+        }
+      }
+    },
+    "objective.scanEcho.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the scanner to identify the real echo."
+          }
+        }
+      }
+    },
+    "objective.scanEcho.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan Echo"
+          }
+        }
+      }
+    },
+    "objective.secureCase.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock the artifact case before extraction."
+          }
+        }
+      }
+    },
+    "objective.secureCase.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure Case"
+          }
+        }
+      }
+    },
+    "objective.stabilizeRift.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold the rift steady through the pulse."
+          }
+        }
+      }
+    },
+    "objective.stabilizeRift.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stabilize Rift"
+          }
+        }
+      }
+    },
+    "objective.survive.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoid entities until extraction opens."
+          }
+        }
+      }
+    },
+    "objective.survive.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survive"
+          }
+        }
+      }
+    },
+    "objective.survivePulse.detail": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endure the collapse pulse."
+          }
+        }
+      }
+    },
+    "objective.survivePulse.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survive Pulse"
+          }
+        }
+      }
+    },
+    "privacy.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prototype privacy policy placeholder. No personal data leaves the device in mock mode."
+          }
+        }
+      }
+    },
+    "privacy.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        }
+      }
+    },
+    "profile.level.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %d"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nivel %d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niveau %d"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stufe %d"
+          }
+        }
+      }
+    },
+    "profile.xp.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XP %d"
+          }
+        }
+      }
+    },
+    "profile.xp.reward.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%d XP"
+          }
+        }
+      }
+    },
+    "rarity.common": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Common"
+          }
+        }
+      }
+    },
+    "rarity.corrupted": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrupted"
+          }
+        }
+      }
+    },
+    "rarity.epic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Epic"
+          }
+        }
+      }
+    },
+    "rarity.legendary": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legendary"
+          }
+        }
+      }
+    },
+    "rarity.rare": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rare"
+          }
+        }
+      }
+    },
+    "rarity.uncommon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uncommon"
+          }
+        }
+      }
+    },
+    "result.collapse.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colapso"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kollaps"
+          }
+        }
+      }
+    },
+    "result.failure.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction Failed"
+          }
+        }
+      }
+    },
+    "result.highlight.artifactRush": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact rush: multiple signals recovered before extraction."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carrera de artefactos: varias senales recuperadas antes de extraer."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruee d artefacts : plusieurs signaux recuperes avant l extraction."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artefakt-Rush: mehrere Signale vor der Extraktion gesichert."
+          }
+        }
+      }
+    },
+    "result.highlight.cleanSweep": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clean sweep: momentum stayed hot through the nightmare."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barrido limpio: el impulso se mantuvo alto en la pesadilla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcours net : l elan est reste fort dans le cauchemar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauberer Lauf: Momentum blieb durch den Albtraum hoch."
+          }
+        }
+      }
+    },
+    "result.highlight.extracted": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol intact: the zone tried to keep you and failed."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocolo intacto: la zona intento retenerte y fallo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocole intact : la zone a tente de te garder et a echoue."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokoll intakt: Die Zone wollte dich behalten und scheiterte."
+          }
+        }
+      }
+    },
+    "result.highlight.lostSignal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lost signal: temporary loot dissolved, but the protocol learned."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senal perdida: el botin temporal se disolvio, pero el protocolo aprendio."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal perdu : le butin temporaire a disparu, mais le protocole a appris."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal verloren: Temporaere Beute zerfiel, doch das Protokoll lernte."
+          }
+        }
+      }
+    },
+    "result.highlight.needle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needle extraction: escaped at the edge of collapse."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraccion al limite: escapaste al borde del colapso."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction au fil : fuite au bord du collapse."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nadel-Extraktion: Flucht am Rand des Kollapses."
+          }
+        }
+      }
+    },
+    "result.loot.lost": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporary loot was lost in the collapse."
+          }
+        }
+      }
+    },
+    "result.rank.a": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A-Rank Operator"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operador rango A"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operateur rang A"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operator Rang A"
+          }
+        }
+      }
+    },
+    "result.rank.b": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "B-Rank Survivor"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superviviente rango B"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survivant rang B"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ueberlebender Rang B"
+          }
+        }
+      }
+    },
+    "result.rank.c": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C-Rank Signal"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senal rango C"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal rang C"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signal Rang C"
+          }
+        }
+      }
+    },
+    "result.rank.d": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D-Rank Lost Echo"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eco perdido rango D"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Echo perdu rang D"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlorenes Echo Rang D"
+          }
+        }
+      }
+    },
+    "result.rank.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rank"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rango"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rang"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rang"
+          }
+        }
+      }
+    },
+    "result.rank.s": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S-Rank Nightmare Breaker"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rango S Rompepesadillas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rang S Briseur de cauchemar"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S-Rang Albtraumbrecher"
+          }
+        }
+      }
+    },
+    "result.recap.copied": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol recap copied."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resumen del protocolo copiado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recap protocole copie."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokollbericht kopiert."
+          }
+        }
+      }
+    },
+    "result.recap.share.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall Protocol | %@ | Score %d | %@ | Code %@ | %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall Protocol | %@ | Puntuacion %d | %@ | Codigo %@ | %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall Protocol | %@ | Score %d | %@ | Code %@ | %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightfall Protocol | %@ | Punkte %d | %@ | Code %@ | %@"
+          }
+        }
+      }
+    },
+    "result.runCode.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run Code"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codigo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code run"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run-Code"
+          }
+        }
+      }
+    },
+    "result.score.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puntuacion"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte"
+          }
+        }
+      }
+    },
+    "result.success.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction Complete"
+          }
+        }
+      }
+    },
+    "settings.graphics": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Graphics Quality"
+          }
+        }
+      }
+    },
+    "settings.haptics": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haptics"
+          }
+        }
+      }
+    },
+    "settings.language": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        }
+      }
+    },
+    "settings.music": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Music"
+          }
+        }
+      }
+    },
+    "settings.notifications": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "settings.privacy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        }
+      }
+    },
+    "settings.reset": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Progress"
+          }
+        }
+      }
+    },
+    "settings.reset.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This removes local progress, inventory, artifacts, and mock purchases."
+          }
+        }
+      }
+    },
+    "settings.reset.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Progress?"
+          }
+        }
+      }
+    },
+    "settings.sound": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound"
+          }
+        }
+      }
+    },
+    "settings.terms": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms of Use"
+          }
+        }
+      }
+    },
+    "state.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty"
+          }
+        }
+      }
+    },
+    "state.error": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong."
+          }
+        }
+      }
+    },
+    "state.loading": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading protocol..."
+          }
+        }
+      }
+    },
+    "state.locked": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locked"
+          }
+        }
+      }
+    },
+    "state.owned": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Owned"
+          }
+        }
+      }
+    },
+    "state.placeholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placeholder"
+          }
+        }
+      }
+    },
+    "store.category.cosmetic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosmetic"
+          }
+        }
+      }
+    },
+    "store.category.lore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lore"
+          }
+        }
+      }
+    },
+    "store.category.pass": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pass"
+          }
+        }
+      }
+    },
+    "store.ethical.note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosmetics, animations, trails, and lore packs only. No paid power advantages."
+          }
+        }
+      }
+    },
+    "store.mock.purchase": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mock purchase completed for prototype testing."
+          }
+        }
+      }
+    },
+    "store.nightmareSkin.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A cosmetic skin pack with nightmare trails and flashlight finishes."
+          }
+        }
+      }
+    },
+    "store.nightmareSkin.price": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "£14.99"
+          }
+        }
+      }
+    },
+    "store.nightmareSkin.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nightmare Skin Pack"
+          }
+        }
+      }
+    },
+    "store.premiumPass.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly cosmetic-only rewards, nightmare trails, extraction animations, and premium lore presentation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recompensas cosmeticas mensuales, rastros de pesadilla, animaciones de extraccion y presentacion de historia premium."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recompenses cosmetiques mensuelles, traces de cauchemar, animations d extraction et presentation lore premium."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monatliche kosmetische Belohnungen, Alptraumspuren, Extraktionsanimationen und Premium-Lore-Praesentation."
+          }
+        }
+      }
+    },
+    "store.premiumPass.price": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "?9.99/mo"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9,99 GBP/mes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9,99 GBP/mois"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9,99 GBP/Monat"
+          }
+        }
+      }
+    },
+    "store.premiumPass.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium Pass"
+          }
+        }
+      }
+    },
+    "store.starter.description": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starter cosmetic pack with operator skin, flare tint, and profile frame."
+          }
+        }
+      }
+    },
+    "store.starter.price": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "£4.99"
+          }
+        }
+      }
+    },
+    "store.starter.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starter Cosmetic Pack"
+          }
+        }
+      }
+    },
+    "terms.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prototype terms placeholder. All monetization entries are cosmetic-only test items."
+          }
+        }
+      }
+    },
+    "terms.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms of Use"
+          }
+        }
+      }
+    },
+    "title.artifacts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact Collection"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colección de artefactos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collection d’artefacts"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artefaktsammlung"
+          }
+        }
+      }
+    },
+    "title.battle.pass": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Battle Pass"
+          }
+        }
+      }
+    },
+    "title.collection": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifact Collection"
+          }
+        }
+      }
+    },
+    "title.daily": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Challenge"
+          }
+        }
+      }
+    },
+    "title.hub": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Main Hub"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Centro principal"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hub principal"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hauptzentrale"
+          }
+        }
+      }
+    },
+    "title.inventory": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inventory"
+          }
+        }
+      }
+    },
+    "title.loadout": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Loadout"
+          }
+        }
+      }
+    },
+    "title.mission.select": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mission Select"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selección de misión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choix de mission"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missionsauswahl"
+          }
+        }
+      }
+    },
+    "title.objectives": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectives"
+          }
+        }
+      }
+    },
+    "title.onboarding": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operator Tutorial"
+          }
+        }
+      }
+    },
+    "title.protocol.pulse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol Pulse"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulso del protocolo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulse protocole"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokollimpuls"
+          }
+        }
+      }
+    },
+    "title.protocol.recap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protocol Recap"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resumen del protocolo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recap protocole"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokollbericht"
+          }
+        }
+      }
+    },
+    "title.protocols": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlocked Lore"
+          }
+        }
+      }
+    },
+    "title.rewards": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rewards"
+          }
+        }
+      }
+    },
+    "title.settings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen"
+          }
+        }
+      }
+    },
+    "title.store": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Store"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tienda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boutique"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shop"
+          }
+        }
+      }
+    },
+    "tutorial.collapse.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Reality Collapse meter rises over time. High collapse triggers flicker, map shifts, surges, and exit relocation."
+          }
+        }
+      }
+    },
+    "tutorial.collapse.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reality Collapse"
+          }
+        }
+      }
+    },
+    "tutorial.enemies.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entities adapt as collapse rises. Avoid detection, break contact, and never assume a patrol stays predictable."
+          }
+        }
+      }
+    },
+    "tutorial.enemies.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adaptive Entities"
+          }
+        }
+      }
+    },
+    "tutorial.extraction.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reach the extraction zone and interact before the collapse completes. Failed extraction loses temporary loot only."
+          }
+        }
+      }
+    },
+    "tutorial.extraction.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction"
+          }
+        }
+      }
+    },
+    "tutorial.inventory.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artifacts, fragments, keys, tokens, cosmetics, and lore files are collected during missions."
+          }
+        }
+      }
+    },
+    "tutorial.inventory.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inventory"
+          }
+        }
+      }
+    },
+    "tutorial.movement.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag or tap inside the nightmare zone to move. Keep distance from patrols and use rooms for cover."
+          }
+        }
+      }
+    },
+    "tutorial.movement.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Movement"
+          }
+        }
+      }
+    },
+    "tutorial.objectives.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each mission rolls objectives at launch. Complete them for XP, loot, cosmetics, and lore unlocks."
+          }
+        }
+      }
+    },
+    "tutorial.objectives.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objectives"
+          }
+        }
+      }
+    },
+    "tutorial.stealth.body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detection damages health and sanity. The Watcher sees movement, while the Echo follows your path."
+          }
+        }
+      }
+    },
+    "tutorial.stealth.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stealth"
+          }
+        }
+      }
+    }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

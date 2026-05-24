@@ -56,6 +56,8 @@ struct MissionLoreGenerator {
 }
 
 struct ObjectiveGenerator {
+    private let modifierGenerator = NightmareModifierGenerator()
+
     func generateObjectiveStates(for type: ObjectiveType) -> [ObjectiveState] {
         switch type {
         case .recoverMemoryFragment:
@@ -99,13 +101,17 @@ struct ObjectiveGenerator {
         let loreGenerator = MissionLoreGenerator()
 
         return types.enumerated().map { index, type in
-            let seed = Int.random(in: 1 ... 99_999)
+            let seed = missionSeed(for: mode, index: index)
             let difficulty = difficulties[index % difficulties.count]
+            let modifier = modifierGenerator.modifier(seed: seed)
             return MissionPlan(
                 titleKey: type.titleKey,
                 descriptionKey: type.descriptionKey,
                 nightmareNameKey: nameGenerator.generate(seed: seed),
                 briefingKey: loreGenerator.briefing(seed: seed),
+                modifierTitleKey: modifier.titleKey,
+                modifierDescriptionKey: modifier.descriptionKey,
+                modifierScoreBonus: modifier.scoreBonus,
                 difficulty: difficulty,
                 objectiveType: type,
                 rewardXP: 110 + index * 35 + Int(difficulty.collapseMultiplier * 25),
@@ -113,6 +119,36 @@ struct ObjectiveGenerator {
                 seed: seed
             )
         }
+    }
+
+    private func missionSeed(for mode: GameMode, index: Int) -> Int {
+        if mode == .daily {
+            let daySeed = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? Int(Date().timeIntervalSince1970 / 86_400)
+            return daySeed * 97 + index * 137
+        }
+
+        return Int.random(in: 1 ... 99_999)
+    }
+}
+
+struct NightmareModifier: Hashable, Codable {
+    let titleKey: String
+    let descriptionKey: String
+    let scoreBonus: Int
+}
+
+struct NightmareModifierGenerator {
+    private let modifiers = [
+        NightmareModifier(titleKey: "modifier.blackout.title", descriptionKey: "modifier.blackout.description", scoreBonus: 120),
+        NightmareModifier(titleKey: "modifier.glassMaze.title", descriptionKey: "modifier.glassMaze.description", scoreBonus: 170),
+        NightmareModifier(titleKey: "modifier.hunted.title", descriptionKey: "modifier.hunted.description", scoreBonus: 220),
+        NightmareModifier(titleKey: "modifier.redSignal.title", descriptionKey: "modifier.redSignal.description", scoreBonus: 150),
+        NightmareModifier(titleKey: "modifier.echoTrail.title", descriptionKey: "modifier.echoTrail.description", scoreBonus: 190),
+        NightmareModifier(titleKey: "modifier.zeroHour.title", descriptionKey: "modifier.zeroHour.description", scoreBonus: 260)
+    ]
+
+    func modifier(seed: Int) -> NightmareModifier {
+        modifiers[abs(seed) % modifiers.count]
     }
 }
 
