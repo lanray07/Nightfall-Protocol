@@ -46,12 +46,26 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build | tee build/logs/xcodebuild-simulator.log
 
+      - name: Summarize Xcode errors
+        if: failure()
+        run: |
+          if [ -f build/logs/xcodebuild-simulator.log ]; then
+            grep -E "error:|warning:|BUILD FAILED|The following build commands failed|SwiftCompile|CompileSwift|No such module|cannot find|ambiguous|unavailable|Command .* failed" build/logs/xcodebuild-simulator.log | tail -n 80 > build/logs/xcodebuild-errors.log || true
+            echo "### Xcode failure excerpt" >> "$GITHUB_STEP_SUMMARY"
+            echo '```text' >> "$GITHUB_STEP_SUMMARY"
+            cat build/logs/xcodebuild-errors.log >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::$line"
+            done < build/logs/xcodebuild-errors.log
+          fi
+
       - name: Upload build log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: xcodebuild-simulator-log
-          path: build/logs/xcodebuild-simulator.log
+          path: build/logs/
           if-no-files-found: ignore
 
   testflight-upload:
