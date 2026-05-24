@@ -91,7 +91,8 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
 
   build_app(**build_options)
 
-  artifact = Dir[File.join(output_directory, "*.{ipa,pkg}")].first
+  artifact = lane_context[SharedValues::IPA_OUTPUT_PATH] || lane_context[SharedValues::PKG_OUTPUT_PATH]
+  artifact ||= (Dir[File.join(output_directory, "*.ipa")] + Dir[File.join(output_directory, "*.pkg")]).first
   UI.user_error!("No uploadable artifact was produced in #{output_directory}.") if artifact.to_s.empty?
 
   upload_options = {
@@ -156,7 +157,7 @@ platform :ios do
       sdk: "macosx",
       profile_env: "MACCATALYST_PROFILE_SPECIFIER",
       default_profile: "NightfallProtocol_MacCatalyst_App_Store",
-      artifact_name: "NightfallProtocol-macOS.pkg",
+      artifact_name: "NightfallProtocol-macOS",
       catalyst_platform: "macos",
       app_platform: "mac",
       installer_cert_env: "MAC_INSTALLER_CERT_NAME"
