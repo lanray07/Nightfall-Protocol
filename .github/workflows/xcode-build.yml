@@ -50,7 +50,10 @@ jobs:
         if: failure()
         run: |
           if [ -f build/logs/xcodebuild-simulator.log ]; then
-            grep -E "error:|warning:|BUILD FAILED|The following build commands failed|SwiftCompile|CompileSwift|No such module|cannot find|ambiguous|unavailable|Command .* failed" build/logs/xcodebuild-simulator.log | tail -n 80 > build/logs/xcodebuild-errors.log || true
+            grep -E "error:|warning:|BUILD FAILED|The following build commands failed|No such module|cannot find|ambiguous|unavailable|Command .* failed" build/logs/xcodebuild-simulator.log | tail -n 80 > build/logs/xcodebuild-errors.log || true
+            if [ ! -s build/logs/xcodebuild-errors.log ]; then
+              tail -n 120 build/logs/xcodebuild-simulator.log > build/logs/xcodebuild-errors.log
+            fi
             echo "### Xcode failure excerpt" >> "$GITHUB_STEP_SUMMARY"
             echo '```text' >> "$GITHUB_STEP_SUMMARY"
             cat build/logs/xcodebuild-errors.log >> "$GITHUB_STEP_SUMMARY"
