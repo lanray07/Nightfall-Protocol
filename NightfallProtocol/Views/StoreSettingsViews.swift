@@ -36,7 +36,9 @@ struct StoreView: View {
                                     item,
                                     store: services.store,
                                     context: modelContext,
-                                    purchaseAction: purchase
+                                    purchaseAction: { product in
+                                        try await purchase(product)
+                                    }
                                 )
                             }
                         }

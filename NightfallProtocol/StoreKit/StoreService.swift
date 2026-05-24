@@ -7,6 +7,8 @@ enum StoreServiceError: Error {
     case failedVerification
 }
 
+typealias ProductPurchaseHandler = @MainActor (Product) async throws -> Product.PurchaseResult
+
 @MainActor
 @Observable
 final class StoreService {
@@ -74,7 +76,7 @@ final class StoreService {
         .filter { availableProductIDs.contains($0.productID) }
     }
 
-    func purchase(_ item: StoreCatalogItem, context: ModelContext, purchaseAction: PurchaseAction? = nil) async {
+    func purchase(_ item: StoreCatalogItem, context: ModelContext, purchaseAction: ProductPurchaseHandler? = nil) async {
         lastErrorKey = nil
 
         guard let product = products.first(where: { $0.id == item.productID }) else {

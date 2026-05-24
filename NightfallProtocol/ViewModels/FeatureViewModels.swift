@@ -35,7 +35,7 @@ final class StoreViewModel {
         isLoading = false
     }
 
-    func purchase(_ item: StoreCatalogItem, store: StoreService, context: ModelContext, purchaseAction: PurchaseAction) async {
+    func purchase(_ item: StoreCatalogItem, store: StoreService, context: ModelContext, purchaseAction: @escaping ProductPurchaseHandler) async {
         await store.purchase(item, context: context, purchaseAction: purchaseAction)
         items = store.catalogItems()
         messageKey = store.lastErrorKey
