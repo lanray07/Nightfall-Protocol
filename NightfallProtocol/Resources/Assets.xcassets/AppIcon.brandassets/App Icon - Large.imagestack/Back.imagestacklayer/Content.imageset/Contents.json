@@ -4,6 +4,11 @@
       "filename": "Back.png",
       "idiom": "tv",
       "scale": "1x"
+    },
+    {
+      "filename": "Back@2x.png",
+      "idiom": "tv",
+      "scale": "2x"
     }
   ],
   "info": {
