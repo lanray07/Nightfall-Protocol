@@ -226,7 +226,9 @@ struct OnboardingView: View {
             }
             .padding(24)
         }
+        #if !os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 }
 

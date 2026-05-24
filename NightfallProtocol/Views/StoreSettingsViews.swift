@@ -138,7 +138,9 @@ struct SettingsView: View {
                     }
                 }
             }
+            #if !os(tvOS)
             .scrollContentBackground(.hidden)
+            #endif
             .foregroundStyle(.white)
         }
         .navigationTitle(Text(LocalizedStringKey("title.settings")))

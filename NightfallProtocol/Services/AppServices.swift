@@ -4,7 +4,7 @@ import Observation
 import SwiftData
 import SwiftUI
 import UserNotifications
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(visionOS)
 import UIKit
 #endif
 
@@ -200,7 +200,7 @@ enum NightfallHapticStyle {
 @MainActor
 final class HapticsService {
     func impact(_ style: NightfallHapticStyle = .medium) {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(visionOS)
         let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
         switch style {
         case .light:
@@ -218,7 +218,7 @@ final class HapticsService {
     }
 
     func warning() {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(visionOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.warning)
@@ -226,7 +226,7 @@ final class HapticsService {
     }
 
     func success() {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(visionOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.success)

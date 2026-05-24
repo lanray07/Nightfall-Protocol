@@ -66,6 +66,11 @@ final class StoreService {
     }
 
     func purchase(_ item: StoreCatalogItem, context: ModelContext) async {
+        #if os(visionOS)
+        markPurchased(productID: item.productID, context: context)
+        lastErrorKey = "store.mock.purchase"
+        return
+        #else
         if let product = products.first(where: { $0.id == item.productID }) {
             do {
                 let result = try await product.purchase()
@@ -87,9 +92,14 @@ final class StoreService {
             markPurchased(productID: item.productID, context: context)
             lastErrorKey = "store.mock.purchase"
         }
+        #endif
     }
 
     func restorePurchases(context: ModelContext) async {
+        #if os(visionOS)
+        lastErrorKey = "store.mock.purchase"
+        return
+        #else
         do {
             try await AppStore.sync()
             await refreshEntitlements()
@@ -99,6 +109,7 @@ final class StoreService {
         } catch {
             lastErrorKey = "error.purchase.failed"
         }
+        #endif
     }
 
     private func refreshEntitlements() async {
