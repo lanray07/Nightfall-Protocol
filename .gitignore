@@ -23,3 +23,4 @@ xcuserdata/
 # Local environment
 .env
 .env.*
+SigningAssets/

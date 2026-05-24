@@ -41,25 +41,17 @@ platform :ios do
     team_id = ENV["APPLE_TEAM_ID"]
     UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
 
-    key_path = ENV["ASC_KEY_PATH"]
     build_number = ENV.fetch("BUILD_NUMBER", ENV.fetch("GITHUB_RUN_NUMBER", Time.now.utc.strftime("%Y%m%d%H%M")))
+    profile_specifier = ENV.fetch("PROFILE_SPECIFIER", "NightfallProtocol_App_Store")
 
     signing_args = [
-      "-allowProvisioningUpdates",
       "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
       "CURRENT_PROJECT_VERSION=#{Shellwords.escape(build_number)}",
-      "CODE_SIGN_STYLE=Automatic",
+      "CODE_SIGN_STYLE=Manual",
       "CODE_SIGNING_ALLOWED=YES",
-      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}"
+      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
+      "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_specifier)}"
     ]
-
-    if key_path.to_s.length.positive?
-      signing_args += [
-        "-authenticationKeyPath #{Shellwords.escape(key_path)}",
-        "-authenticationKeyID #{Shellwords.escape(ENV.fetch("ASC_KEY_ID"))}",
-        "-authenticationKeyIssuerID #{Shellwords.escape(ENV.fetch("ASC_ISSUER_ID"))}"
-      ]
-    end
 
     api_key = nightfall_api_key
 
@@ -76,9 +68,12 @@ platform :ios do
       include_bitcode: false,
       xcargs: signing_args.join(" "),
       export_options: {
-        signingStyle: "automatic",
+        signingStyle: "manual",
         signingCertificate: "Apple Distribution",
         teamID: team_id,
+        provisioningProfiles: {
+          "com.nightfallprotocol.prototype" => profile_specifier
+        },
         manageAppVersionAndBuildNumber: true
       }
     )
