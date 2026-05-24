@@ -47,7 +47,10 @@ platform :ios do
     signing_args = [
       "-allowProvisioningUpdates",
       "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
-      "CURRENT_PROJECT_VERSION=#{Shellwords.escape(build_number)}"
+      "CURRENT_PROJECT_VERSION=#{Shellwords.escape(build_number)}",
+      "CODE_SIGN_STYLE=Automatic",
+      "CODE_SIGNING_ALLOWED=YES",
+      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}"
     ]
 
     if key_path.to_s.length.positive?
@@ -74,6 +77,7 @@ platform :ios do
       xcargs: signing_args.join(" "),
       export_options: {
         signingStyle: "automatic",
+        signingCertificate: "Apple Distribution",
         teamID: team_id,
         manageAppVersionAndBuildNumber: true
       }
