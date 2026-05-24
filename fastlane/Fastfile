@@ -133,7 +133,8 @@ platform :ios do
       sdk: "appletvos",
       profile_env: "TVOS_PROFILE_SPECIFIER",
       default_profile: "NightfallProtocol_tvOS_App_Store",
-      artifact_name: "NightfallProtocol-tvOS.ipa"
+      artifact_name: "NightfallProtocol-tvOS.ipa",
+      app_platform: "appletvos"
     )
   end
 
@@ -145,7 +146,8 @@ platform :ios do
       sdk: "xros",
       profile_env: "VISIONOS_PROFILE_SPECIFIER",
       default_profile: "NightfallProtocol_App_Store",
-      artifact_name: "NightfallProtocol-visionOS.ipa"
+      artifact_name: "NightfallProtocol-visionOS.ipa",
+      app_platform: "xros"
     )
   end
 
@@ -159,7 +161,7 @@ platform :ios do
       default_profile: "NightfallProtocol_MacCatalyst_App_Store",
       artifact_name: "NightfallProtocol-macOS",
       catalyst_platform: "macos",
-      app_platform: "mac",
+      app_platform: "osx",
       installer_cert_env: "MAC_INSTALLER_CERT_NAME"
     )
   end
