@@ -16,7 +16,7 @@ encoded_name="$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(s
 encoded_type="$(python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1], safe=""))' "$profile_type")"
 url="https://api.appstoreconnect.apple.com/v1/profiles?filter[name]=${encoded_name}&filter[profileType]=${encoded_type}&filter[profileState]=ACTIVE&fields[profiles]=name,uuid,profileType,profileContent"
 
-response="$(curl -fsS -H "Authorization: Bearer ${jwt}" "$url")"
+response="$(curl -fsS --globoff -H "Authorization: Bearer ${jwt}" "$url")"
 profile_content="$(printf '%s' "$response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])

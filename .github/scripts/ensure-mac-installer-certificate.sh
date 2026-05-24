@@ -27,7 +27,7 @@ openssl req \
 
 jwt="$(bash .github/scripts/app-store-connect-jwt.sh)"
 list_url="https://api.appstoreconnect.apple.com/v1/certificates?filter[certificateType]=MAC_INSTALLER_DISTRIBUTION&fields[certificates]=certificateType,displayName,certificateContent,expirationDate"
-response="$(curl -fsS -H "Authorization: Bearer ${jwt}" "$list_url")"
+response="$(curl -fsS --globoff -H "Authorization: Bearer ${jwt}" "$list_url")"
 certificate_content="$(printf '%s' "$response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])
@@ -52,7 +52,7 @@ print(json.dumps({
 }))
 PY
 )"
-  response="$(curl -fsS \
+  response="$(curl -fsS --globoff \
     -X POST \
     -H "Authorization: Bearer ${jwt}" \
     -H "Content-Type: application/json" \
