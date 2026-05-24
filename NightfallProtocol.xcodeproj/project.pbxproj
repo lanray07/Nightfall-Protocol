@@ -52,6 +52,7 @@
 		B10000000000000000000021 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B10000000000000000000022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B10000000000000000000023 /* NightfallProtocol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NightfallProtocol.entitlements; sourceTree = "<group>"; };
+		B10000000000000000000024 /* MacCatalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacCatalyst.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +88,7 @@
 			children = (
 				B10000000000000000000001 /* NightfallProtocolApp.swift */,
 				B10000000000000000000023 /* NightfallProtocol.entitlements */,
+				B10000000000000000000024 /* MacCatalyst.entitlements */,
 				D10000000000000000000002 /* Models */,
 				D10000000000000000000003 /* Views */,
 				D10000000000000000000004 /* ViewModels */,
@@ -433,7 +435,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = NightfallProtocol/NightfallProtocol.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NightfallProtocol/NightfallProtocol.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = NightfallProtocol/MacCatalyst.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -472,7 +475,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = NightfallProtocol/NightfallProtocol.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NightfallProtocol/NightfallProtocol.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = NightfallProtocol/MacCatalyst.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
