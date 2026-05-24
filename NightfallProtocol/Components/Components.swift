@@ -283,12 +283,12 @@ struct InventorySlot: View {
         guard let reward else { return "square.dashed" }
 
         switch reward.itemType {
-        case .dreamFragment: "sparkle"
-        case .corruptedKey: "key.fill"
-        case .protocolToken: "hexagon.fill"
-        case .artifact: "cube.transparent.fill"
-        case .cosmeticShard: "wand.and.stars"
-        case .loreFile: "doc.text.fill"
+        case .dreamFragment: return "sparkle"
+        case .corruptedKey: return "key.fill"
+        case .protocolToken: return "hexagon.fill"
+        case .artifact: return "cube.transparent.fill"
+        case .cosmeticShard: return "wand.and.stars"
+        case .loreFile: return "doc.text.fill"
         }
     }
 }

@@ -249,11 +249,11 @@ final class NightfallGameScene: SKScene {
 
     private func color(for enemy: EnemyType) -> SKColor {
         switch enemy {
-        case .watcher: SKColor(red: 0.85, green: 0.15, blue: 0.22, alpha: 1)
-        case .echo: SKColor(red: 0.55, green: 0.55, blue: 0.95, alpha: 1)
-        case .hollow: SKColor(red: 0.05, green: 0.05, blue: 0.08, alpha: 1)
-        case .archivist: SKColor(red: 0.8, green: 0.6, blue: 0.2, alpha: 1)
-        case .sleeper: SKColor(red: 0.8, green: 0.8, blue: 1.0, alpha: 0.5)
+        case .watcher: return SKColor(red: 0.85, green: 0.15, blue: 0.22, alpha: 1)
+        case .echo: return SKColor(red: 0.55, green: 0.55, blue: 0.95, alpha: 1)
+        case .hollow: return SKColor(red: 0.05, green: 0.05, blue: 0.08, alpha: 1)
+        case .archivist: return SKColor(red: 0.8, green: 0.6, blue: 0.2, alpha: 1)
+        case .sleeper: return SKColor(red: 0.8, green: 0.8, blue: 1.0, alpha: 0.5)
         }
     }
 

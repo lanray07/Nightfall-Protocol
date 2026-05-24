@@ -17,21 +17,21 @@ enum Difficulty: String, Codable, CaseIterable, Identifiable {
 
     var tint: Color {
         switch self {
-        case .low: .green
-        case .medium: .yellow
-        case .high: .orange
-        case .extreme: .red
-        case .unknown: .purple
+        case .low: return .green
+        case .medium: return .yellow
+        case .high: return .orange
+        case .extreme: return .red
+        case .unknown: return .purple
         }
     }
 
     var collapseMultiplier: Double {
         switch self {
-        case .low: 0.75
-        case .medium: 1.0
-        case .high: 1.3
-        case .extreme: 1.65
-        case .unknown: 1.95
+        case .low: return 0.75
+        case .medium: return 1.0
+        case .high: return 1.3
+        case .extreme: return 1.65
+        case .unknown: return 1.95
         }
     }
 }
@@ -48,23 +48,23 @@ enum ObjectiveType: String, Codable, CaseIterable, Identifiable {
 
     var titleKey: String {
         switch self {
-        case .recoverMemoryFragment: "mission.recover.title"
-        case .extractDreamArtifact: "mission.extract.title"
-        case .sealNightmareRift: "mission.seal.title"
-        case .rescueLostEcho: "mission.rescue.title"
-        case .surviveUntilExtraction: "mission.survive.title"
-        case .investigateBlackSite: "mission.investigate.title"
+        case .recoverMemoryFragment: return "mission.recover.title"
+        case .extractDreamArtifact: return "mission.extract.title"
+        case .sealNightmareRift: return "mission.seal.title"
+        case .rescueLostEcho: return "mission.rescue.title"
+        case .surviveUntilExtraction: return "mission.survive.title"
+        case .investigateBlackSite: return "mission.investigate.title"
         }
     }
 
     var descriptionKey: String {
         switch self {
-        case .recoverMemoryFragment: "mission.recover.description"
-        case .extractDreamArtifact: "mission.extract.description"
-        case .sealNightmareRift: "mission.seal.description"
-        case .rescueLostEcho: "mission.rescue.description"
-        case .surviveUntilExtraction: "mission.survive.description"
-        case .investigateBlackSite: "mission.investigate.description"
+        case .recoverMemoryFragment: return "mission.recover.description"
+        case .extractDreamArtifact: return "mission.extract.description"
+        case .sealNightmareRift: return "mission.seal.description"
+        case .rescueLostEcho: return "mission.rescue.description"
+        case .surviveUntilExtraction: return "mission.survive.description"
+        case .investigateBlackSite: return "mission.investigate.description"
         }
     }
 }
@@ -100,12 +100,12 @@ enum Rarity: String, Codable, CaseIterable, Identifiable {
 
     var tint: Color {
         switch self {
-        case .common: .gray
-        case .uncommon: .green
-        case .rare: .cyan
-        case .epic: .purple
-        case .legendary: .yellow
-        case .corrupted: .red
+        case .common: return .gray
+        case .uncommon: return .green
+        case .rare: return .cyan
+        case .epic: return .purple
+        case .legendary: return .yellow
+        case .corrupted: return .red
         }
     }
 }
@@ -130,12 +130,12 @@ enum EquipmentType: String, Codable, CaseIterable, Identifiable {
 
     var symbolName: String {
         switch self {
-        case .flashlight: "flashlight.on.fill"
-        case .signalScanner: "dot.radiowaves.left.and.right"
-        case .decoyBeacon: "antenna.radiowaves.left.and.right"
-        case .silenceInjector: "syringe.fill"
-        case .escapeFlare: "flame.fill"
-        case .artifactCase: "shippingbox.fill"
+        case .flashlight: return "flashlight.on.fill"
+        case .signalScanner: return "dot.radiowaves.left.and.right"
+        case .decoyBeacon: return "antenna.radiowaves.left.and.right"
+        case .silenceInjector: return "syringe.fill"
+        case .escapeFlare: return "flame.fill"
+        case .artifactCase: return "shippingbox.fill"
         }
     }
 }
@@ -159,21 +159,21 @@ enum EnemyType: String, Codable, CaseIterable, Identifiable {
 
     var baseSpeed: CGFloat {
         switch self {
-        case .watcher: 54
-        case .echo: 68
-        case .hollow: 92
-        case .archivist: 46
-        case .sleeper: 76
+        case .watcher: return 54
+        case .echo: return 68
+        case .hollow: return 92
+        case .archivist: return 46
+        case .sleeper: return 76
         }
     }
 
     var detectionRadius: CGFloat {
         switch self {
-        case .watcher: 118
-        case .echo: 88
-        case .hollow: 78
-        case .archivist: 104
-        case .sleeper: 62
+        case .watcher: return 118
+        case .echo: return 88
+        case .hollow: return 78
+        case .archivist: return 104
+        case .sleeper: return 62
         }
     }
 }
