@@ -191,6 +191,22 @@ platform :ios do
     deliver(**options)
   end
 
+  desc "Upload privacy policy metadata required for App Review."
+  lane :privacy_metadata do
+    shared_options = {
+      api_key: nightfall_api_key,
+      metadata_path: "fastlane/metadata",
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      submit_for_review: false,
+      force: true,
+      run_precheck_before_submit: false
+    }
+
+    deliver(**shared_options.merge(platform: "ios"))
+    deliver(**shared_options.merge(platform: "appletvos"))
+  end
+
   desc "Print the cosmetic-only in-app purchase manifest for App Store setup."
   lane :iap_manifest do
     UI.message(JSON.pretty_generate(JSON.parse(File.read("fastlane/iap_products.json"))))

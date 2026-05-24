@@ -141,6 +141,9 @@ jobs:
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > "private_keys/AuthKey_${ASC_KEY_ID}.p8"
           echo "ASC_KEY_PATH=$PWD/private_keys/AuthKey_${ASC_KEY_ID}.p8" >> "$GITHUB_ENV"
 
+      - name: Upload privacy metadata
+        run: bundle exec fastlane ios privacy_metadata
+
       - name: Install Apple signing assets
         run: |
           CERTIFICATE_PATH="$RUNNER_TEMP/build_certificate.p12"

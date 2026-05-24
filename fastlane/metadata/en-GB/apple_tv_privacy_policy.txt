@@ -1,0 +1,10 @@
+Nightfall Protocol is designed as an offline playable game prototype.
+
+Nightfall Protocol does not collect, sell, or share personal data. Game progress, inventory, settings, language selection, and unlocks are stored locally on the player's device using Apple's local persistence frameworks.
+
+The app may use Apple-provided services such as StoreKit, Game Center, and local notifications. Purchases and Game Center features are handled by Apple according to Apple's privacy practices. Nightfall Protocol does not operate its own account system, analytics backend, advertising network, or tracking service.
+
+Daily Nightmare reminders are local notifications scheduled on the device. They are optional and can be disabled in system settings.
+
+For support or privacy questions, use the project support page:
+https://github.com/lanray07/Nightfall-Protocol
