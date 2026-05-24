@@ -18,7 +18,7 @@ on:
 jobs:
   simulator-build:
     name: Xcode simulator build
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,7 +75,7 @@ jobs:
 
   testflight-upload:
     name: Archive and upload to TestFlight
-    runs-on: macos-15
+    runs-on: macos-26
     if: (github.event_name == 'workflow_dispatch' && inputs.upload_to_testflight == true) || startsWith(github.ref, 'refs/tags/appstore-')
     env:
       APP_IDENTIFIER: com.nightfallprotocol.prototype
