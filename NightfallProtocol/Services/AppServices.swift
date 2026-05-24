@@ -3,8 +3,10 @@ import GameKit
 import Observation
 import SwiftData
 import SwiftUI
-import UIKit
 import UserNotifications
+#if canImport(UIKit)
+import UIKit
+#endif
 
 @MainActor
 @Observable
@@ -160,7 +162,11 @@ final class NotificationService {
 
     func requestAuthorization() async -> Bool {
         do {
-            return try await center.requestAuthorization(options: [.alert, .badge, .sound])
+            var options: UNAuthorizationOptions = [.alert, .sound]
+            #if !os(tvOS)
+            options.insert(.badge)
+            #endif
+            return try await center.requestAuthorization(options: options)
         } catch {
             return false
         }
@@ -185,24 +191,46 @@ final class NotificationService {
     }
 }
 
+enum NightfallHapticStyle {
+    case light
+    case medium
+    case heavy
+}
+
 @MainActor
 final class HapticsService {
-    func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
-        let generator = UIImpactFeedbackGenerator(style: style)
+    func impact(_ style: NightfallHapticStyle = .medium) {
+        #if canImport(UIKit)
+        let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
+        switch style {
+        case .light:
+            feedbackStyle = .light
+        case .medium:
+            feedbackStyle = .medium
+        case .heavy:
+            feedbackStyle = .heavy
+        }
+
+        let generator = UIImpactFeedbackGenerator(style: feedbackStyle)
         generator.prepare()
         generator.impactOccurred()
+        #endif
     }
 
     func warning() {
+        #if canImport(UIKit)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.warning)
+        #endif
     }
 
     func success() {
+        #if canImport(UIKit)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.success)
+        #endif
     }
 }
 

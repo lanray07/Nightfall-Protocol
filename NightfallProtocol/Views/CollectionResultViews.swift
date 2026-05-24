@@ -1,5 +1,10 @@
 import SwiftUI
+#if canImport(AppKit)
+import AppKit
+#endif
+#if canImport(UIKit)
 import UIKit
+#endif
 
 struct ArtifactCollectionView: View {
     let artifacts: [Artifact]
@@ -106,6 +111,7 @@ struct ExtractionResultView: View {
                     .nightfallPanel()
 
                     VStack(spacing: 12) {
+                        #if !os(tvOS)
                         ShareLink(item: recapText) {
                             Label {
                                 Text(LocalizedStringKey("action.share.recap"))
@@ -115,9 +121,10 @@ struct ExtractionResultView: View {
                             .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(NightfallShareButtonStyle())
+                        #endif
 
                         LocalizedButton(titleKey: "action.copy.recap", systemImage: "doc.on.doc.fill") {
-                            UIPasteboard.general.string = recapText
+                            PlatformPasteboard.copy(recapText)
                             showingCopiedAlert = true
                         }
                     }
@@ -195,6 +202,19 @@ struct ExtractionResultView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(Color.black.opacity(0.34), in: RoundedRectangle(cornerRadius: 8))
+    }
+}
+
+private enum PlatformPasteboard {
+    static func copy(_ text: String) {
+        #if os(macOS)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
+        #elseif os(iOS) || os(visionOS)
+        UIPasteboard.general.string = text
+        #else
+        _ = text
+        #endif
     }
 }
 

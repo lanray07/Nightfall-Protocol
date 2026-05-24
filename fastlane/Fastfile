@@ -35,54 +35,137 @@ def app_review_information_payload
   required.merge(notes: File.read(File.expand_path("review_notes.txt", __dir__)).strip)
 end
 
+def nightfall_build_number
+  ENV.fetch("BUILD_NUMBER", ENV.fetch("GITHUB_RUN_NUMBER", Time.now.utc.strftime("%Y%m%d%H%M")))
+end
+
+def nightfall_signing_args(team_id:, profile_specifier:)
+  [
+    "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
+    "CURRENT_PROJECT_VERSION=#{Shellwords.escape(nightfall_build_number)}",
+    "CODE_SIGN_STYLE=Manual",
+    "CODE_SIGNING_ALLOWED=YES",
+    "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
+    "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_specifier)}"
+  ]
+end
+
+def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, default_profile:, artifact_name:, catalyst_platform: nil, app_platform: nil, installer_cert_env: nil)
+  team_id = ENV["APPLE_TEAM_ID"]
+  UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
+
+  profile_specifier = ENV.fetch(profile_env, default_profile)
+  output_directory = "build/export/#{platform_key}"
+  archive_path = "build/NightfallProtocol-#{platform_key}.xcarchive"
+  api_key = nightfall_api_key
+
+  build_options = {
+    project: "NightfallProtocol.xcodeproj",
+    scheme: "NightfallProtocol",
+    configuration: "Release",
+    clean: true,
+    sdk: sdk,
+    destination: destination,
+    archive_path: archive_path,
+    output_directory: output_directory,
+    output_name: artifact_name,
+    export_method: "app-store",
+    include_symbols: true,
+    include_bitcode: false,
+    xcargs: nightfall_signing_args(team_id: team_id, profile_specifier: profile_specifier).join(" "),
+    export_options: {
+      signingStyle: "manual",
+      signingCertificate: "Apple Distribution",
+      teamID: team_id,
+      provisioningProfiles: {
+        "com.nightfallprotocol.prototype" => profile_specifier
+      },
+      manageAppVersionAndBuildNumber: true
+    }
+  }
+  build_options[:catalyst_platform] = catalyst_platform if catalyst_platform
+  if installer_cert_env && !ENV[installer_cert_env].to_s.empty?
+    build_options[:installer_cert_name] = ENV[installer_cert_env]
+    build_options[:export_options][:installerSigningCertificate] = ENV[installer_cert_env]
+  end
+
+  build_app(**build_options)
+
+  artifact = Dir[File.join(output_directory, "*.{ipa,pkg}")].first
+  UI.user_error!("No uploadable artifact was produced in #{output_directory}.") if artifact.to_s.empty?
+
+  upload_options = {
+    api_key: api_key,
+    app_identifier: ENV.fetch("APP_IDENTIFIER", "com.nightfallprotocol.prototype"),
+    skip_waiting_for_build_processing: true,
+    uses_non_exempt_encryption: false
+  }
+  upload_options[:app_platform] = app_platform if app_platform
+
+  if artifact.end_with?(".pkg")
+    upload_options[:pkg] = artifact
+  else
+    upload_options[:ipa] = artifact
+  end
+
+  upload_to_testflight(**upload_options)
+end
+
 platform :ios do
-  desc "Archive Nightfall Protocol and upload the signed IPA to TestFlight."
+  desc "Archive Nightfall Protocol for iOS and upload the signed IPA to TestFlight."
+  lane :build_upload_ios do
+    nightfall_build_and_upload(
+      platform_key: "ios",
+      destination: "generic/platform=iOS",
+      sdk: "iphoneos",
+      profile_env: "PROFILE_SPECIFIER",
+      default_profile: "NightfallProtocol_App_Store",
+      artifact_name: "NightfallProtocol-iOS.ipa"
+    )
+  end
+
+  desc "Archive Nightfall Protocol for tvOS and upload the signed IPA to TestFlight."
+  lane :build_upload_tvos do
+    nightfall_build_and_upload(
+      platform_key: "tvos",
+      destination: "generic/platform=tvOS",
+      sdk: "appletvos",
+      profile_env: "TVOS_PROFILE_SPECIFIER",
+      default_profile: "NightfallProtocol_tvOS_App_Store",
+      artifact_name: "NightfallProtocol-tvOS.ipa"
+    )
+  end
+
+  desc "Archive Nightfall Protocol for visionOS and upload the signed IPA to TestFlight."
+  lane :build_upload_visionos do
+    nightfall_build_and_upload(
+      platform_key: "visionos",
+      destination: "generic/platform=visionOS",
+      sdk: "xros",
+      profile_env: "VISIONOS_PROFILE_SPECIFIER",
+      default_profile: "NightfallProtocol_App_Store",
+      artifact_name: "NightfallProtocol-visionOS.ipa"
+    )
+  end
+
+  desc "Archive Nightfall Protocol for Mac Catalyst and upload the signed PKG to TestFlight."
+  lane :build_upload_maccatalyst do
+    nightfall_build_and_upload(
+      platform_key: "maccatalyst",
+      destination: "generic/platform=macOS,variant=Mac Catalyst",
+      sdk: "macosx",
+      profile_env: "MACCATALYST_PROFILE_SPECIFIER",
+      default_profile: "NightfallProtocol_MacCatalyst_App_Store",
+      artifact_name: "NightfallProtocol-macOS.pkg",
+      catalyst_platform: "macos",
+      app_platform: "mac",
+      installer_cert_env: "MAC_INSTALLER_CERT_NAME"
+    )
+  end
+
+  desc "Archive Nightfall Protocol and upload the signed iOS IPA to TestFlight."
   lane :build_upload do
-    team_id = ENV["APPLE_TEAM_ID"]
-    UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
-
-    build_number = ENV.fetch("BUILD_NUMBER", ENV.fetch("GITHUB_RUN_NUMBER", Time.now.utc.strftime("%Y%m%d%H%M")))
-    profile_specifier = ENV.fetch("PROFILE_SPECIFIER", "NightfallProtocol_App_Store")
-
-    signing_args = [
-      "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
-      "CURRENT_PROJECT_VERSION=#{Shellwords.escape(build_number)}",
-      "CODE_SIGN_STYLE=Manual",
-      "CODE_SIGNING_ALLOWED=YES",
-      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
-      "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_specifier)}"
-    ]
-
-    api_key = nightfall_api_key
-
-    build_app(
-      project: "NightfallProtocol.xcodeproj",
-      scheme: "NightfallProtocol",
-      configuration: "Release",
-      clean: true,
-      archive_path: "build/NightfallProtocol.xcarchive",
-      output_directory: "build/export",
-      output_name: "NightfallProtocol.ipa",
-      export_method: "app-store",
-      include_symbols: true,
-      include_bitcode: false,
-      xcargs: signing_args.join(" "),
-      export_options: {
-        signingStyle: "manual",
-        signingCertificate: "Apple Distribution",
-        teamID: team_id,
-        provisioningProfiles: {
-          "com.nightfallprotocol.prototype" => profile_specifier
-        },
-        manageAppVersionAndBuildNumber: true
-      }
-    )
-
-    upload_to_testflight(
-      api_key: api_key,
-      ipa: "build/export/NightfallProtocol.ipa",
-      skip_waiting_for_build_processing: true
-    )
+    build_upload_ios
   end
 
   desc "Upload App Store metadata and screenshots without submitting for review."
