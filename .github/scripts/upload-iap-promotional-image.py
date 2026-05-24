@@ -75,8 +75,26 @@ def find_iap(client: AppStoreConnectClient, app_id: str, product_id: str) -> dic
     payload = client.request("GET", f"/v1/apps/{app_id}/inAppPurchasesV2?{query}")
     items = payload.get("data", [])
     if not items:
-        raise RuntimeError(f"No in-app purchase found for product ID {product_id}.")
+        available = list_iaps(client, app_id)
+        raise RuntimeError(
+            f"No in-app purchase found for product ID {product_id}. "
+            f"Available product IDs: {', '.join(available) if available else 'none'}."
+        )
     return items[0]
+
+
+def list_iaps(client: AppStoreConnectClient, app_id: str) -> list[str]:
+    query = urllib.parse.urlencode({
+        "fields[inAppPurchases]": "productId,name,inAppPurchaseType,state",
+        "limit": "200",
+    })
+    payload = client.request("GET", f"/v1/apps/{app_id}/inAppPurchasesV2?{query}")
+    product_ids = []
+    for item in payload.get("data", []):
+        product_id = item.get("attributes", {}).get("productId")
+        if product_id:
+            product_ids.append(product_id)
+    return product_ids
 
 
 def replace_existing_images(client: AppStoreConnectClient, iap_id: str) -> None:

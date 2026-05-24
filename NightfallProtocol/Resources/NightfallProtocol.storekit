@@ -28,7 +28,7 @@
           "locale": "en_US"
         }
       ],
-      "productID": "com.nightfallprotocol.subscription.premium.monthly",
+      "productID": "com.nightfallprotocol.subscription.premium",
       "referenceName": "Premium Pass Monthly",
       "type": "NonConsumable"
     },
