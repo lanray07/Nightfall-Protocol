@@ -1,5 +1,6 @@
 require "base64"
 require "json"
+require "shellwords"
 
 default_platform(:ios)
 
@@ -35,6 +36,56 @@ def app_review_information_payload
 end
 
 platform :ios do
+  desc "Archive Nightfall Protocol and upload the signed IPA to TestFlight."
+  lane :build_upload do
+    team_id = ENV["APPLE_TEAM_ID"]
+    UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
+
+    key_path = ENV["ASC_KEY_PATH"]
+    build_number = ENV.fetch("BUILD_NUMBER", ENV.fetch("GITHUB_RUN_NUMBER", Time.now.utc.strftime("%Y%m%d%H%M")))
+
+    signing_args = [
+      "-allowProvisioningUpdates",
+      "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
+      "CURRENT_PROJECT_VERSION=#{Shellwords.escape(build_number)}"
+    ]
+
+    if key_path.to_s.length.positive?
+      signing_args += [
+        "-authenticationKeyPath #{Shellwords.escape(key_path)}",
+        "-authenticationKeyID #{Shellwords.escape(ENV.fetch("ASC_KEY_ID"))}",
+        "-authenticationKeyIssuerID #{Shellwords.escape(ENV.fetch("ASC_ISSUER_ID"))}"
+      ]
+    end
+
+    api_key = nightfall_api_key
+
+    build_app(
+      project: "NightfallProtocol.xcodeproj",
+      scheme: "NightfallProtocol",
+      configuration: "Release",
+      clean: true,
+      archive_path: "build/NightfallProtocol.xcarchive",
+      output_directory: "build/export",
+      output_name: "NightfallProtocol.ipa",
+      export_method: "app-store",
+      include_symbols: true,
+      include_bitcode: false,
+      xcargs: signing_args.join(" "),
+      export_options: {
+        signingStyle: "automatic",
+        teamID: team_id,
+        manageAppVersionAndBuildNumber: true
+      }
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: "build/export/NightfallProtocol.ipa",
+      skip_waiting_for_build_processing: true
+    )
+  end
+
   desc "Upload App Store metadata and screenshots without submitting for review."
   lane :metadata do
     options = {

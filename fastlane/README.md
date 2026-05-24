@@ -9,6 +9,7 @@ Add these repository secrets before running the workflow:
 - `ASC_KEY_ID`
 - `ASC_ISSUER_ID`
 - `ASC_KEY_P8_BASE64`
+- `APPLE_TEAM_ID` (required only for signed TestFlight uploads)
 
 Optional App Review contact secrets:
 
@@ -26,6 +27,12 @@ Optional App Review contact secrets:
 - App Review notes, and contact details if the optional contact secrets are present
 
 The workflow intentionally does not submit the app for review.
+
+## Xcode Builds
+
+`.github/workflows/xcode-build.yml` runs an unsigned iOS Simulator build on GitHub's macOS runner for every push and pull request. To upload a signed build to TestFlight, run the `Xcode Build` workflow manually and enable `upload_to_testflight`.
+
+Signed uploads require `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_KEY_P8_BASE64` repository secrets. The workflow uses automatic signing with Xcode and uploads the archived IPA through Fastlane.
 
 ## In-App Purchases
 
