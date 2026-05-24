@@ -1,5 +1,5 @@
 app_identifier("com.nightfallprotocol.prototype")
-app("6772583753")
+app(6772583753)
 
 metadata_path("./fastlane/metadata")
 screenshots_path("./fastlane/screenshots")
