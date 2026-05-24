@@ -64,7 +64,7 @@ if not data:
     raise SystemExit("Provisioning profile has no linked Bundle ID.")
 print(data["id"])')"
 
-certificates_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/certificates?limit=200")"
+certificates_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/certificates")"
 certificates_data="$(printf '%s' "$certificates_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])
@@ -72,7 +72,7 @@ if not items:
     raise SystemExit("Provisioning profile has no linked certificates.")
 print(json.dumps([{"type": "certificates", "id": item["id"]} for item in items], separators=(",", ":")))')"
 
-capabilities_response="$(api_request GET "${api_base}/bundleIds/${bundle_id}/bundleIdCapabilities?limit=200&fields[bundleIdCapabilities]=capabilityType")"
+capabilities_response="$(api_request GET "${api_base}/bundleIds/${bundle_id}/bundleIdCapabilities?fields[bundleIdCapabilities]=capabilityType")"
 has_game_center="$(printf '%s' "$capabilities_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 print("1" if any(item.get("attributes", {}).get("capabilityType") == "GAME_CENTER" for item in payload.get("data", [])) else "0")')"
