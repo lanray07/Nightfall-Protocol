@@ -47,14 +47,15 @@ api_request() {
   rm -f "$response_file"
 }
 
-profile_url="${api_base}/profiles?filter[name]=$(encode "$profile_name")&filter[profileType]=$(encode "$profile_type")&filter[profileState]=ACTIVE&limit=1&fields[profiles]=name,profileType,profileState"
+profile_url="${api_base}/profiles?filter[name]=$(encode "$profile_name")&filter[profileType]=$(encode "$profile_type")&limit=10&fields[profiles]=name,profileType,profileState"
 profile_response="$(api_request GET "$profile_url")"
 profile_id="$(printf '%s' "$profile_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])
 if not items:
-    raise SystemExit("No active provisioning profile matched the requested name and type.")
-print(items[0]["id"])')"
+    raise SystemExit("No provisioning profile matched the requested name and type.")
+active = [item for item in items if item.get("attributes", {}).get("profileState") == "ACTIVE"]
+print((active or items)[0]["id"])')"
 
 bundle_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/bundleId")"
 bundle_id="$(printf '%s' "$bundle_response" | python3 -c 'import json, sys
