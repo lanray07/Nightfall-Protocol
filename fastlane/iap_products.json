@@ -11,7 +11,7 @@
     },
     {
       "reference_name": "Premium Pass Monthly",
-      "product_id": "com.nightfallprotocol.subscription.premium",
+      "product_id": "com.nightfallprotocol.pass.premium",
       "type": "auto_renewable_subscription",
       "price_placeholder": "GBP 9.99/month",
       "display_name": "Premium Pass",
