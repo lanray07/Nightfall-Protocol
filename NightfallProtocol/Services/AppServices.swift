@@ -4,7 +4,7 @@ import Observation
 import SwiftData
 import SwiftUI
 import UserNotifications
-#if canImport(UIKit) && !os(visionOS)
+#if canImport(UIKit) && !os(visionOS) && !os(tvOS)
 import UIKit
 #endif
 
@@ -176,6 +176,10 @@ final class NotificationService {
         localization: LocalizationService,
         languageCode: String
     ) async throws {
+        #if os(tvOS)
+        _ = localization
+        _ = languageCode
+        #else
         let content = UNMutableNotificationContent()
         content.title = localization.string("notification.daily.title", languageCode: languageCode)
         content.body = localization.string("notification.daily.body", languageCode: languageCode)
@@ -188,6 +192,7 @@ final class NotificationService {
         let request = UNNotificationRequest(identifier: "daily-nightmare", content: content, trigger: trigger)
 
         try await center.add(request)
+        #endif
     }
 }
 
@@ -200,7 +205,7 @@ enum NightfallHapticStyle {
 @MainActor
 final class HapticsService {
     func impact(_ style: NightfallHapticStyle = .medium) {
-        #if canImport(UIKit) && !os(visionOS)
+        #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
         switch style {
         case .light:
@@ -218,7 +223,7 @@ final class HapticsService {
     }
 
     func warning() {
-        #if canImport(UIKit) && !os(visionOS)
+        #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.warning)
@@ -226,7 +231,7 @@ final class HapticsService {
     }
 
     func success() {
-        #if canImport(UIKit) && !os(visionOS)
+        #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.success)
