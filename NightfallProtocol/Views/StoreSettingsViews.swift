@@ -1,8 +1,10 @@
 import SwiftData
 import SwiftUI
+import StoreKit
 
 struct StoreView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.purchase) private var purchase
     @Environment(AppServices.self) private var services
     @State private var viewModel = StoreViewModel()
 
@@ -30,7 +32,12 @@ struct StoreView: View {
                     ForEach(viewModel.items) { item in
                         StoreItemCard(item: item) {
                             Task {
-                                await viewModel.purchase(item, store: services.store, context: modelContext)
+                                await viewModel.purchase(
+                                    item,
+                                    store: services.store,
+                                    context: modelContext,
+                                    purchaseAction: purchase
+                                )
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftData
+import StoreKit
 
 @MainActor
 @Observable
@@ -34,8 +35,8 @@ final class StoreViewModel {
         isLoading = false
     }
 
-    func purchase(_ item: StoreCatalogItem, store: StoreService, context: ModelContext) async {
-        await store.purchase(item, context: context)
+    func purchase(_ item: StoreCatalogItem, store: StoreService, context: ModelContext, purchaseAction: PurchaseAction) async {
+        await store.purchase(item, context: context, purchaseAction: purchaseAction)
         items = store.catalogItems()
         messageKey = store.lastErrorKey
     }

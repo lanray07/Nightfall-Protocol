@@ -388,11 +388,17 @@ struct StoreItemCard: View {
 
                 Spacer()
 
-                Text(LocalizedStringKey(item.priceKey))
-                    .font(.headline.monospacedDigit())
-                    .foregroundStyle(.yellow)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
+                Group {
+                    if let displayPrice = item.displayPrice {
+                        Text(displayPrice)
+                    } else {
+                        Text(LocalizedStringKey(item.priceKey))
+                    }
+                }
+                .font(.headline.monospacedDigit())
+                .foregroundStyle(.yellow)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
             }
 
             Text(LocalizedStringKey(item.descriptionKey))

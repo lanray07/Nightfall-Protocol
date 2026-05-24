@@ -357,6 +357,7 @@ struct StoreCatalogItem: Identifiable, Hashable {
     var titleKey: String
     var descriptionKey: String
     var priceKey: String
+    var displayPrice: String?
     var category: StoreCategory
     var owned: Bool
 }

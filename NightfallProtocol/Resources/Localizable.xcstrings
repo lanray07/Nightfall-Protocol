@@ -1300,7 +1300,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Store products are unavailable. Mock purchases are enabled."
+            "value": "Store products are temporarily unavailable. Please try again."
           }
         }
       }
@@ -4122,7 +4122,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This removes local progress, inventory, artifacts, and mock purchases."
+            "value": "This removes local progress, inventory, artifacts, and local purchase records."
           }
         }
       }
@@ -4262,7 +4262,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mock purchase completed for prototype testing."
+            "value": "Purchase completed."
           }
         }
       }

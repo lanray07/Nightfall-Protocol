@@ -31,18 +31,24 @@ final class StoreService {
         do {
             products = try await Product.products(for: productIDs)
             await refreshEntitlements()
+            lastErrorKey = products.isEmpty ? "error.store.unavailable" : nil
         } catch {
+            products = []
             lastErrorKey = "error.store.unavailable"
         }
     }
 
     func catalogItems() -> [StoreCatalogItem] {
-        [
+        guard !products.isEmpty else { return [] }
+
+        let availableProductIDs = Set(products.map(\.id))
+        return [
             StoreCatalogItem(
                 productID: Self.starterPackID,
                 titleKey: "store.starter.title",
                 descriptionKey: "store.starter.description",
                 priceKey: "store.starter.price",
+                displayPrice: displayPrice(for: Self.starterPackID),
                 category: .cosmetic,
                 owned: purchasedProductIDs.contains(Self.starterPackID)
             ),
@@ -51,6 +57,7 @@ final class StoreService {
                 titleKey: "store.premiumPass.title",
                 descriptionKey: "store.premiumPass.description",
                 priceKey: "store.premiumPass.price",
+                displayPrice: displayPrice(for: Self.premiumPassID),
                 category: .pass,
                 owned: purchasedProductIDs.contains(Self.premiumPassID)
             ),
@@ -59,47 +66,44 @@ final class StoreService {
                 titleKey: "store.nightmareSkin.title",
                 descriptionKey: "store.nightmareSkin.description",
                 priceKey: "store.nightmareSkin.price",
+                displayPrice: displayPrice(for: Self.nightmareSkinPackID),
                 category: .cosmetic,
                 owned: purchasedProductIDs.contains(Self.nightmareSkinPackID)
             )
         ]
+        .filter { availableProductIDs.contains($0.productID) }
     }
 
-    func purchase(_ item: StoreCatalogItem, context: ModelContext) async {
-        #if os(visionOS)
-        markPurchased(productID: item.productID, context: context)
-        lastErrorKey = "store.mock.purchase"
-        return
-        #else
-        if let product = products.first(where: { $0.id == item.productID }) {
-            do {
-                let result = try await product.purchase()
+    func purchase(_ item: StoreCatalogItem, context: ModelContext, purchaseAction: PurchaseAction? = nil) async {
+        lastErrorKey = nil
 
-                switch result {
-                case .success(let verification):
-                    let transaction = try checkVerified(verification)
-                    await transaction.finish()
-                    markPurchased(productID: transaction.productID, context: context)
-                case .userCancelled, .pending:
-                    break
-                @unknown default:
-                    lastErrorKey = "error.purchase.failed"
-                }
-            } catch {
-                lastErrorKey = "error.purchase.failed"
-            }
-        } else {
-            markPurchased(productID: item.productID, context: context)
-            lastErrorKey = "store.mock.purchase"
+        guard let product = products.first(where: { $0.id == item.productID }) else {
+            lastErrorKey = "error.store.unavailable"
+            return
         }
-        #endif
+
+        do {
+            let result: Product.PurchaseResult
+            if let purchaseAction {
+                result = try await purchaseAction(product)
+            } else {
+                #if os(visionOS)
+                lastErrorKey = "error.purchase.failed"
+                return
+                #else
+                result = try await product.purchase()
+                #endif
+            }
+
+            await completePurchase(result, context: context)
+        } catch {
+            lastErrorKey = "error.purchase.failed"
+        }
     }
 
     func restorePurchases(context: ModelContext) async {
-        #if os(visionOS)
-        lastErrorKey = "store.mock.purchase"
-        return
-        #else
+        lastErrorKey = nil
+
         do {
             try await AppStore.sync()
             await refreshEntitlements()
@@ -109,7 +113,28 @@ final class StoreService {
         } catch {
             lastErrorKey = "error.purchase.failed"
         }
-        #endif
+    }
+
+    private func completePurchase(_ result: Product.PurchaseResult, context: ModelContext) async {
+        switch result {
+        case .success(let verification):
+            do {
+                let transaction = try checkVerified(verification)
+                await transaction.finish()
+                markPurchased(productID: transaction.productID, context: context)
+                lastErrorKey = nil
+            } catch {
+                lastErrorKey = "error.purchase.failed"
+            }
+        case .userCancelled, .pending:
+            break
+        @unknown default:
+            lastErrorKey = "error.purchase.failed"
+        }
+    }
+
+    private func displayPrice(for productID: String) -> String? {
+        products.first(where: { $0.id == productID })?.displayPrice
     }
 
     private func refreshEntitlements() async {
