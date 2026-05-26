@@ -14,25 +14,30 @@ API_BASE = "https://api.appstoreconnect.apple.com"
 
 
 def main() -> int:
-    if len(sys.argv) != 3:
-        print("usage: upload-iap-promotional-image.py <product-id> <image-path>", file=sys.stderr)
+    if len(sys.argv) not in (2, 3):
+        print("usage: upload-iap-promotional-image.py <product-id> [image-path]", file=sys.stderr)
         return 2
 
     product_id = sys.argv[1]
-    image_path = sys.argv[2]
+    image_path = sys.argv[2] if len(sys.argv) == 3 else None
     app_id = os.environ.get("APP_STORE_APP_ID")
     if not app_id:
         print("APP_STORE_APP_ID must be set.", file=sys.stderr)
         return 1
-
-    with open(image_path, "rb") as handle:
-        image_bytes = handle.read()
 
     jwt = subprocess.check_output(["bash", ".github/scripts/app-store-connect-jwt.sh"], text=True).strip()
     client = AppStoreConnectClient(jwt)
 
     iap = find_iap(client, app_id, product_id)
     replace_existing_images(client, iap["id"])
+
+    if image_path is None:
+        print(f"Removed promoted IAP images for {product_id}.")
+        return 0
+
+    with open(image_path, "rb") as handle:
+        image_bytes = handle.read()
+
     image = create_image_reservation(client, iap["id"], os.path.basename(image_path), len(image_bytes))
     upload_image_bytes(image, image_bytes)
     commit_image(client, image["data"]["id"], image_bytes)

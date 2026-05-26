@@ -141,11 +141,10 @@ jobs:
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > "private_keys/AuthKey_${ASC_KEY_ID}.p8"
           echo "ASC_KEY_PATH=$PWD/private_keys/AuthKey_${ASC_KEY_ID}.p8" >> "$GITHUB_ENV"
 
-      - name: Upload promoted IAP image
+      - name: Remove promoted IAP image
         run: |
           python3 .github/scripts/upload-iap-promotional-image.py \
-            "com.nightfallprotocol.pass.premium" \
-            "AppStoreAssets/SubscriptionReview/premium-pass-subscription-image-1024.png"
+            "com.nightfallprotocol.pass.premium"
 
       - name: Upload privacy metadata
         run: bundle exec fastlane ios privacy_metadata
