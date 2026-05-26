@@ -146,10 +146,6 @@ jobs:
           python3 .github/scripts/upload-iap-promotional-image.py \
             "com.nightfallprotocol.pass.premium"
 
-      - name: Upload privacy metadata
-        continue-on-error: true
-        run: bundle exec fastlane ios privacy_metadata
-
       - name: Install Apple signing assets
         run: |
           CERTIFICATE_PATH="$RUNNER_TEMP/build_certificate.p12"
