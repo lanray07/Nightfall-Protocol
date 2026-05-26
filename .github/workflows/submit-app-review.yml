@@ -1,5 +1,9 @@
 name: Submit App Review
 
+concurrency:
+  group: app-store-submit-${{ github.ref_name }}
+  cancel-in-progress: true
+
 on:
   push:
     tags:

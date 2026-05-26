@@ -111,6 +111,8 @@ def main() -> int:
         try:
             attach_build(client, version["id"], build["id"])
             print(f"Attached build {args.build_number} ({build['id']}) to {platform}.")
+            print("Waiting for App Store Connect to make the version reviewable.")
+            time.sleep(60)
             submission_id = find_review_submission_for_version(
                 client, args.app_id, platform, version["id"]
             )
@@ -238,13 +240,31 @@ def print_build_candidates(builds: dict[str, dict[str, Any]]) -> None:
 
 
 def attach_build(client: AppStoreConnectClient, version_id: str, build_id: str) -> None:
+    current_build_id = get_attached_build_id(client, version_id)
+    if current_build_id == build_id:
+        print(f"Build {build_id} is already attached.")
+        return
+
     body = {"data": {"type": "builds", "id": build_id}}
-    client.request(
-        "PATCH",
-        f"/v1/appStoreVersions/{version_id}/relationships/build",
-        body,
-        expected=(200, 204),
+    retry_request(
+        lambda: client.request(
+            "PATCH",
+            f"/v1/appStoreVersions/{version_id}/relationships/build",
+            body,
+            expected=(200, 204),
+        ),
+        "Attach build",
     )
+
+
+def get_attached_build_id(client: AppStoreConnectClient, version_id: str) -> str | None:
+    payload = client.request(
+        "GET",
+        f"/v1/appStoreVersions/{version_id}/relationships/build",
+        expected=(200,),
+    )
+    data = payload.get("data")
+    return data.get("id") if isinstance(data, dict) else None
 
 
 def create_review_submission(
@@ -378,8 +398,34 @@ def submit_review_submission(client: AppStoreConnectClient, submission_id: str) 
             "attributes": {"submitted": True},
         }
     }
-    client.request("PATCH", f"/v1/reviewSubmissions/{submission_id}", body)
+    retry_request(
+        lambda: client.request("PATCH", f"/v1/reviewSubmissions/{submission_id}", body),
+        "Submit review submission",
+        retry_on_not_ready=True,
+    )
     time.sleep(2)
+
+
+def retry_request(
+    operation: Any,
+    label: str,
+    retry_on_not_ready: bool = False,
+) -> dict[str, Any]:
+    delays = [30, 60, 120]
+    for attempt in range(len(delays) + 1):
+        try:
+            return operation()
+        except AppStoreConnectError as error:
+            message = str(error)
+            is_retryable = error.status == 500 or (
+                retry_on_not_ready and "try again later" in message.lower()
+            )
+            if not is_retryable or attempt == len(delays):
+                raise
+            delay = delays[attempt]
+            print(f"{label} is not ready yet ({error.status}); retrying in {delay}s.")
+            time.sleep(delay)
+    raise RuntimeError(f"{label} retry loop exited unexpectedly.")
 
 
 if __name__ == "__main__":
