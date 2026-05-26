@@ -132,7 +132,7 @@ def main() -> int:
                     submission_id = existing_id
                     print(f"App Store version is already in review submission {submission_id}.")
 
-            submit_review_submission(client, submission_id)
+            submit_review_submission(client, submission_id, version["id"])
             print(f"Submitted {platform} {args.version} build {args.build_number} for review.")
         except AppStoreConnectError as error:
             had_failure = True
@@ -390,7 +390,9 @@ def create_review_submission_item(
     return payload["data"]
 
 
-def submit_review_submission(client: AppStoreConnectClient, submission_id: str) -> None:
+def submit_review_submission(
+    client: AppStoreConnectClient, submission_id: str, version_id: str
+) -> None:
     body = {
         "data": {
             "type": "reviewSubmissions",
@@ -398,12 +400,36 @@ def submit_review_submission(client: AppStoreConnectClient, submission_id: str) 
             "attributes": {"submitted": True},
         }
     }
+    try:
+        retry_request(
+            lambda: client.request("PATCH", f"/v1/reviewSubmissions/{submission_id}", body),
+            "Submit review submission",
+            retry_on_not_ready=True,
+        )
+    except AppStoreConnectError as error:
+        if "try again later" not in str(error).lower():
+            raise
+        print("Review submission API still reports not-ready; trying direct app version submission.")
+        submit_app_store_version(client, version_id)
+    time.sleep(2)
+
+
+def submit_app_store_version(client: AppStoreConnectClient, version_id: str) -> None:
+    body = {
+        "data": {
+            "type": "appStoreVersionSubmissions",
+            "relationships": {
+                "appStoreVersion": {
+                    "data": {"type": "appStoreVersions", "id": version_id}
+                }
+            },
+        }
+    }
     retry_request(
-        lambda: client.request("PATCH", f"/v1/reviewSubmissions/{submission_id}", body),
-        "Submit review submission",
+        lambda: client.request("POST", "/v1/appStoreVersionSubmissions", body, expected=(201,)),
+        "Submit app store version",
         retry_on_not_ready=True,
     )
-    time.sleep(2)
 
 
 def retry_request(
