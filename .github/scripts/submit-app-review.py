@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -19,6 +20,10 @@ SUBMITTED_STATES = {
     "PENDING_DEVELOPER_RELEASE",
     "PROCESSING_FOR_APP_STORE",
     "READY_FOR_SALE",
+}
+KNOWN_REVIEW_SUBMISSIONS = {
+    "TV_OS": "49ef16d4-7044-443b-abe7-e3fe55054b2b",
+    "VISION_OS": "9b1b9d48-4705-41c8-975b-6a3495f3bf97",
 }
 
 
@@ -106,11 +111,26 @@ def main() -> int:
         try:
             attach_build(client, version["id"], build["id"])
             print(f"Attached build {args.build_number} ({build['id']}) to {platform}.")
-            submission = create_review_submission(client, args.app_id, platform)
-            print(f"Created review submission {submission['id']} for {platform}.")
-            create_review_submission_item(client, submission["id"], version["id"])
-            print(f"Added App Store version {version['id']} to review submission.")
-            submit_review_submission(client, submission["id"])
+            submission_id = find_review_submission_for_version(
+                client, args.app_id, platform, version["id"]
+            )
+            if submission_id:
+                print(f"Reusing existing review submission {submission_id} for {platform}.")
+            else:
+                submission = create_review_submission(client, args.app_id, platform)
+                submission_id = submission["id"]
+                print(f"Created review submission {submission_id} for {platform}.")
+                try:
+                    create_review_submission_item(client, submission_id, version["id"])
+                    print(f"Added App Store version {version['id']} to review submission.")
+                except AppStoreConnectError as error:
+                    existing_id = extract_existing_submission_id(str(error))
+                    if not existing_id:
+                        raise
+                    submission_id = existing_id
+                    print(f"App Store version is already in review submission {submission_id}.")
+
+            submit_review_submission(client, submission_id)
             print(f"Submitted {platform} {args.version} build {args.build_number} for review.")
         except AppStoreConnectError as error:
             had_failure = True
@@ -245,6 +265,89 @@ def create_review_submission(
         body["data"].pop("attributes", None)
         payload = client.request("POST", "/v1/reviewSubmissions", body, expected=(201,))
     return payload["data"]
+
+
+def find_review_submission_for_version(
+    client: AppStoreConnectClient, app_id: str, platform: str, version_id: str
+) -> str | None:
+    for submission in list_review_submissions(client, app_id, platform):
+        submission_id = submission["id"]
+        if review_submission_contains_version(client, submission_id, version_id):
+            return submission_id
+
+    known_id = KNOWN_REVIEW_SUBMISSIONS.get(platform)
+    if known_id:
+        try:
+            if review_submission_contains_version(client, known_id, version_id):
+                return known_id
+        except AppStoreConnectError as error:
+            print(f"Known submission lookup for {platform} failed: {error}")
+    return None
+
+
+def list_review_submissions(
+    client: AppStoreConnectClient, app_id: str, platform: str
+) -> list[dict[str, Any]]:
+    review_platform = "XROS" if platform == "VISION_OS" else platform
+    queries = [
+        urllib.parse.urlencode(
+            {
+                "filter[platform]": review_platform,
+                "fields[reviewSubmissions]": "platform,state,submittedDate",
+                "limit": "200",
+            }
+        ),
+        urllib.parse.urlencode(
+            {
+                "fields[reviewSubmissions]": "platform,state,submittedDate",
+                "limit": "200",
+            }
+        ),
+    ]
+
+    for query in queries:
+        try:
+            payload = client.request("GET", f"/v1/apps/{app_id}/reviewSubmissions?{query}")
+            submissions = payload.get("data", [])
+            if query == queries[0]:
+                return submissions
+            return [
+                submission
+                for submission in submissions
+                if submission.get("attributes", {}).get("platform") in (platform, review_platform)
+            ]
+        except AppStoreConnectError as error:
+            if error.status != 400:
+                raise
+    return []
+
+
+def review_submission_contains_version(
+    client: AppStoreConnectClient, submission_id: str, version_id: str
+) -> bool:
+    query = urllib.parse.urlencode(
+        {
+            "include": "appStoreVersion",
+            "fields[reviewSubmissionItems]": "appStoreVersion",
+            "fields[appStoreVersions]": "platform,versionString,appStoreState,appVersionState",
+            "limit": "200",
+        }
+    )
+    payload = client.request("GET", f"/v1/reviewSubmissions/{submission_id}/items?{query}")
+    for item in payload.get("data", []):
+        app_store_version = (
+            item.get("relationships", {})
+            .get("appStoreVersion", {})
+            .get("data", {})
+        )
+        if app_store_version.get("id") == version_id:
+            return True
+    return False
+
+
+def extract_existing_submission_id(message: str) -> str | None:
+    match = re.search(r"reviewSubmission with id ([0-9a-fA-F-]{36})", message)
+    return match.group(1) if match else None
 
 
 def create_review_submission_item(
