@@ -1,0 +1,79 @@
+name: Submit App Review
+
+on:
+  push:
+    tags:
+      - submit-*
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "App Store version string"
+        required: true
+        default: "1.0"
+      build_number:
+        description: "Processed App Store build number to attach"
+        required: true
+        default: "62"
+      platforms:
+        description: "Comma-separated ASC platforms"
+        required: true
+        default: "IOS,TV_OS,VISION_OS,MAC_OS"
+
+jobs:
+  submit-review:
+    name: Attach build and submit for review
+    runs-on: ubuntu-latest
+    env:
+      APP_STORE_APP_ID: "6772583753"
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+      FASTLANE_SKIP_UPDATE_CHECK: "1"
+      FASTLANE_HIDE_GITHUB_ISSUES: "1"
+      INPUT_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '1.0' }}
+      INPUT_BUILD_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.build_number || '' }}
+      INPUT_PLATFORMS: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || 'IOS,TV_OS,VISION_OS,MAC_OS' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate App Store Connect secrets
+        run: |
+          missing=0
+          for name in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8_BASE64; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required GitHub secret: ${name}"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Write App Store Connect API key
+        run: |
+          mkdir -p private_keys
+          echo "$ASC_KEY_P8_BASE64" | base64 --decode > "private_keys/AuthKey_${ASC_KEY_ID}.p8"
+          echo "ASC_KEY_PATH=$PWD/private_keys/AuthKey_${ASC_KEY_ID}.p8" >> "$GITHUB_ENV"
+
+      - name: Submit app versions for review
+        shell: bash
+        run: |
+          build_number="$INPUT_BUILD_NUMBER"
+          if [ -z "$build_number" ] && [[ "$GITHUB_REF_NAME" =~ build([0-9]+) ]]; then
+            build_number="${BASH_REMATCH[1]}"
+          fi
+          if [ -z "$build_number" ]; then
+            echo "::error::Unable to determine build number. Use a submit-*buildNN tag or workflow_dispatch input."
+            exit 1
+          fi
+
+          python3 .github/scripts/submit-app-review.py \
+            --app-id "$APP_STORE_APP_ID" \
+            --version "$INPUT_VERSION" \
+            --build-number "$build_number" \
+            --platforms "$INPUT_PLATFORMS"
