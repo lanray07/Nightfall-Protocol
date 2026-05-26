@@ -1873,12 +1873,12 @@
         }
       }
     },
-    "hub.battlepass.placeholder": {
+    "hub.battlepass.body": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Premium pass placeholder: cosmetic-only seasonal rewards, no power advantage."
+            "value": "Premium Pass includes cosmetic-only seasonal rewards with no power advantage."
           }
         }
       }
@@ -3446,7 +3446,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Prototype privacy policy placeholder. No personal data leaves the device in mock mode."
+            "value": "Nightfall Protocol does not operate its own account system, analytics backend, advertising network, or tracking service. Purchases are handled by Apple."
           }
         }
       }
@@ -4207,12 +4207,12 @@
         }
       }
     },
-    "state.placeholder": {
+    "state.notice": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Placeholder"
+            "value": "Notice"
           }
         }
       }
@@ -4257,7 +4257,7 @@
         }
       }
     },
-    "store.mock.purchase": {
+    "store.purchase.completed": {
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4398,7 +4398,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Prototype terms placeholder. All monetization entries are cosmetic-only test items."
+            "value": "All purchases are cosmetic-only and do not provide gameplay power, competitive advantage, or improved loot odds."
           }
         }
       }

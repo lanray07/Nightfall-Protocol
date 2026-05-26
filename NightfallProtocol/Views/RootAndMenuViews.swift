@@ -295,7 +295,7 @@ struct MainHubView: View {
                     SectionHeader(titleKey: "title.collection", symbol: "cube.transparent.fill")
                     artifactPreview
 
-                    BattlePassPlaceholder(onStore: onStore)
+                    PremiumPassPanel(onStore: onStore)
                 }
                 .padding(20)
             }
@@ -420,13 +420,13 @@ private struct ProtocolPulseCard: View {
     }
 }
 
-private struct BattlePassPlaceholder: View {
+private struct PremiumPassPanel: View {
     let onStore: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             SectionHeader(titleKey: "title.battle.pass", symbol: "ticket.fill")
-            Text(LocalizedStringKey("hub.battlepass.placeholder"))
+            Text(LocalizedStringKey("hub.battlepass.body"))
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.72))
                 .lineLimit(3)

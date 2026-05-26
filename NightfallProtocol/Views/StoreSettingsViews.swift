@@ -56,7 +56,7 @@ struct StoreView: View {
         .task {
             await viewModel.load(store: services.store)
         }
-        .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.placeholder")), isPresented: messageBinding) {
+        .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.notice")), isPresented: messageBinding) {
             Button(LocalizedStringKey("action.close")) {
                 viewModel.messageKey = nil
             }
@@ -171,7 +171,7 @@ struct SettingsView: View {
         } message: {
             Text(LocalizedStringKey("terms.body"))
         }
-        .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.placeholder")), isPresented: messageBinding) {
+        .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.notice")), isPresented: messageBinding) {
             Button(LocalizedStringKey("action.close")) {
                 viewModel.messageKey = nil
             }
