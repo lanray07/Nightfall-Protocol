@@ -104,6 +104,7 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
     export_method: "app-store",
     include_symbols: true,
     include_bitcode: false,
+    xcodebuild_formatter: "",
     xcargs: signing_xcargs.join(" "),
     export_options: export_options
   }
