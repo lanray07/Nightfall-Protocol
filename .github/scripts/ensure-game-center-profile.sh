@@ -52,26 +52,43 @@ profile_response="$(api_request GET "$profile_url")"
 profile_id="$(printf '%s' "$profile_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])
-if not items:
-    raise SystemExit("No provisioning profile matched the requested name and type.")
 active = [item for item in items if item.get("attributes", {}).get("profileState") == "ACTIVE"]
-print((active or items)[0]["id"])')"
+print((active or items)[0]["id"] if items else "")')"
 
-bundle_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/bundleId")"
-bundle_id="$(printf '%s' "$bundle_response" | python3 -c 'import json, sys
+if [[ -n "$profile_id" ]]; then
+  bundle_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/bundleId")"
+  bundle_id="$(printf '%s' "$bundle_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 data = payload.get("data")
 if not data:
     raise SystemExit("Provisioning profile has no linked Bundle ID.")
 print(data["id"])')"
 
-certificates_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/certificates")"
-certificates_data="$(printf '%s' "$certificates_response" | python3 -c 'import json, sys
+  certificates_response="$(api_request GET "${api_base}/profiles/${profile_id}/relationships/certificates")"
+  certificates_data="$(printf '%s' "$certificates_response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 items = payload.get("data", [])
 if not items:
     raise SystemExit("Provisioning profile has no linked certificates.")
 print(json.dumps([{"type": "certificates", "id": item["id"]} for item in items], separators=(",", ":")))')"
+else
+  bundle_identifier="${APP_IDENTIFIER:-com.nightfallprotocol.prototype}"
+  bundle_response="$(api_request GET "${api_base}/bundleIds?filter[identifier]=$(encode "$bundle_identifier")&limit=1&fields[bundleIds]=identifier")"
+  bundle_id="$(printf '%s' "$bundle_response" | python3 -c 'import json, sys
+payload = json.load(sys.stdin)
+items = payload.get("data", [])
+if not items:
+    raise SystemExit("No Bundle ID matched APP_IDENTIFIER.")
+print(items[0]["id"])')"
+
+  certificates_response="$(api_request GET "${api_base}/certificates?filter[certificateType]=IOS_DISTRIBUTION&limit=10&fields[certificates]=certificateType,expirationDate")"
+  certificates_data="$(printf '%s' "$certificates_response" | python3 -c 'import json, sys
+payload = json.load(sys.stdin)
+items = payload.get("data", [])
+if not items:
+    raise SystemExit("No distribution certificates were available to create a provisioning profile.")
+print(json.dumps([{"type": "certificates", "id": items[0]["id"]}], separators=(",", ":")))')"
+fi
 
 capabilities_response="$(api_request GET "${api_base}/bundleIds/${bundle_id}/bundleIdCapabilities?fields[bundleIdCapabilities]=capabilityType")"
 has_game_center="$(printf '%s' "$capabilities_response" | python3 -c 'import json, sys
@@ -106,8 +123,16 @@ PY
   echo "Enabled Game Center capability for Bundle ID ${bundle_id}."
 fi
 
-api_request DELETE "${api_base}/profiles/${profile_id}" >/dev/null
-sleep 5
+profile_state="$(printf '%s' "$profile_response" | python3 -c 'import json, sys
+payload = json.load(sys.stdin)
+items = payload.get("data", [])
+active = [item for item in items if item.get("attributes", {}).get("profileState") == "ACTIVE"]
+print("ACTIVE" if active else "")')"
+
+if [[ "$profile_state" == "ACTIVE" ]]; then
+  echo "Provisioning profile ${profile_name} (${profile_type}) is already active."
+  exit 0
+fi
 
 create_profile_body="$(python3 - "$profile_name" "$profile_type" "$bundle_id" "$certificates_data" <<'PY'
 import json
