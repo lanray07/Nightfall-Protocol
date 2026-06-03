@@ -172,6 +172,17 @@ jobs:
         continue-on-error: true
         run: bash .github/scripts/ensure-mac-installer-certificate.sh
 
+      - name: Ensure Mac Catalyst App Store profile
+        run: bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE"
+
+      - name: Install Mac Catalyst App Store profile
+        run: |
+          bash .github/scripts/install-provisioning-profile.sh \
+            "NightfallProtocol_MacCatalyst_App_Store" \
+            "MAC_CATALYST_APP_STORE" \
+            "$RUNNER_TEMP/nightfall-maccatalyst.mobileprovision" \
+            "MACCATALYST_PROFILE_SPECIFIER"
+
       - name: Show Xcode version
         run: |
           xcode-select -p

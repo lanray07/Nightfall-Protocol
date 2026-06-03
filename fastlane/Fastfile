@@ -187,8 +187,7 @@ platform :ios do
       artifact_name: "NightfallProtocol-macOS",
       catalyst_platform: "macos",
       app_platform: "osx",
-      installer_cert_env: "MAC_INSTALLER_CERT_NAME",
-      automatic_signing: true
+      installer_cert_env: "MAC_INSTALLER_CERT_NAME"
     )
   end
 
