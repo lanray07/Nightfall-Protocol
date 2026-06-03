@@ -84,8 +84,12 @@ print(items[0]["id"])')"
   certificate_work_dir="$(mktemp -d)"
   certificate_private_key_path="${certificate_work_dir}/distribution-signing.key"
   certificate_public_key_path="${certificate_work_dir}/distribution-signing-public.pem"
+  certificate_csr_path="${certificate_work_dir}/distribution-signing.csr"
+  selected_certificate_path=""
   matching_certificate_id=""
+  matching_certificate_path=""
   first_certificate_id=""
+  first_certificate_path=""
 
   if [[ -n "${BUILD_CERTIFICATE_PATH:-}" && -n "${P12_PASSWORD:-}" ]]; then
     openssl pkcs12 \
@@ -103,8 +107,20 @@ print(items[0]["id"])')"
     fi
   fi
 
+  case "$profile_type" in
+    MAC_CATALYST_APP_STORE)
+      compatible_certificate_types="IOS_DISTRIBUTION"
+      ;;
+    MAC_APP_STORE)
+      compatible_certificate_types="MAC_APP_DISTRIBUTION"
+      ;;
+    *)
+      compatible_certificate_types="IOS_DISTRIBUTION"
+      ;;
+  esac
+
   certificates_response="$(api_request GET "${api_base}/certificates?limit=200&fields[certificates]=certificateType,displayName,expirationDate,certificateContent")"
-  CERTIFICATES_RESPONSE="$certificates_response" python3 - "$certificate_work_dir" <<'PY' > "${certificate_work_dir}/candidates.tsv"
+  CERTIFICATES_RESPONSE="$certificates_response" COMPATIBLE_CERTIFICATE_TYPES="$compatible_certificate_types" python3 - "$certificate_work_dir" <<'PY' > "${certificate_work_dir}/candidates.tsv"
 import base64
 import json
 import os
@@ -112,7 +128,7 @@ import sys
 
 candidate_dir = sys.argv[1]
 payload = json.loads(os.environ.get("CERTIFICATES_RESPONSE", "{}"))
-allowed_types = {"DISTRIBUTION", "IOS_DISTRIBUTION", "MAC_APP_DISTRIBUTION"}
+allowed_types = set(os.environ.get("COMPATIBLE_CERTIFICATE_TYPES", "").split(","))
 for index, item in enumerate(payload.get("data", []), start=1):
     certificate_type = item.get("attributes", {}).get("certificateType")
     if certificate_type not in allowed_types:
@@ -130,6 +146,7 @@ PY
     [[ -n "$certificate_id" ]] || continue
     if [[ -z "$first_certificate_id" ]]; then
       first_certificate_id="$certificate_id"
+      first_certificate_path="$certificate_path"
     fi
 
     if [[ -s "$certificate_public_key_path" && -f "$certificate_path" ]]; then
@@ -137,15 +154,59 @@ PY
       if openssl x509 -inform DER -in "$certificate_path" -pubkey -noout > "$candidate_public_key_path" 2>/dev/null && \
         cmp -s "$certificate_public_key_path" "$candidate_public_key_path"; then
         matching_certificate_id="$certificate_id"
+        matching_certificate_path="$certificate_path"
         break
       fi
     fi
   done < "${certificate_work_dir}/candidates.tsv"
 
   selected_certificate_id="${matching_certificate_id:-$first_certificate_id}"
+  selected_certificate_path="${matching_certificate_path:-$first_certificate_path}"
+
+  if [[ -z "$matching_certificate_id" && -s "$certificate_private_key_path" ]]; then
+    create_certificate_type="${compatible_certificate_types%%,*}"
+    openssl req \
+      -new \
+      -key "$certificate_private_key_path" \
+      -subj "/CN=Nightfall Protocol Distribution/" \
+      -out "$certificate_csr_path"
+
+    create_certificate_body="$(python3 - "$create_certificate_type" "$certificate_csr_path" <<'PY'
+import json
+import sys
+
+certificate_type, csr_path = sys.argv[1:3]
+with open(csr_path, "r", encoding="utf-8") as handle:
+    csr = handle.read()
+
+print(json.dumps({
+    "data": {
+        "type": "certificates",
+        "attributes": {
+            "certificateType": certificate_type,
+            "csrContent": csr
+        }
+    }
+}, separators=(",", ":")))
+PY
+)"
+    create_certificate_response="$(api_request POST "${api_base}/certificates" "$create_certificate_body")"
+    selected_certificate_id="$(printf '%s' "$create_certificate_response" | python3 -c 'import json, sys
+payload = json.load(sys.stdin)
+print(payload["data"]["id"])')"
+    selected_certificate_path="${certificate_work_dir}/created-distribution.cer"
+    printf '%s' "$create_certificate_response" | python3 -c 'import base64, json, sys
+payload = json.load(sys.stdin)
+print(payload["data"]["attributes"].get("certificateContent", ""))' | base64 --decode > "$selected_certificate_path"
+  fi
+
   if [[ -z "$selected_certificate_id" ]]; then
     echo "No distribution certificates were available to create a provisioning profile." >&2
     exit 1
+  fi
+
+  if [[ -n "${KEYCHAIN_PATH:-}" && -f "$selected_certificate_path" ]]; then
+    security import "$selected_certificate_path" -A -t cert -k "$KEYCHAIN_PATH" >/dev/null 2>&1 || true
   fi
 
   certificates_data="[{\"type\":\"certificates\",\"id\":\"${selected_certificate_id}\"}]"
