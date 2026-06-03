@@ -188,6 +188,10 @@ jobs:
 
           if [ "$fastlane_status" -ne 0 ]; then
             echo "::error::Mac Catalyst Fastlane upload failed with exit code ${fastlane_status}."
+            echo "::error::Final Fastlane output follows."
+            tail -n 90 build/logs/fastlane-maccatalyst-upload.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
             grep -Ei "error:|warning:|failed|no profiles|provision|certificate|codesign|signing|export|archive|app store|transporter|upload|xcodebuild|gym|fastlane|itunes|altool" \
               build/logs/fastlane-maccatalyst-upload.log | tail -n 60 | while IFS= read -r line; do
                 [ -n "$line" ] && echo "::error::${line}"
