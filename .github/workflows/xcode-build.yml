@@ -179,7 +179,44 @@ jobs:
       - name: Archive and upload Mac Catalyst
         id: upload_maccatalyst
         continue-on-error: true
-        run: bundle exec fastlane ios build_upload_maccatalyst
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          bundle exec fastlane ios build_upload_maccatalyst 2>&1 | tee build/logs/fastlane-maccatalyst-upload.log
+
+      - name: Collect upload diagnostics
+        if: always()
+        run: |
+          mkdir -p build/logs
+          diagnostics_file="build/logs/upload-diagnostics.log"
+          : > "$diagnostics_file"
+
+          append_excerpt() {
+            local label="$1"
+            local file="$2"
+            [ -f "$file" ] || return 0
+            {
+              echo "## ${label}"
+              echo "${file}"
+              grep -Ei "error:|warning:|failed|no profiles|provision|certificate|codesign|signing|export|archive|app store|transporter|upload|xcodebuild|gym|fastlane" "$file" | tail -n 220 || tail -n 160 "$file"
+              echo
+            } >> "$diagnostics_file"
+          }
+
+          append_excerpt "Fastlane Mac Catalyst upload" "build/logs/fastlane-maccatalyst-upload.log"
+
+          if [ -d "$HOME/Library/Logs/gym" ]; then
+            while IFS= read -r file; do
+              append_excerpt "gym log" "$file"
+            done < <(find "$HOME/Library/Logs/gym" -type f | sort)
+          fi
+
+          if [ -s "$diagnostics_file" ]; then
+            echo "### Upload diagnostics excerpt" >> "$GITHUB_STEP_SUMMARY"
+            echo '```text' >> "$GITHUB_STEP_SUMMARY"
+            tail -n 140 "$diagnostics_file" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Summarize upload results
         if: always()
@@ -206,6 +243,7 @@ jobs:
         with:
           name: NightfallProtocol-platform-archives
           path: |
+            build/logs/**/*
             build/export/**/*.ipa
             build/export/**/*.pkg
             build/export/**/*.dSYM.zip

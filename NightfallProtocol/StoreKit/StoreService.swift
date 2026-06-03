@@ -69,12 +69,7 @@ final class StoreService {
             if let purchaseAction {
                 result = try await purchaseAction(product)
             } else {
-                #if os(visionOS)
-                lastErrorKey = "error.purchase.failed"
-                return
-                #else
                 result = try await product.purchase()
-                #endif
             }
 
             await completePurchase(result, context: context)

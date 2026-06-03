@@ -8,9 +8,12 @@ fi
 
 work_dir="${RUNNER_TEMP:-/tmp}/nightfall-mac-installer"
 private_key_path="${work_dir}/nightfall-signing.key"
+private_public_key_path="${work_dir}/nightfall-signing-public.pem"
 csr_path="${work_dir}/nightfall-mac-installer.csr"
 cert_path="${work_dir}/mac-installer.cer"
+candidate_dir="${work_dir}/candidates"
 mkdir -p "$work_dir"
+mkdir -p "$candidate_dir"
 
 openssl pkcs12 \
   -in "$BUILD_CERTIFICATE_PATH" \
@@ -18,6 +21,11 @@ openssl pkcs12 \
   -nodes \
   -passin "pass:${P12_PASSWORD}" \
   -out "$private_key_path"
+
+openssl pkey \
+  -in "$private_key_path" \
+  -pubout \
+  -out "$private_public_key_path"
 
 openssl req \
   -new \
@@ -28,12 +36,41 @@ openssl req \
 jwt="$(bash .github/scripts/app-store-connect-jwt.sh)"
 list_url="https://api.appstoreconnect.apple.com/v1/certificates?filter[certificateType]=MAC_INSTALLER_DISTRIBUTION&fields[certificates]=certificateType,displayName,certificateContent,expirationDate"
 response="$(curl -fsS --globoff -H "Authorization: Bearer ${jwt}" "$list_url")"
-certificate_content="$(printf '%s' "$response" | python3 -c 'import json, sys
-payload = json.load(sys.stdin)
-items = payload.get("data", [])
-print(items[0]["attributes"].get("certificateContent", "") if items else "")')"
+printf '%s' "$response" | python3 - "$candidate_dir" <<'PY'
+import base64
+import json
+import os
+import sys
 
-if [[ -z "$certificate_content" ]]; then
+candidate_dir = sys.argv[1]
+payload = json.load(sys.stdin)
+for index, item in enumerate(payload.get("data", []), start=1):
+    content = item.get("attributes", {}).get("certificateContent")
+    if not content:
+        continue
+    path = os.path.join(candidate_dir, f"mac-installer-{index}.cer")
+    with open(path, "wb") as handle:
+        handle.write(base64.b64decode(content))
+    print(path)
+PY
+
+matching_cert_path=""
+while IFS= read -r candidate_path; do
+  [[ -n "$candidate_path" ]] || continue
+  candidate_public_key_path="${candidate_path}.pub.pem"
+  if ! openssl x509 -inform DER -in "$candidate_path" -pubkey -noout > "$candidate_public_key_path"; then
+    continue
+  fi
+
+  if cmp -s "$private_public_key_path" "$candidate_public_key_path"; then
+    matching_cert_path="$candidate_path"
+    break
+  fi
+done < <(find "$candidate_dir" -type f -name "mac-installer-*.cer" | sort)
+
+if [[ -n "$matching_cert_path" ]]; then
+  cp "$matching_cert_path" "$cert_path"
+else
   body="$(python3 - "$csr_path" <<'PY'
 import json
 import sys
@@ -61,9 +98,9 @@ PY
   certificate_content="$(printf '%s' "$response" | python3 -c 'import json, sys
 payload = json.load(sys.stdin)
 print(payload["data"]["attributes"]["certificateContent"])')"
+  printf '%s' "$certificate_content" | base64 --decode > "$cert_path"
 fi
 
-printf '%s' "$certificate_content" | base64 --decode > "$cert_path"
 security import "$cert_path" -A -t cert -k "$KEYCHAIN_PATH"
 
 cert_name="$(openssl x509 -inform DER -in "$cert_path" -noout -subject -nameopt multiline | awk -F'= ' '/commonName/ { print $2; exit }')"
