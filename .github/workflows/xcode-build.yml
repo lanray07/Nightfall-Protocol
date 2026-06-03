@@ -219,6 +219,18 @@ jobs:
                 [ -n "$line" ] && echo "::error::${line}"
               done
             }
+            emit_error_matches() {
+              local label="$1"
+              local file="$2"
+              local matches
+              [ -f "$file" ] || return 0
+              matches="$(grep -Ein "error|failed|failure|invalid|missing|not found|provision|profile|certificate|codesign|signing|installer|package|pkg|export|team|bundle|entitlement|app store|distribution" "$file" | tail -n 80 || true)"
+              [ -n "$matches" ] || return 0
+              echo "::error::Matched ${label} diagnostics follow."
+              printf '%s\n' "$matches" | while IFS= read -r line; do
+                [ -n "$line" ] && echo "::error::${line}"
+              done
+            }
             find_distribution_logs() {
               for root in "$RUNNER_TEMP" "${TMPDIR:-/tmp}" "$HOME/Library/Developer/Xcode" "$HOME/Library/Logs" /tmp; do
                 [ -d "$root" ] || continue
@@ -229,6 +241,7 @@ jobs:
             distribution_log_count=0
             while IFS= read -r distribution_log; do
               echo "::error::Xcode distribution log candidate: ${distribution_log}"
+              emit_error_matches "Xcode distribution log" "$distribution_log"
               emit_reversed_tail "Xcode distribution log" "$distribution_log"
               distribution_log_count=$((distribution_log_count + 1))
               [ "$distribution_log_count" -ge 3 ] && break
