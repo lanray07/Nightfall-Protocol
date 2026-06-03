@@ -220,6 +220,14 @@ jobs:
               done
             }
 
+            if [ -d "$HOME/Library/Developer/Xcode/Archives" ]; then
+              distribution_log_count=0
+              while IFS= read -r distribution_log; do
+                emit_reversed_tail "Xcode distribution log" "$distribution_log"
+                distribution_log_count=$((distribution_log_count + 1))
+                [ "$distribution_log_count" -ge 3 ] && break
+              done < <(find "$HOME/Library/Developer/Xcode/Archives" -type f \( -name "*.log" -o -name "*.txt" \) -print | xargs ls -t 2>/dev/null || true)
+            fi
             emit_reversed_tail "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
             if [ -d "$HOME/Library/Logs/gym" ]; then
               while IFS= read -r gym_log; do
