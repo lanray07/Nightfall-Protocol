@@ -192,6 +192,14 @@ jobs:
             tail -n 90 build/logs/fastlane-maccatalyst-upload.log | while IFS= read -r line; do
               [ -n "$line" ] && echo "::error::${line}"
             done
+            if [ -d "$HOME/Library/Logs/gym" ]; then
+              while IFS= read -r gym_log; do
+                echo "::error::Raw gym log tail: ${gym_log}"
+                tail -n 120 "$gym_log" | while IFS= read -r line; do
+                  [ -n "$line" ] && echo "::error::${line}"
+                done
+              done < <(find "$HOME/Library/Logs/gym" -type f -name "*.log" | sort)
+            fi
             grep -Ei "error:|warning:|failed|no profiles|provision|certificate|codesign|signing|export|archive|app store|transporter|upload|xcodebuild|gym|fastlane|itunes|altool" \
               build/logs/fastlane-maccatalyst-upload.log | tail -n 60 | while IFS= read -r line; do
                 [ -n "$line" ] && echo "::error::${line}"
