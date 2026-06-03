@@ -138,8 +138,9 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
     installer_cert_name = installer_cert_env && ENV[installer_cert_env]
     UI.user_error!("Set #{installer_cert_env} before manually packaging a Mac installer.") if installer_cert_name.to_s.empty?
 
-    archived_apps = Dir[File.join(archive_path, "Products", "Applications", "*.app")]
-    UI.user_error!("Archived Mac app was not found under #{archive_path}/Products/Applications.") if archived_apps.empty?
+    resolved_archive_path = lane_context[SharedValues::XCODEBUILD_ARCHIVE] || archive_path
+    archived_apps = Dir[File.join(resolved_archive_path, "**", "*.app")]
+    UI.user_error!("Archived Mac app was not found under #{resolved_archive_path}.") if archived_apps.empty?
     app_path = archived_apps.first
 
     FileUtils.mkdir_p(output_directory)
