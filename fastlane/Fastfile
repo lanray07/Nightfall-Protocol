@@ -39,22 +39,27 @@ def nightfall_build_number
   ENV.fetch("BUILD_NUMBER", ENV.fetch("GITHUB_RUN_NUMBER", Time.now.utc.strftime("%Y%m%d%H%M")))
 end
 
-def nightfall_signing_args(team_id:, profile_specifier:)
+def nightfall_signing_args(team_id:, profile_specifier:, signing_certificate:)
   [
     "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
     "CURRENT_PROJECT_VERSION=#{Shellwords.escape(nightfall_build_number)}",
     "CODE_SIGN_STYLE=Manual",
     "CODE_SIGNING_ALLOWED=YES",
-    "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
+    "CODE_SIGN_IDENTITY=#{Shellwords.escape(signing_certificate)}",
     "PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile_specifier)}"
   ]
 end
 
-def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, default_profile:, artifact_name:, catalyst_platform: nil, app_platform: nil, installer_cert_env: nil, automatic_signing: false)
+def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, default_profile:, artifact_name:, catalyst_platform: nil, app_platform: nil, installer_cert_env: nil, signing_certificate_env: nil, default_signing_certificate: "Apple Distribution", automatic_signing: false)
   team_id = ENV["APPLE_TEAM_ID"]
   UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
 
   profile_specifier = ENV.fetch(profile_env, default_profile)
+  signing_certificate = if signing_certificate_env && !ENV[signing_certificate_env].to_s.empty?
+    ENV[signing_certificate_env]
+  else
+    default_signing_certificate
+  end
   output_directory = "build/export/#{platform_key}"
   archive_path = "build/NightfallProtocol-#{platform_key}.xcarchive"
   api_key = nightfall_api_key
@@ -70,7 +75,7 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
       "-authenticationKeyIssuerID #{Shellwords.escape(ENV.fetch("ASC_ISSUER_ID"))}"
     ]
   else
-    nightfall_signing_args(team_id: team_id, profile_specifier: profile_specifier)
+    nightfall_signing_args(team_id: team_id, profile_specifier: profile_specifier, signing_certificate: signing_certificate)
   end
 
   export_options = if automatic_signing
@@ -82,7 +87,7 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
   else
     {
       signingStyle: "manual",
-      signingCertificate: "Apple Distribution",
+      signingCertificate: signing_certificate,
       teamID: team_id,
       provisioningProfiles: {
         "com.nightfallprotocol.prototype" => profile_specifier
@@ -187,7 +192,9 @@ platform :ios do
       artifact_name: "NightfallProtocol-macOS",
       catalyst_platform: "macos",
       app_platform: "osx",
-      installer_cert_env: "MAC_INSTALLER_CERT_NAME"
+      installer_cert_env: "MAC_INSTALLER_CERT_NAME",
+      signing_certificate_env: "MACCATALYST_SIGNING_CERT_NAME",
+      default_signing_certificate: "3rd Party Mac Developer Application"
     )
   end
 

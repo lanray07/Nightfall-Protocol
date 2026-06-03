@@ -209,6 +209,15 @@ print(payload["data"]["attributes"].get("certificateContent", ""))' | base64 --d
     security import "$selected_certificate_path" -A -t cert -k "$KEYCHAIN_PATH" >/dev/null 2>&1 || true
   fi
 
+  selected_certificate_name=""
+  if [[ -f "$selected_certificate_path" ]]; then
+    selected_certificate_name="$(openssl x509 -inform DER -in "$selected_certificate_path" -noout -subject -nameopt multiline | awk -F'= ' '/commonName/ { print $2; exit }')"
+  fi
+
+  if [[ -n "${GITHUB_ENV:-}" && -n "$selected_certificate_name" && "$profile_type" == MAC_APP_STORE ]]; then
+    echo "MACCATALYST_SIGNING_CERT_NAME=${selected_certificate_name}" >> "$GITHUB_ENV"
+  fi
+
   certificates_data="[{\"type\":\"certificates\",\"id\":\"${selected_certificate_id}\"}]"
 fi
 
