@@ -76,8 +76,17 @@ jobs:
             exit 1
           fi
 
+          set +e
+          mkdir -p build/logs
           python3 .github/scripts/submit-app-review.py \
             --app-id "$APP_STORE_APP_ID" \
             --version "$INPUT_VERSION" \
             --build-number "$build_number" \
-            --platforms "$INPUT_PLATFORMS"
+            --platforms "$INPUT_PLATFORMS" 2>&1 | tee build/logs/submit-review.log
+          submit_status="${PIPESTATUS[0]}"
+          if [ "$submit_status" -ne 0 ]; then
+            grep -Ei "error|failed|failure|invalid|missing|not found|cannot|unable|already|review|build|submission|app store|connect|version" build/logs/submit-review.log | tail -n 80 | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
+          fi
+          exit "$submit_status"
