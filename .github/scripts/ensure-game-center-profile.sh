@@ -81,13 +81,74 @@ if not items:
     raise SystemExit("No Bundle ID matched APP_IDENTIFIER.")
 print(items[0]["id"])')"
 
-  certificates_response="$(api_request GET "${api_base}/certificates?filter[certificateType]=IOS_DISTRIBUTION&limit=10&fields[certificates]=certificateType,expirationDate")"
-  certificates_data="$(printf '%s' "$certificates_response" | python3 -c 'import json, sys
-payload = json.load(sys.stdin)
-items = payload.get("data", [])
-if not items:
-    raise SystemExit("No distribution certificates were available to create a provisioning profile.")
-print(json.dumps([{"type": "certificates", "id": items[0]["id"]}], separators=(",", ":")))')"
+  certificate_work_dir="$(mktemp -d)"
+  certificate_private_key_path="${certificate_work_dir}/distribution-signing.key"
+  certificate_public_key_path="${certificate_work_dir}/distribution-signing-public.pem"
+  matching_certificate_id=""
+  first_certificate_id=""
+
+  if [[ -n "${BUILD_CERTIFICATE_PATH:-}" && -n "${P12_PASSWORD:-}" ]]; then
+    openssl pkcs12 \
+      -in "$BUILD_CERTIFICATE_PATH" \
+      -nocerts \
+      -nodes \
+      -passin "pass:${P12_PASSWORD}" \
+      -out "$certificate_private_key_path" >/dev/null 2>&1 || true
+
+    if [[ -s "$certificate_private_key_path" ]]; then
+      openssl pkey \
+        -in "$certificate_private_key_path" \
+        -pubout \
+        -out "$certificate_public_key_path" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  certificates_response="$(api_request GET "${api_base}/certificates?limit=200&fields[certificates]=certificateType,displayName,expirationDate,certificateContent")"
+  CERTIFICATES_RESPONSE="$certificates_response" python3 - "$certificate_work_dir" <<'PY' > "${certificate_work_dir}/candidates.tsv"
+import base64
+import json
+import os
+import sys
+
+candidate_dir = sys.argv[1]
+payload = json.loads(os.environ.get("CERTIFICATES_RESPONSE", "{}"))
+allowed_types = {"DISTRIBUTION", "IOS_DISTRIBUTION", "MAC_APP_DISTRIBUTION"}
+for index, item in enumerate(payload.get("data", []), start=1):
+    certificate_type = item.get("attributes", {}).get("certificateType")
+    if certificate_type not in allowed_types:
+        continue
+    content = item.get("attributes", {}).get("certificateContent")
+    if not content:
+        continue
+    path = os.path.join(candidate_dir, f"distribution-{index}.cer")
+    with open(path, "wb") as handle:
+        handle.write(base64.b64decode(content))
+    print(f"{item['id']}\t{path}\t{certificate_type}")
+PY
+
+  while IFS=$'\t' read -r certificate_id certificate_path certificate_type; do
+    [[ -n "$certificate_id" ]] || continue
+    if [[ -z "$first_certificate_id" ]]; then
+      first_certificate_id="$certificate_id"
+    fi
+
+    if [[ -s "$certificate_public_key_path" && -f "$certificate_path" ]]; then
+      candidate_public_key_path="${certificate_path}.pub.pem"
+      if openssl x509 -inform DER -in "$certificate_path" -pubkey -noout > "$candidate_public_key_path" 2>/dev/null && \
+        cmp -s "$certificate_public_key_path" "$candidate_public_key_path"; then
+        matching_certificate_id="$certificate_id"
+        break
+      fi
+    fi
+  done < "${certificate_work_dir}/candidates.tsv"
+
+  selected_certificate_id="${matching_certificate_id:-$first_certificate_id}"
+  if [[ -z "$selected_certificate_id" ]]; then
+    echo "No distribution certificates were available to create a provisioning profile." >&2
+    exit 1
+  fi
+
+  certificates_data="[{\"type\":\"certificates\",\"id\":\"${selected_certificate_id}\"}]"
 fi
 
 capabilities_response="$(api_request GET "${api_base}/bundleIds/${bundle_id}/bundleIdCapabilities?fields[bundleIdCapabilities]=capabilityType")"

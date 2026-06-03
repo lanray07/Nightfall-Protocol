@@ -173,7 +173,17 @@ jobs:
         run: bash .github/scripts/ensure-mac-installer-certificate.sh
 
       - name: Ensure Mac Catalyst App Store profile
-        run: bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE"
+        run: |
+          set +e
+          mkdir -p build/logs
+          bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE" 2>&1 | tee build/logs/ensure-maccatalyst-profile.log
+          profile_status="${PIPESTATUS[0]}"
+          if [ "$profile_status" -ne 0 ]; then
+            tail -n 80 build/logs/ensure-maccatalyst-profile.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
+          fi
+          exit "$profile_status"
 
       - name: Install Mac Catalyst App Store profile
         run: |
