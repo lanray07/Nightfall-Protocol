@@ -135,28 +135,33 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
     installer_cert_name = installer_cert_env && ENV[installer_cert_env]
     UI.user_error!("Set #{installer_cert_env} before manually packaging a Mac installer.") if installer_cert_name.to_s.empty?
 
-    FileUtils.rm_rf(archive_path)
-    FileUtils.rm_rf(output_directory)
-    FileUtils.mkdir_p(File.dirname(archive_path))
-    FileUtils.mkdir_p(output_directory)
+    repo_root = File.expand_path("..", __dir__)
+    project_path = File.join(repo_root, "NightfallProtocol.xcodeproj")
+    archive_path_absolute = File.expand_path(archive_path, repo_root)
+    output_directory_absolute = File.expand_path(output_directory, repo_root)
+
+    FileUtils.rm_rf(archive_path_absolute)
+    FileUtils.rm_rf(output_directory_absolute)
+    FileUtils.mkdir_p(File.dirname(archive_path_absolute))
+    FileUtils.mkdir_p(output_directory_absolute)
     sh([
       "xcodebuild",
-      "-project NightfallProtocol.xcodeproj",
+      "-project #{Shellwords.escape(project_path)}",
       "-scheme NightfallProtocol",
       "-configuration Release",
       "-sdk #{Shellwords.escape(sdk)}",
       "-destination #{Shellwords.escape(destination)}",
-      "-archivePath #{Shellwords.escape(archive_path)}",
+      "-archivePath #{Shellwords.escape(archive_path_absolute)}",
       "clean",
       "archive",
       signing_xcargs.join(" ")
     ].join(" "))
 
-    archived_apps = Dir[File.join(archive_path, "**", "*.app")]
-    UI.user_error!("Archived Mac app was not found under #{archive_path}.") if archived_apps.empty?
+    archived_apps = Dir[File.join(archive_path_absolute, "**", "*.app")]
+    UI.user_error!("Archived Mac app was not found under #{archive_path_absolute}.") if archived_apps.empty?
     app_path = archived_apps.first
 
-    artifact = File.join(output_directory, "#{artifact_name}.pkg")
+    artifact = File.join(output_directory_absolute, "#{artifact_name}.pkg")
     sh([
       "xcrun productbuild",
       "--sign #{Shellwords.escape(installer_cert_name)}",
