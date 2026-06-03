@@ -85,7 +85,14 @@ def main() -> int:
 
     print(f"Preparing app {args.app_id} version {args.version} build {args.build_number}.")
     versions = find_app_store_versions(client, args.app_id, args.version)
-    builds = find_builds(client, args.app_id, args.version, args.build_number)
+    builds = wait_for_builds(
+        client,
+        args.app_id,
+        args.version,
+        args.build_number,
+        platforms,
+        versions,
+    )
     had_failure = False
 
     for platform in platforms:
@@ -139,6 +146,32 @@ def main() -> int:
             print(f"ERROR: {error}")
 
     return 1 if had_failure else 0
+
+
+def wait_for_builds(
+    client: AppStoreConnectClient,
+    app_id: str,
+    version_string: str,
+    build_number: str,
+    platforms: list[str],
+    versions: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    deadline = time.time() + 20 * 60
+    while True:
+        builds = find_builds(client, app_id, version_string, build_number)
+        missing = [
+            platform
+            for platform in platforms
+            if versions.get(platform) is not None and builds.get(platform) is None
+        ]
+        if not missing or time.time() >= deadline:
+            return builds
+
+        print(
+            f"Build {build_number} is still processing for {', '.join(missing)}; "
+            "checking again in 60s."
+        )
+        time.sleep(60)
 
 
 def find_app_store_versions(

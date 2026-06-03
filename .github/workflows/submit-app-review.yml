@@ -36,7 +36,7 @@ jobs:
       FASTLANE_HIDE_GITHUB_ISSUES: "1"
       INPUT_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '1.0' }}
       INPUT_BUILD_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.build_number || '' }}
-      INPUT_PLATFORMS: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || 'IOS,TV_OS,VISION_OS,MAC_OS' }}
+      INPUT_PLATFORMS: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || (contains(github.ref_name, 'macos') && 'MAC_OS' || 'IOS,TV_OS,VISION_OS,MAC_OS') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
