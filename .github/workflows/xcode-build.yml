@@ -220,12 +220,12 @@ jobs:
               done
             }
 
+            emit_reversed_tail "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
             if [ -d "$HOME/Library/Logs/gym" ]; then
               while IFS= read -r gym_log; do
                 emit_reversed_tail "raw gym log" "$gym_log"
               done < <(find "$HOME/Library/Logs/gym" -type f -name "*.log" | sort)
             fi
-            emit_reversed_tail "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
           fi
 
           exit "$fastlane_status"
