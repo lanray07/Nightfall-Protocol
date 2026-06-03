@@ -88,5 +88,9 @@ jobs:
             grep -Ei "error|failed|failure|invalid|missing|not found|cannot|unable|already|review|build|submission|app store|connect|version" build/logs/submit-review.log | tail -n 80 | while IFS= read -r line; do
               [ -n "$line" ] && echo "::error::${line}"
             done
+            echo "::error::Newest submit log lines follow."
+            tail -n 120 build/logs/submit-review.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
           fi
           exit "$submit_status"
