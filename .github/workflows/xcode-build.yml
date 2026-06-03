@@ -181,9 +181,20 @@ jobs:
         id: upload_maccatalyst
         continue-on-error: true
         run: |
-          set -o pipefail
+          set +e
           mkdir -p build/logs
           bundle exec fastlane ios build_upload_maccatalyst 2>&1 | tee build/logs/fastlane-maccatalyst-upload.log
+          fastlane_status="${PIPESTATUS[0]}"
+
+          if [ "$fastlane_status" -ne 0 ]; then
+            echo "::error::Mac Catalyst Fastlane upload failed with exit code ${fastlane_status}."
+            grep -Ei "error:|warning:|failed|no profiles|provision|certificate|codesign|signing|export|archive|app store|transporter|upload|xcodebuild|gym|fastlane|itunes|altool" \
+              build/logs/fastlane-maccatalyst-upload.log | tail -n 60 | while IFS= read -r line; do
+                [ -n "$line" ] && echo "::error::${line}"
+              done
+          fi
+
+          exit "$fastlane_status"
 
       - name: Collect upload diagnostics
         if: always()
