@@ -125,31 +125,38 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
     export_options: export_options
   }
   build_options[:catalyst_platform] = catalyst_platform if catalyst_platform
-  build_options[:skip_package_pkg] = true if manual_package_pkg
   if installer_cert_env && !ENV[installer_cert_env].to_s.empty?
     build_options[:installer_cert_name] = ENV[installer_cert_env]
     build_options[:export_options][:installerSigningCertificate] = ENV[installer_cert_env]
   end
-
-  build_app(**build_options)
 
   artifact = nil
   if manual_package_pkg
     installer_cert_name = installer_cert_env && ENV[installer_cert_env]
     UI.user_error!("Set #{installer_cert_env} before manually packaging a Mac installer.") if installer_cert_name.to_s.empty?
 
-    candidate_roots = [
-      lane_context[SharedValues::XCODEBUILD_ARCHIVE],
-      archive_path,
-      output_directory,
-      "build",
-      File.join(Dir.home, "Library", "Developer", "Xcode", "Archives")
-    ].compact
-    archived_apps = candidate_roots.flat_map { |root| Dir[File.join(root, "**", "*.app")] }.uniq
-    UI.user_error!("Archived Mac app was not found under #{candidate_roots.join(', ')}.") if archived_apps.empty?
+    FileUtils.rm_rf(archive_path)
+    FileUtils.rm_rf(output_directory)
+    FileUtils.mkdir_p(File.dirname(archive_path))
+    FileUtils.mkdir_p(output_directory)
+    sh([
+      "xcodebuild",
+      "-project NightfallProtocol.xcodeproj",
+      "-scheme NightfallProtocol",
+      "-configuration Release",
+      "-sdk #{Shellwords.escape(sdk)}",
+      "-destination #{Shellwords.escape(destination)}",
+      "-archivePath #{Shellwords.escape(archive_path)}",
+      "clean",
+      "archive",
+      signing_xcargs.join(" "),
+      nightfall_export_auth_args
+    ].join(" "))
+
+    archived_apps = Dir[File.join(archive_path, "**", "*.app")]
+    UI.user_error!("Archived Mac app was not found under #{archive_path}.") if archived_apps.empty?
     app_path = archived_apps.first
 
-    FileUtils.mkdir_p(output_directory)
     artifact = File.join(output_directory, "#{artifact_name}.pkg")
     sh([
       "xcrun productbuild",
@@ -159,6 +166,7 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
       Shellwords.escape(artifact)
     ].join(" "))
   else
+    build_app(**build_options)
     artifact = lane_context[SharedValues::IPA_OUTPUT_PATH] || lane_context[SharedValues::PKG_OUTPUT_PATH]
     artifact ||= (Dir[File.join(output_directory, "*.ipa")] + Dir[File.join(output_directory, "*.pkg")]).first
   end
