@@ -219,9 +219,21 @@ jobs:
                 [ -n "$line" ] && echo "::error::${line}"
               done
             }
+            find_distribution_logs() {
+              for root in "$RUNNER_TEMP" "${TMPDIR:-/tmp}" "$HOME/Library/Developer/Xcode" "$HOME/Library/Logs" /tmp; do
+                [ -d "$root" ] || continue
+                find "$root" -type f \( -path "*.xcdistributionlogs/*" -o -iname "*distribution*.log" -o -iname "IDEDistribution*.log" \) -print 2>/dev/null || true
+              done | awk '!seen[$0]++'
+            }
 
+            distribution_log_count=0
+            while IFS= read -r distribution_log; do
+              echo "::error::Xcode distribution log candidate: ${distribution_log}"
+              emit_reversed_tail "Xcode distribution log" "$distribution_log"
+              distribution_log_count=$((distribution_log_count + 1))
+              [ "$distribution_log_count" -ge 3 ] && break
+            done < <(find_distribution_logs)
             if [ -d "$HOME/Library/Developer/Xcode/Archives" ]; then
-              distribution_log_count=0
               while IFS= read -r distribution_log; do
                 emit_reversed_tail "Xcode distribution log" "$distribution_log"
                 distribution_log_count=$((distribution_log_count + 1))
