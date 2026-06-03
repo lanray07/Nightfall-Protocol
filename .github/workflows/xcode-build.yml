@@ -171,15 +171,10 @@ jobs:
       - name: Ensure Game Center provisioning profiles
         continue-on-error: true
         run: |
-          bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_App_Store" "IOS_APP_STORE"
-          bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_tvOS_App_Store" "TVOS_APP_STORE"
           bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE"
 
       - name: Fetch App Store provisioning profiles
         run: |
-          bash .github/scripts/install-provisioning-profile.sh "NightfallProtocol_App_Store" "IOS_APP_STORE" "$RUNNER_TEMP/nightfall-ios.mobileprovision" "PROFILE_SPECIFIER"
-          bash .github/scripts/install-provisioning-profile.sh "NightfallProtocol_tvOS_App_Store" "TVOS_APP_STORE" "$RUNNER_TEMP/nightfall-tvos.mobileprovision" "TVOS_PROFILE_SPECIFIER"
-          bash .github/scripts/install-provisioning-profile.sh "NightfallProtocol_App_Store" "IOS_APP_STORE" "$RUNNER_TEMP/nightfall-visionos.mobileprovision" "VISIONOS_PROFILE_SPECIFIER"
           bash .github/scripts/install-provisioning-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE" "$RUNNER_TEMP/nightfall-maccatalyst.mobileprovision" "MACCATALYST_PROFILE_SPECIFIER"
 
       - name: Prepare Mac installer certificate
@@ -190,21 +185,6 @@ jobs:
           xcode-select -p
           xcodebuild -version
 
-      - name: Archive and upload iOS
-        id: upload_ios
-        continue-on-error: true
-        run: bundle exec fastlane ios build_upload_ios
-
-      - name: Archive and upload tvOS
-        id: upload_tvos
-        continue-on-error: true
-        run: bundle exec fastlane ios build_upload_tvos
-
-      - name: Archive and upload visionOS
-        id: upload_visionos
-        continue-on-error: true
-        run: bundle exec fastlane ios build_upload_visionos
-
       - name: Archive and upload Mac Catalyst
         id: upload_maccatalyst
         continue-on-error: true
@@ -213,9 +193,6 @@ jobs:
       - name: Summarize upload results
         if: always()
         env:
-          IOS_OUTCOME: ${{ steps.upload_ios.outcome }}
-          TVOS_OUTCOME: ${{ steps.upload_tvos.outcome }}
-          VISIONOS_OUTCOME: ${{ steps.upload_visionos.outcome }}
           MACCATALYST_OUTCOME: ${{ steps.upload_maccatalyst.outcome }}
         run: |
           {
@@ -223,14 +200,11 @@ jobs:
             echo
             echo "| Platform | Outcome |"
             echo "| --- | --- |"
-            echo "| iOS | ${IOS_OUTCOME} |"
-            echo "| tvOS | ${TVOS_OUTCOME} |"
-            echo "| visionOS | ${VISIONOS_OUTCOME} |"
             echo "| Mac Catalyst | ${MACCATALYST_OUTCOME} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
           failed=0
-          for outcome in "$IOS_OUTCOME" "$TVOS_OUTCOME" "$VISIONOS_OUTCOME" "$MACCATALYST_OUTCOME"; do
+          for outcome in "$MACCATALYST_OUTCOME"; do
             [ "$outcome" = "success" ] || failed=1
           done
           exit "$failed"
