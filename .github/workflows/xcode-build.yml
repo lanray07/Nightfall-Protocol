@@ -169,6 +169,7 @@ jobs:
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
 
       - name: Prepare Mac installer certificate
+        continue-on-error: true
         run: bash .github/scripts/ensure-mac-installer-certificate.sh
 
       - name: Show Xcode version

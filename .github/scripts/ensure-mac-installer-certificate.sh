@@ -36,14 +36,14 @@ openssl req \
 jwt="$(bash .github/scripts/app-store-connect-jwt.sh)"
 list_url="https://api.appstoreconnect.apple.com/v1/certificates?filter[certificateType]=MAC_INSTALLER_DISTRIBUTION&fields[certificates]=certificateType,displayName,certificateContent,expirationDate"
 response="$(curl -fsS --globoff -H "Authorization: Bearer ${jwt}" "$list_url")"
-printf '%s' "$response" | python3 - "$candidate_dir" <<'PY'
+CERTIFICATES_RESPONSE="$response" python3 - "$candidate_dir" <<'PY'
 import base64
 import json
 import os
 import sys
 
 candidate_dir = sys.argv[1]
-payload = json.load(sys.stdin)
+payload = json.loads(os.environ.get("CERTIFICATES_RESPONSE", "{}"))
 for index, item in enumerate(payload.get("data", []), start=1):
     content = item.get("attributes", {}).get("certificateContent")
     if not content:
