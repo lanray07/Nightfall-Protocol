@@ -12,9 +12,7 @@ typealias ProductPurchaseHandler = @MainActor (Product) async throws -> Product.
 @MainActor
 @Observable
 final class StoreService {
-    static let starterPackID = "com.nightfallprotocol.cosmetic.starter"
     static let premiumPassID = "com.nightfallprotocol.pass.premium"
-    static let nightmareSkinPackID = "com.nightfallprotocol.cosmetic.nightmare"
 
     private(set) var products: [Product] = []
     private(set) var purchasedProductIDs: Set<String> = []
@@ -22,7 +20,7 @@ final class StoreService {
     var lastErrorKey: String?
 
     var productIDs: [String] {
-        [Self.starterPackID, Self.premiumPassID, Self.nightmareSkinPackID]
+        [Self.premiumPassID]
     }
 
     func loadProducts() async {
@@ -46,15 +44,6 @@ final class StoreService {
         let availableProductIDs = Set(products.map(\.id))
         return [
             StoreCatalogItem(
-                productID: Self.starterPackID,
-                titleKey: "store.starter.title",
-                descriptionKey: "store.starter.description",
-                priceKey: "store.starter.price",
-                displayPrice: displayPrice(for: Self.starterPackID),
-                category: .cosmetic,
-                owned: purchasedProductIDs.contains(Self.starterPackID)
-            ),
-            StoreCatalogItem(
                 productID: Self.premiumPassID,
                 titleKey: "store.premiumPass.title",
                 descriptionKey: "store.premiumPass.description",
@@ -62,15 +51,6 @@ final class StoreService {
                 displayPrice: displayPrice(for: Self.premiumPassID),
                 category: .pass,
                 owned: purchasedProductIDs.contains(Self.premiumPassID)
-            ),
-            StoreCatalogItem(
-                productID: Self.nightmareSkinPackID,
-                titleKey: "store.nightmareSkin.title",
-                descriptionKey: "store.nightmareSkin.description",
-                priceKey: "store.nightmareSkin.price",
-                displayPrice: displayPrice(for: Self.nightmareSkinPackID),
-                category: .cosmetic,
-                owned: purchasedProductIDs.contains(Self.nightmareSkinPackID)
             )
         ]
         .filter { availableProductIDs.contains($0.productID) }

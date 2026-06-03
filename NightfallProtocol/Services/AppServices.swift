@@ -125,7 +125,7 @@ final class BootstrapService {
         guard try context.fetch(descriptor).isEmpty else { return }
 
         context.insert(CosmeticItem(
-            nameKey: "store.starter.title",
+            nameKey: "loot.cosmeticShard.name",
             category: StoreCategory.cosmetic.rawValue,
             rarity: .rare,
             owned: false,

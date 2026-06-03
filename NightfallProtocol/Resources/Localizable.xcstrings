@@ -4267,36 +4267,6 @@
         }
       }
     },
-    "store.nightmareSkin.description": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A cosmetic skin pack with nightmare trails and flashlight finishes."
-          }
-        }
-      }
-    },
-    "store.nightmareSkin.price": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "£14.99"
-          }
-        }
-      }
-    },
-    "store.nightmareSkin.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nightmare Skin Pack"
-          }
-        }
-      }
-    },
     "store.premiumPass.description": {
       "localizations": {
         "en": {
@@ -4359,36 +4329,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Premium Pass"
-          }
-        }
-      }
-    },
-    "store.starter.description": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Starter cosmetic pack with operator skin, flare tint, and profile frame."
-          }
-        }
-      }
-    },
-    "store.starter.price": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "£4.99"
-          }
-        }
-      }
-    },
-    "store.starter.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Starter Cosmetic Pack"
           }
         }
       }

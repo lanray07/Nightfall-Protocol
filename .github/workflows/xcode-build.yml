@@ -141,10 +141,15 @@ jobs:
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > "private_keys/AuthKey_${ASC_KEY_ID}.p8"
           echo "ASC_KEY_PATH=$PWD/private_keys/AuthKey_${ASC_KEY_ID}.p8" >> "$GITHUB_ENV"
 
-      - name: Remove promoted IAP image
+      - name: Remove promoted IAP images
         run: |
-          python3 .github/scripts/upload-iap-promotional-image.py \
-            "com.nightfallprotocol.pass.premium"
+          for product_id in \
+            "com.nightfallprotocol.pass.premium" \
+            "com.nightfallprotocol.cosmetic.starter" \
+            "com.nightfallprotocol.cosmetic.nightmare"; do
+            python3 .github/scripts/upload-iap-promotional-image.py "$product_id" || \
+              echo "::warning::Could not remove promoted IAP image for ${product_id}; continuing."
+          done
 
       - name: Install Apple signing assets
         run: |
