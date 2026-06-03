@@ -50,7 +50,7 @@ def nightfall_signing_args(team_id:, profile_specifier:)
   ]
 end
 
-def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, default_profile:, artifact_name:, catalyst_platform: nil, app_platform: nil, installer_cert_env: nil)
+def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, default_profile:, artifact_name:, catalyst_platform: nil, app_platform: nil, installer_cert_env: nil, automatic_signing: false)
   team_id = ENV["APPLE_TEAM_ID"]
   UI.user_error!("Set APPLE_TEAM_ID in GitHub Secrets before uploading a signed App Store build.") if team_id.to_s.empty?
 
@@ -58,6 +58,39 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
   output_directory = "build/export/#{platform_key}"
   archive_path = "build/NightfallProtocol-#{platform_key}.xcarchive"
   api_key = nightfall_api_key
+  signing_xcargs = if automatic_signing
+    [
+      "DEVELOPMENT_TEAM=#{Shellwords.escape(team_id)}",
+      "CURRENT_PROJECT_VERSION=#{Shellwords.escape(nightfall_build_number)}",
+      "CODE_SIGN_STYLE=Automatic",
+      "CODE_SIGNING_ALLOWED=YES",
+      "CODE_SIGN_IDENTITY=#{Shellwords.escape("Apple Distribution")}",
+      "-allowProvisioningUpdates",
+      "-authenticationKeyPath #{Shellwords.escape(ENV.fetch("ASC_KEY_PATH"))}",
+      "-authenticationKeyID #{Shellwords.escape(ENV.fetch("ASC_KEY_ID"))}",
+      "-authenticationKeyIssuerID #{Shellwords.escape(ENV.fetch("ASC_ISSUER_ID"))}"
+    ]
+  else
+    nightfall_signing_args(team_id: team_id, profile_specifier: profile_specifier)
+  end
+
+  export_options = if automatic_signing
+    {
+      signingStyle: "automatic",
+      teamID: team_id,
+      manageAppVersionAndBuildNumber: true
+    }
+  else
+    {
+      signingStyle: "manual",
+      signingCertificate: "Apple Distribution",
+      teamID: team_id,
+      provisioningProfiles: {
+        "com.nightfallprotocol.prototype" => profile_specifier
+      },
+      manageAppVersionAndBuildNumber: true
+    }
+  end
 
   build_options = {
     project: "NightfallProtocol.xcodeproj",
@@ -72,16 +105,8 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
     export_method: "app-store",
     include_symbols: true,
     include_bitcode: false,
-    xcargs: nightfall_signing_args(team_id: team_id, profile_specifier: profile_specifier).join(" "),
-    export_options: {
-      signingStyle: "manual",
-      signingCertificate: "Apple Distribution",
-      teamID: team_id,
-      provisioningProfiles: {
-        "com.nightfallprotocol.prototype" => profile_specifier
-      },
-      manageAppVersionAndBuildNumber: true
-    }
+    xcargs: signing_xcargs.join(" "),
+    export_options: export_options
   }
   build_options[:catalyst_platform] = catalyst_platform if catalyst_platform
   if installer_cert_env && !ENV[installer_cert_env].to_s.empty?
@@ -162,7 +187,8 @@ platform :ios do
       artifact_name: "NightfallProtocol-macOS",
       catalyst_platform: "macos",
       app_platform: "osx",
-      installer_cert_env: "MAC_INSTALLER_CERT_NAME"
+      installer_cert_env: "MAC_INSTALLER_CERT_NAME",
+      automatic_signing: true
     )
   end
 

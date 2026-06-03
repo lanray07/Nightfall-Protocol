@@ -168,15 +168,6 @@ jobs:
           echo "BUILD_CERTIFICATE_PATH=$CERTIFICATE_PATH" >> "$GITHUB_ENV"
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
 
-      - name: Ensure Game Center provisioning profiles
-        continue-on-error: true
-        run: |
-          bash .github/scripts/ensure-game-center-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE"
-
-      - name: Fetch App Store provisioning profiles
-        run: |
-          bash .github/scripts/install-provisioning-profile.sh "NightfallProtocol_MacCatalyst_App_Store" "MAC_CATALYST_APP_STORE" "$RUNNER_TEMP/nightfall-maccatalyst.mobileprovision" "MACCATALYST_PROFILE_SPECIFIER"
-
       - name: Prepare Mac installer certificate
         run: bash .github/scripts/ensure-mac-installer-certificate.sh
 
