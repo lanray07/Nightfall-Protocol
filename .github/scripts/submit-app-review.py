@@ -37,6 +37,9 @@ class AppStoreConnectClient:
     def __init__(self, jwt: str) -> None:
         self.jwt = jwt
 
+    def refresh_jwt(self) -> None:
+        self.jwt = generate_jwt()
+
     def request(
         self,
         method: str,
@@ -51,20 +54,31 @@ class AppStoreConnectClient:
             data = json.dumps(body).encode("utf-8")
             headers["Content-Type"] = "application/json"
 
-        request = urllib.request.Request(url, data=data, headers=headers, method=method)
-        try:
-            with urllib.request.urlopen(request, timeout=90) as response:
-                payload = response.read().decode("utf-8")
-                status = response.status
-        except urllib.error.HTTPError as error:
-            details = error.read().decode("utf-8", errors="replace")
-            raise AppStoreConnectError(
-                f"{method} {url} failed ({error.code}): {details}", error.code
-            ) from error
+        for attempt in range(2):
+            request = urllib.request.Request(url, data=data, headers=headers, method=method)
+            try:
+                with urllib.request.urlopen(request, timeout=90) as response:
+                    payload = response.read().decode("utf-8")
+                    status = response.status
+                break
+            except urllib.error.HTTPError as error:
+                if error.code == 401 and attempt == 0:
+                    self.refresh_jwt()
+                    headers["Authorization"] = f"Bearer {self.jwt}"
+                    continue
+
+                details = error.read().decode("utf-8", errors="replace")
+                raise AppStoreConnectError(
+                    f"{method} {url} failed ({error.code}): {details}", error.code
+                ) from error
 
         if status not in expected:
             raise AppStoreConnectError(f"{method} {url} returned {status}: {payload}", status)
         return json.loads(payload) if payload else {}
+
+
+def generate_jwt() -> str:
+    return subprocess.check_output(["bash", ".github/scripts/app-store-connect-jwt.sh"], text=True).strip()
 
 
 def main() -> int:
@@ -79,8 +93,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    jwt = subprocess.check_output(["bash", ".github/scripts/app-store-connect-jwt.sh"], text=True).strip()
-    client = AppStoreConnectClient(jwt)
+    client = AppStoreConnectClient(generate_jwt())
     platforms = [platform.strip() for platform in args.platforms.split(",") if platform.strip()]
 
     print(f"Preparing app {args.app_id} version {args.version} build {args.build_number}.")
