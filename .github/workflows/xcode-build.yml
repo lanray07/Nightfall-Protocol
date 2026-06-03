@@ -235,7 +235,8 @@ jobs:
           pattern = re.compile(
               r"error|failed|failure|invalid|missing|not found|provision|profile|certificate|"
               r"codesign|signing|installer|package|pkg|app store|transporter|itunes|asset|"
-              r"bundle|entitlement|productbuild|pkgbuild",
+              r"bundle|entitlement|productbuild|pkgbuild|exception|nomethoderror|nameerror|"
+              r"argumenterror|syntaxerror",
               re.IGNORECASE,
           )
           matches = [f"{index}: {line}" for index, line in enumerate(lines, start=1) if pattern.search(line)]
@@ -259,6 +260,7 @@ jobs:
               done | awk '!seen[$0]++'
             }
 
+            emit_error_matches "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
             distribution_log_count=0
             while IFS= read -r distribution_log; do
               echo "::error::Xcode distribution log candidate: ${distribution_log}"

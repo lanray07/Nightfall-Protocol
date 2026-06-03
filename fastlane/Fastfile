@@ -149,8 +149,7 @@ def nightfall_build_and_upload(platform_key:, destination:, sdk:, profile_env:, 
       "-archivePath #{Shellwords.escape(archive_path)}",
       "clean",
       "archive",
-      signing_xcargs.join(" "),
-      nightfall_export_auth_args
+      signing_xcargs.join(" ")
     ].join(" "))
 
     archived_apps = Dir[File.join(archive_path, "**", "*.app")]
