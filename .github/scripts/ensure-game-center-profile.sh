@@ -109,7 +109,7 @@ print(items[0]["id"])')"
 
   case "$profile_type" in
     MAC_CATALYST_APP_STORE)
-      compatible_certificate_types="IOS_DISTRIBUTION"
+      compatible_certificate_types="MAC_APP_DISTRIBUTION"
       ;;
     MAC_APP_STORE)
       compatible_certificate_types="MAC_APP_DISTRIBUTION"
