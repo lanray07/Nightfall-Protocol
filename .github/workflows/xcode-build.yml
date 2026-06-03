@@ -177,7 +177,7 @@ jobs:
         run: |
           set +e
           mkdir -p build/logs
-          bash .github/scripts/ensure-game-center-profile.sh "$MACCATALYST_PROFILE_NAME" "MAC_CATALYST_APP_STORE" 2>&1 | tee build/logs/ensure-maccatalyst-profile.log
+          bash .github/scripts/ensure-game-center-profile.sh "$MACCATALYST_PROFILE_NAME" "MAC_APP_STORE" 2>&1 | tee build/logs/ensure-maccatalyst-profile.log
           profile_status="${PIPESTATUS[0]}"
           if [ "$profile_status" -ne 0 ]; then
             tail -n 80 build/logs/ensure-maccatalyst-profile.log | while IFS= read -r line; do
@@ -190,7 +190,7 @@ jobs:
         run: |
           bash .github/scripts/install-provisioning-profile.sh \
             "$MACCATALYST_PROFILE_NAME" \
-            "MAC_CATALYST_APP_STORE" \
+            "MAC_APP_STORE" \
             "$RUNNER_TEMP/nightfall-maccatalyst.mobileprovision" \
             "MACCATALYST_PROFILE_SPECIFIER"
 
