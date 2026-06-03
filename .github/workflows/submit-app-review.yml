@@ -85,12 +85,7 @@ jobs:
             --platforms "$INPUT_PLATFORMS" 2>&1 | tee build/logs/submit-review.log
           submit_status="${PIPESTATUS[0]}"
           if [ "$submit_status" -ne 0 ]; then
-            grep -Ei "error|failed|failure|invalid|missing|not found|cannot|unable|already|review|build|submission|app store|connect|version" build/logs/submit-review.log | tail -n 80 | while IFS= read -r line; do
-              [ -n "$line" ] && echo "::error::${line}"
-            done
-            echo "::error::Newest submit log lines follow."
-            tail -n 120 build/logs/submit-review.log | while IFS= read -r line; do
-              [ -n "$line" ] && echo "::error::${line}"
-            done
+            encoded_log="$(tail -n 160 build/logs/submit-review.log | python3 -c 'import sys; text = sys.stdin.read(); print(text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A"))')"
+            echo "::error title=Submit review log::${encoded_log}"
           fi
           exit "$submit_status"

@@ -444,7 +444,7 @@ def retry_request(
     label: str,
     retry_on_not_ready: bool = False,
 ) -> dict[str, Any]:
-    delays = [30, 60, 120]
+    delays = [60, 120, 180, 300, 300, 300] if retry_on_not_ready else [30, 60, 120]
     for attempt in range(len(delays) + 1):
         try:
             return operation()
