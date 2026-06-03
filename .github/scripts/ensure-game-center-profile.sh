@@ -210,12 +210,18 @@ print(payload["data"]["attributes"].get("certificateContent", ""))' | base64 --d
   fi
 
   selected_certificate_name=""
+  selected_certificate_sha1=""
   if [[ -f "$selected_certificate_path" ]]; then
     selected_certificate_name="$(openssl x509 -inform DER -in "$selected_certificate_path" -noout -subject -nameopt multiline | awk -F'= ' '/commonName/ { print $2; exit }')"
+    selected_certificate_sha1="$(openssl x509 -inform DER -in "$selected_certificate_path" -noout -fingerprint -sha1 | sed -E 's/^.*=//; s/://g')"
   fi
 
-  if [[ -n "${GITHUB_ENV:-}" && -n "$selected_certificate_name" && "$profile_type" == MAC_APP_STORE ]]; then
-    echo "MACCATALYST_SIGNING_CERT_NAME=${selected_certificate_name}" >> "$GITHUB_ENV"
+  if [[ -n "${GITHUB_ENV:-}" && "$profile_type" == MAC_APP_STORE ]]; then
+    if [[ -n "$selected_certificate_sha1" ]]; then
+      echo "MACCATALYST_SIGNING_CERT_NAME=${selected_certificate_sha1}" >> "$GITHUB_ENV"
+    elif [[ -n "$selected_certificate_name" ]]; then
+      echo "MACCATALYST_SIGNING_CERT_NAME=${selected_certificate_name}" >> "$GITHUB_ENV"
+    fi
   fi
 
   certificates_data="[{\"type\":\"certificates\",\"id\":\"${selected_certificate_id}\"}]"

@@ -109,5 +109,6 @@ if [[ -z "$cert_name" ]]; then
   exit 1
 fi
 
-echo "MAC_INSTALLER_CERT_NAME=${cert_name}" >> "$GITHUB_ENV"
+cert_sha1="$(openssl x509 -inform DER -in "$cert_path" -noout -fingerprint -sha1 | sed -E 's/^.*=//; s/://g')"
+echo "MAC_INSTALLER_CERT_NAME=${cert_sha1:-$cert_name}" >> "$GITHUB_ENV"
 echo "Prepared Mac installer certificate ${cert_name}."
