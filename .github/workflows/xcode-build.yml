@@ -222,14 +222,37 @@ jobs:
             emit_error_matches() {
               local label="$1"
               local file="$2"
-              local matches
+              local encoded matches
               [ -f "$file" ] || return 0
-              matches="$(grep -Ein "error|failed|failure|invalid|missing|not found|provision|profile|certificate|codesign|signing|installer|package|pkg|export|team|bundle|entitlement|app store|distribution" "$file" | tail -n 80 || true)"
+              matches="$(python3 - "$file" <<'PY'
+import re
+import sys
+
+path = sys.argv[1]
+with open(path, "r", encoding="utf-8", errors="replace") as handle:
+    lines = handle.read().splitlines()
+
+pattern = re.compile(
+    r"error|failed|failure|invalid|missing|not found|provision|profile|certificate|"
+    r"codesign|signing|installer|package|pkg|app store|transporter|itunes|asset|"
+    r"bundle|entitlement|productbuild|pkgbuild",
+    re.IGNORECASE,
+)
+matches = [f"{index}: {line}" for index, line in enumerate(lines, start=1) if pattern.search(line)]
+if matches:
+    print("Matched diagnostics:")
+    print("\n".join(matches[-60:]))
+else:
+    sample = lines[:40] + ["..."] + lines[-60:] if len(lines) > 100 else lines
+    print("No keyword matches; log excerpt:")
+    print("\n".join(sample))
+PY
+)"
               [ -n "$matches" ] || return 0
-              echo "::error::Matched ${label} diagnostics follow."
-              printf '%s\n' "$matches" | while IFS= read -r line; do
-                [ -n "$line" ] && echo "::error::${line}"
-              done
+              encoded="$(printf '%s' "$matches" | python3 -c 'import sys
+text = sys.stdin.read()
+print(text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A"))')"
+              echo "::error title=${label} diagnostics::${encoded}"
             }
             find_distribution_logs() {
               for root in "$RUNNER_TEMP" "${TMPDIR:-/tmp}" "$HOME/Library/Developer/Xcode" "$HOME/Library/Logs" /tmp; do
@@ -242,7 +265,6 @@ jobs:
             while IFS= read -r distribution_log; do
               echo "::error::Xcode distribution log candidate: ${distribution_log}"
               emit_error_matches "Xcode distribution log" "$distribution_log"
-              emit_reversed_tail "Xcode distribution log" "$distribution_log"
               distribution_log_count=$((distribution_log_count + 1))
               [ "$distribution_log_count" -ge 3 ] && break
             done < <(find_distribution_logs)
