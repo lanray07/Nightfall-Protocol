@@ -225,33 +225,31 @@ jobs:
               local encoded matches
               [ -f "$file" ] || return 0
               matches="$(python3 - "$file" <<'PY'
-import re
-import sys
+          import re
+          import sys
 
-path = sys.argv[1]
-with open(path, "r", encoding="utf-8", errors="replace") as handle:
-    lines = handle.read().splitlines()
+          path = sys.argv[1]
+          with open(path, "r", encoding="utf-8", errors="replace") as handle:
+              lines = handle.read().splitlines()
 
-pattern = re.compile(
-    r"error|failed|failure|invalid|missing|not found|provision|profile|certificate|"
-    r"codesign|signing|installer|package|pkg|app store|transporter|itunes|asset|"
-    r"bundle|entitlement|productbuild|pkgbuild",
-    re.IGNORECASE,
-)
-matches = [f"{index}: {line}" for index, line in enumerate(lines, start=1) if pattern.search(line)]
-if matches:
-    print("Matched diagnostics:")
-    print("\n".join(matches[-60:]))
-else:
-    sample = lines[:40] + ["..."] + lines[-60:] if len(lines) > 100 else lines
-    print("No keyword matches; log excerpt:")
-    print("\n".join(sample))
-PY
-)"
+          pattern = re.compile(
+              r"error|failed|failure|invalid|missing|not found|provision|profile|certificate|"
+              r"codesign|signing|installer|package|pkg|app store|transporter|itunes|asset|"
+              r"bundle|entitlement|productbuild|pkgbuild",
+              re.IGNORECASE,
+          )
+          matches = [f"{index}: {line}" for index, line in enumerate(lines, start=1) if pattern.search(line)]
+          if matches:
+              print("Matched diagnostics:")
+              print("\n".join(matches[-60:]))
+          else:
+              sample = lines[:40] + ["..."] + lines[-60:] if len(lines) > 100 else lines
+              print("No keyword matches; log excerpt:")
+              print("\n".join(sample))
+          PY
+              )"
               [ -n "$matches" ] || return 0
-              encoded="$(printf '%s' "$matches" | python3 -c 'import sys
-text = sys.stdin.read()
-print(text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A"))')"
+              encoded="$(printf '%s' "$matches" | python3 -c 'import sys; text = sys.stdin.read(); print(text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A"))')"
               echo "::error title=${label} diagnostics::${encoded}"
             }
             find_distribution_logs() {
