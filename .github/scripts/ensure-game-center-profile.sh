@@ -163,7 +163,11 @@ PY
   selected_certificate_id="${matching_certificate_id:-$first_certificate_id}"
   selected_certificate_path="${matching_certificate_path:-$first_certificate_path}"
 
-  if [[ -z "$matching_certificate_id" && -s "$certificate_private_key_path" ]]; then
+  if [[ -z "$matching_certificate_id" && -n "$first_certificate_id" ]]; then
+    echo "No public-key match was found in App Store Connect; using existing ${compatible_certificate_types} certificate ${first_certificate_id} for the profile."
+  fi
+
+  if [[ -z "$matching_certificate_id" && -z "$first_certificate_id" && -s "$certificate_private_key_path" ]]; then
     create_certificate_type="${compatible_certificate_types%%,*}"
     openssl req \
       -new \
