@@ -276,6 +276,7 @@ struct MainHubView: View {
                                 .frame(width: 44, height: 44)
                         }
                         .background(Color.black.opacity(0.35), in: RoundedRectangle(cornerRadius: 8))
+                        .accessibilityLabel(Text(LocalizedStringKey("action.settings")))
                     }
 
                     hubActions

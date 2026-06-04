@@ -443,6 +443,7 @@ struct LanguageSelectorView: View {
             }
         }
         .pickerStyle(.navigationLink)
+        .accessibilityLabel(Text(LocalizedStringKey("settings.language")))
     }
 }
 

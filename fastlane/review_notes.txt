@@ -1,1 +1,8 @@
-Nightfall Protocol is an offline playable prototype. No account or sign-in is required. The Store screen shows only the submitted Premium Pass purchase, and it is cosmetic-only with no gameplay advantages. The game includes psychological horror and fear themes, but no gore, chat, ads, user-generated content, real-money gambling, loot boxes, or web browsing.
+Nightfall Protocol is an offline playable prototype. No account or sign-in is required. The Store screen shows only the submitted Premium Pass purchase, and it is cosmetic-only with no gameplay advantages. This build removes references to unsubmitted cosmetic packs, uses the live StoreKit purchase flow, and displays functional Privacy Policy and Terms of Use links in both Settings and the Store purchase flow.
+
+The Settings controls and legal links now include explicit accessibility labels. The promoted in-app purchase image is intentionally removed during upload because the product is not being promoted on the App Store.
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
+
+The game includes psychological horror and fear themes, but no gore, chat, ads, user-generated content, real-money gambling, loot boxes, or web browsing.

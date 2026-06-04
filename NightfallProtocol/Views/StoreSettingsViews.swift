@@ -1,6 +1,12 @@
+import Foundation
 import SwiftData
 import SwiftUI
 import StoreKit
+
+private enum NightfallLegalLinks {
+    static let privacyPolicy = URL(string: "https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md")!
+    static let termsOfUse = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+}
 
 struct StoreView: View {
     @Environment(\.modelContext) private var modelContext
@@ -43,6 +49,8 @@ struct StoreView: View {
                             }
                         }
                     }
+
+                    StoreLegalNotice()
 
                     LocalizedButton(titleKey: "action.restore", systemImage: "arrow.clockwise") {
                         Task {
@@ -92,6 +100,7 @@ struct SettingsView: View {
                     Toggle(isOn: $viewModel.soundEnabled) {
                         Label(LocalizedStringKey("settings.sound"), systemImage: "speaker.wave.2.fill")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.sound")))
                     .onChange(of: viewModel.soundEnabled) { _, enabled in
                         services.audio.soundEnabled = enabled
                     }
@@ -99,6 +108,7 @@ struct SettingsView: View {
                     Toggle(isOn: $viewModel.musicEnabled) {
                         Label(LocalizedStringKey("settings.music"), systemImage: "music.note")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.music")))
                     .onChange(of: viewModel.musicEnabled) { _, enabled in
                         services.audio.setMusicEnabled(enabled)
                     }
@@ -106,10 +116,12 @@ struct SettingsView: View {
                     Toggle(isOn: $viewModel.hapticsEnabled) {
                         Label(LocalizedStringKey("settings.haptics"), systemImage: "iphone.radiowaves.left.and.right")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.haptics")))
 
                     Toggle(isOn: $viewModel.notificationsEnabled) {
                         Label(LocalizedStringKey("settings.notifications"), systemImage: "bell.badge.fill")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.notifications")))
                     .onChange(of: viewModel.notificationsEnabled) { _, enabled in
                         guard enabled else { return }
                         Task {
@@ -125,26 +137,26 @@ struct SettingsView: View {
                     } label: {
                         Label(LocalizedStringKey("settings.graphics"), systemImage: "display")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.graphics")))
                 }
 
                 Section {
-                    Button {
-                        viewModel.showingPrivacy = true
-                    } label: {
+                    Link(destination: NightfallLegalLinks.privacyPolicy) {
                         Label(LocalizedStringKey("settings.privacy"), systemImage: "hand.raised.fill")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.privacy")))
 
-                    Button {
-                        viewModel.showingTerms = true
-                    } label: {
+                    Link(destination: NightfallLegalLinks.termsOfUse) {
                         Label(LocalizedStringKey("settings.terms"), systemImage: "doc.text.fill")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.terms")))
 
                     Button(role: .destructive) {
                         viewModel.showingResetAlert = true
                     } label: {
                         Label(LocalizedStringKey("settings.reset"), systemImage: "trash.fill")
                     }
+                    .accessibilityLabel(Text(LocalizedStringKey("settings.reset")))
                 }
             }
             #if !os(tvOS)
@@ -160,16 +172,6 @@ struct SettingsView: View {
             }
         } message: {
             Text(LocalizedStringKey("settings.reset.message"))
-        }
-        .alert(Text(LocalizedStringKey("privacy.title")), isPresented: $viewModel.showingPrivacy) {
-            Button(LocalizedStringKey("action.close")) {}
-        } message: {
-            Text(LocalizedStringKey("privacy.body"))
-        }
-        .alert(Text(LocalizedStringKey("terms.title")), isPresented: $viewModel.showingTerms) {
-            Button(LocalizedStringKey("action.close")) {}
-        } message: {
-            Text(LocalizedStringKey("terms.body"))
         }
         .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.notice")), isPresented: messageBinding) {
             Button(LocalizedStringKey("action.close")) {
@@ -192,5 +194,43 @@ struct SettingsView: View {
             get: { viewModel.messageKey != nil },
             set: { if !$0 { viewModel.messageKey = nil } }
         )
+    }
+}
+
+private struct StoreLegalNotice: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(LocalizedStringKey("store.legal.notice"))
+                .font(.footnote)
+                .foregroundStyle(.white.opacity(0.74))
+                .fixedSize(horizontal: false, vertical: true)
+
+            VStack(alignment: .leading, spacing: 10) {
+                Link(destination: NightfallLegalLinks.privacyPolicy) {
+                    Label(LocalizedStringKey("privacy.title"), systemImage: "hand.raised.fill")
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.78)
+                }
+                .accessibilityLabel(Text(LocalizedStringKey("privacy.title")))
+
+                Link(destination: NightfallLegalLinks.termsOfUse) {
+                    Label(LocalizedStringKey("terms.title"), systemImage: "doc.text.fill")
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.78)
+                }
+                .accessibilityLabel(Text(LocalizedStringKey("terms.title")))
+            }
+            .font(.caption.weight(.semibold))
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.black.opacity(0.34))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.cyan.opacity(0.22), lineWidth: 1)
+                }
+        }
     }
 }

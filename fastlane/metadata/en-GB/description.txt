@@ -7,3 +7,6 @@ Every run combines randomized objectives, shifting rooms, collapse events, enemy
 Progress through operator levels, build your artifact collection, unlock lore files, and customize your profile with ethical cosmetic-only store items. Purchases never provide gameplay power.
 
 Nightfall Protocol is playable offline and designed for quick solo extraction runs with daily nightmare, endless descent, co-op, and story protocol foundations ready to expand.
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

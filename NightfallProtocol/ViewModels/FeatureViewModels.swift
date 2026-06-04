@@ -57,8 +57,6 @@ final class SettingsViewModel {
     var notificationsEnabled = false
     var graphicsQuality: GraphicsQuality = .high
     var showingResetAlert = false
-    var showingPrivacy = false
-    var showingTerms = false
     var messageKey: String?
 
     func applyAudioSettings(audio: AudioManager) {

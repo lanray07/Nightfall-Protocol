@@ -114,6 +114,9 @@ jobs:
       KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
       FASTLANE_SKIP_UPDATE_CHECK: "1"
       FASTLANE_HIDE_GITHUB_ISSUES: "1"
+      IOS_PROFILE_NAME: NightfallProtocol_iOS_App_Store_${{ github.run_number }}
+      TVOS_PROFILE_NAME: NightfallProtocol_tvOS_App_Store_${{ github.run_number }}
+      VISIONOS_PROFILE_NAME: NightfallProtocol_visionOS_App_Store_${{ github.run_number }}
       MACCATALYST_PROFILE_NAME: NightfallProtocol_MacCatalyst_App_Store_${{ github.run_number }}
     steps:
       - name: Checkout
@@ -146,6 +149,7 @@ jobs:
         run: |
           for product_id in \
             "com.nightfallprotocol.pass.premium" \
+            "com.nightfallprotocol.subscription.premium" \
             "com.nightfallprotocol.cosmetic.starter" \
             "com.nightfallprotocol.cosmetic.nightmare"; do
             python3 .github/scripts/upload-iap-promotional-image.py "$product_id" || \
@@ -173,6 +177,69 @@ jobs:
         continue-on-error: true
         run: bash .github/scripts/ensure-mac-installer-certificate.sh
 
+      - name: Ensure iOS App Store profile
+        run: |
+          set +e
+          mkdir -p build/logs
+          bash .github/scripts/ensure-game-center-profile.sh "$IOS_PROFILE_NAME" "IOS_APP_STORE" 2>&1 | tee build/logs/ensure-ios-profile.log
+          profile_status="${PIPESTATUS[0]}"
+          if [ "$profile_status" -ne 0 ]; then
+            tail -n 80 build/logs/ensure-ios-profile.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
+          fi
+          exit "$profile_status"
+
+      - name: Install iOS App Store profile
+        run: |
+          bash .github/scripts/install-provisioning-profile.sh \
+            "$IOS_PROFILE_NAME" \
+            "IOS_APP_STORE" \
+            "$RUNNER_TEMP/nightfall-ios.mobileprovision" \
+            "PROFILE_SPECIFIER"
+
+      - name: Ensure tvOS App Store profile
+        run: |
+          set +e
+          mkdir -p build/logs
+          bash .github/scripts/ensure-game-center-profile.sh "$TVOS_PROFILE_NAME" "TVOS_APP_STORE" 2>&1 | tee build/logs/ensure-tvos-profile.log
+          profile_status="${PIPESTATUS[0]}"
+          if [ "$profile_status" -ne 0 ]; then
+            tail -n 80 build/logs/ensure-tvos-profile.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
+          fi
+          exit "$profile_status"
+
+      - name: Install tvOS App Store profile
+        run: |
+          bash .github/scripts/install-provisioning-profile.sh \
+            "$TVOS_PROFILE_NAME" \
+            "TVOS_APP_STORE" \
+            "$RUNNER_TEMP/nightfall-tvos.mobileprovision" \
+            "TVOS_PROFILE_SPECIFIER"
+
+      - name: Ensure visionOS App Store profile
+        run: |
+          set +e
+          mkdir -p build/logs
+          bash .github/scripts/ensure-game-center-profile.sh "$VISIONOS_PROFILE_NAME" "IOS_APP_STORE" 2>&1 | tee build/logs/ensure-visionos-profile.log
+          profile_status="${PIPESTATUS[0]}"
+          if [ "$profile_status" -ne 0 ]; then
+            tail -n 80 build/logs/ensure-visionos-profile.log | while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error::${line}"
+            done
+          fi
+          exit "$profile_status"
+
+      - name: Install visionOS App Store profile
+        run: |
+          bash .github/scripts/install-provisioning-profile.sh \
+            "$VISIONOS_PROFILE_NAME" \
+            "IOS_APP_STORE" \
+            "$RUNNER_TEMP/nightfall-visionos.mobileprovision" \
+            "VISIONOS_PROFILE_SPECIFIER"
+
       - name: Ensure Mac Catalyst App Store profile
         run: |
           set +e
@@ -198,6 +265,30 @@ jobs:
         run: |
           xcode-select -p
           xcodebuild -version
+
+      - name: Archive and upload iOS
+        id: upload_ios
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          bundle exec fastlane ios build_upload_ios 2>&1 | tee build/logs/fastlane-ios-upload.log
+
+      - name: Archive and upload tvOS
+        id: upload_tvos
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          bundle exec fastlane ios build_upload_tvos 2>&1 | tee build/logs/fastlane-tvos-upload.log
+
+      - name: Archive and upload visionOS
+        id: upload_visionos
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          bundle exec fastlane ios build_upload_visionos 2>&1 | tee build/logs/fastlane-visionos-upload.log
 
       - name: Archive and upload Mac Catalyst
         id: upload_maccatalyst
@@ -305,6 +396,9 @@ jobs:
           }
 
           append_excerpt "Fastlane Mac Catalyst upload" "build/logs/fastlane-maccatalyst-upload.log"
+          append_excerpt "Fastlane iOS upload" "build/logs/fastlane-ios-upload.log"
+          append_excerpt "Fastlane tvOS upload" "build/logs/fastlane-tvos-upload.log"
+          append_excerpt "Fastlane visionOS upload" "build/logs/fastlane-visionos-upload.log"
 
           if [ -d "$HOME/Library/Logs/gym" ]; then
             while IFS= read -r file; do
@@ -322,6 +416,9 @@ jobs:
       - name: Summarize upload results
         if: always()
         env:
+          IOS_OUTCOME: ${{ steps.upload_ios.outcome }}
+          TVOS_OUTCOME: ${{ steps.upload_tvos.outcome }}
+          VISIONOS_OUTCOME: ${{ steps.upload_visionos.outcome }}
           MACCATALYST_OUTCOME: ${{ steps.upload_maccatalyst.outcome }}
         run: |
           {
@@ -329,11 +426,14 @@ jobs:
             echo
             echo "| Platform | Outcome |"
             echo "| --- | --- |"
+            echo "| iOS | ${IOS_OUTCOME} |"
+            echo "| tvOS | ${TVOS_OUTCOME} |"
+            echo "| visionOS | ${VISIONOS_OUTCOME} |"
             echo "| Mac Catalyst | ${MACCATALYST_OUTCOME} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
           failed=0
-          for outcome in "$MACCATALYST_OUTCOME"; do
+          for outcome in "$IOS_OUTCOME" "$TVOS_OUTCOME" "$VISIONOS_OUTCOME" "$MACCATALYST_OUTCOME"; do
             [ "$outcome" = "success" ] || failed=1
           done
           exit "$failed"

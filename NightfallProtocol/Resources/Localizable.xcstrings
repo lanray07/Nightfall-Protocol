@@ -4257,6 +4257,34 @@
         }
       }
     },
+    "store.legal.notice": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscriptions renew monthly through Apple. Review the Privacy Policy and Terms of Use before purchasing."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las suscripciones se renuevan mensualmente mediante Apple. Revisa la Politica de privacidad y las Condiciones de uso antes de comprar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les abonnements sont renouveles chaque mois via Apple. Consultez la politique de confidentialite et les conditions d utilisation avant l achat."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abonnements werden monatlich ueber Apple verlaengert. Lies vor dem Kauf die Datenschutzrichtlinie und die Nutzungsbedingungen."
+          }
+        }
+      }
+    },
     "store.purchase.completed": {
       "localizations": {
         "en": {

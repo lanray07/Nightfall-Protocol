@@ -1,6 +1,9 @@
 name: App Store Connect Metadata
 
 on:
+  push:
+    tags:
+      - metadata-*
   workflow_dispatch:
 
 jobs:
