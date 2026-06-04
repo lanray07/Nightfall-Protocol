@@ -10,39 +10,15 @@ on:
   workflow_dispatch:
     inputs:
       upload_to_testflight:
-        description: "Archive and upload a signed build to TestFlight"
+        description: "Archive and upload a signed iOS build to TestFlight"
         required: true
         default: false
         type: boolean
 
 jobs:
   simulator-build:
-    name: Xcode build (${{ matrix.platform_name }})
+    name: Xcode build (iOS Simulator)
     runs-on: macos-26
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform_name: iOS Simulator
-            artifact_slug: ios-simulator
-            destination: generic/platform=iOS Simulator
-            sdk: iphonesimulator
-            log_name: xcodebuild-ios-simulator.log
-          - platform_name: tvOS Simulator
-            artifact_slug: tvos-simulator
-            destination: generic/platform=tvOS Simulator
-            sdk: appletvsimulator
-            log_name: xcodebuild-tvos-simulator.log
-          - platform_name: visionOS Simulator
-            artifact_slug: visionos-simulator
-            destination: generic/platform=visionOS Simulator
-            sdk: xrsimulator
-            log_name: xcodebuild-visionos-simulator.log
-          - platform_name: Mac Catalyst
-            artifact_slug: maccatalyst
-            destination: generic/platform=macOS,variant=Mac Catalyst
-            sdk: macosx
-            log_name: xcodebuild-maccatalyst.log
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +35,7 @@ jobs:
             -scheme NightfallProtocol \
             -resolvePackageDependencies
 
-      - name: Build for ${{ matrix.platform_name }}
+      - name: Build for iOS Simulator
         run: |
           set -o pipefail
           mkdir -p build/logs
@@ -67,21 +43,21 @@ jobs:
             -project NightfallProtocol.xcodeproj \
             -scheme NightfallProtocol \
             -configuration Debug \
-            -sdk "${{ matrix.sdk }}" \
-            -destination "${{ matrix.destination }}" \
+            -sdk iphonesimulator \
+            -destination "generic/platform=iOS Simulator" \
             -derivedDataPath build/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
-            build | tee "build/logs/${{ matrix.log_name }}"
+            build | tee build/logs/xcodebuild-ios-simulator.log
 
       - name: Summarize Xcode errors
         if: failure()
         run: |
-          if [ -f "build/logs/${{ matrix.log_name }}" ]; then
-            grep -E "error:|warning:|BUILD FAILED|The following build commands failed|No such module|cannot find|ambiguous|unavailable|Command .* failed" "build/logs/${{ matrix.log_name }}" | tail -n 80 > build/logs/xcodebuild-errors.log || true
+          if [ -f build/logs/xcodebuild-ios-simulator.log ]; then
+            grep -E "error:|warning:|BUILD FAILED|The following build commands failed|No such module|cannot find|ambiguous|unavailable|Command .* failed" build/logs/xcodebuild-ios-simulator.log | tail -n 80 > build/logs/xcodebuild-errors.log || true
             if [ ! -s build/logs/xcodebuild-errors.log ]; then
-              tail -n 120 "build/logs/${{ matrix.log_name }}" > build/logs/xcodebuild-errors.log
+              tail -n 120 build/logs/xcodebuild-ios-simulator.log > build/logs/xcodebuild-errors.log
             fi
-            echo "### Xcode failure excerpt (${{ matrix.platform_name }})" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Xcode failure excerpt (iOS Simulator)" >> "$GITHUB_STEP_SUMMARY"
             echo '```text' >> "$GITHUB_STEP_SUMMARY"
             cat build/logs/xcodebuild-errors.log >> "$GITHUB_STEP_SUMMARY"
             echo '```' >> "$GITHUB_STEP_SUMMARY"
@@ -94,12 +70,12 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: xcodebuild-${{ matrix.artifact_slug }}-log
+          name: xcodebuild-ios-simulator-log
           path: build/logs/
           if-no-files-found: ignore
 
   testflight-upload:
-    name: Archive and upload to TestFlight
+    name: Archive and upload iOS to TestFlight
     runs-on: macos-26
     if: (github.event_name == 'workflow_dispatch' && inputs.upload_to_testflight == true) || startsWith(github.ref, 'refs/tags/appstore-')
     env:
@@ -115,9 +91,6 @@ jobs:
       FASTLANE_SKIP_UPDATE_CHECK: "1"
       FASTLANE_HIDE_GITHUB_ISSUES: "1"
       IOS_PROFILE_NAME: NightfallProtocol_iOS_App_Store_${{ github.run_number }}
-      TVOS_PROFILE_NAME: NightfallProtocol_tvOS_App_Store_${{ github.run_number }}
-      VISIONOS_PROFILE_NAME: NightfallProtocol_visionOS_App_Store_${{ github.run_number }}
-      MACCATALYST_PROFILE_NAME: NightfallProtocol_MacCatalyst_App_Store_${{ github.run_number }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -173,10 +146,6 @@ jobs:
           echo "BUILD_CERTIFICATE_PATH=$CERTIFICATE_PATH" >> "$GITHUB_ENV"
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
 
-      - name: Prepare Mac installer certificate
-        continue-on-error: true
-        run: bash .github/scripts/ensure-mac-installer-certificate.sh
-
       - name: Ensure iOS App Store profile
         run: |
           set +e
@@ -198,69 +167,6 @@ jobs:
             "$RUNNER_TEMP/nightfall-ios.mobileprovision" \
             "PROFILE_SPECIFIER"
 
-      - name: Ensure tvOS App Store profile
-        run: |
-          set +e
-          mkdir -p build/logs
-          bash .github/scripts/ensure-game-center-profile.sh "$TVOS_PROFILE_NAME" "TVOS_APP_STORE" 2>&1 | tee build/logs/ensure-tvos-profile.log
-          profile_status="${PIPESTATUS[0]}"
-          if [ "$profile_status" -ne 0 ]; then
-            tail -n 80 build/logs/ensure-tvos-profile.log | while IFS= read -r line; do
-              [ -n "$line" ] && echo "::error::${line}"
-            done
-          fi
-          exit "$profile_status"
-
-      - name: Install tvOS App Store profile
-        run: |
-          bash .github/scripts/install-provisioning-profile.sh \
-            "$TVOS_PROFILE_NAME" \
-            "TVOS_APP_STORE" \
-            "$RUNNER_TEMP/nightfall-tvos.mobileprovision" \
-            "TVOS_PROFILE_SPECIFIER"
-
-      - name: Ensure visionOS App Store profile
-        run: |
-          set +e
-          mkdir -p build/logs
-          bash .github/scripts/ensure-game-center-profile.sh "$VISIONOS_PROFILE_NAME" "IOS_APP_STORE" 2>&1 | tee build/logs/ensure-visionos-profile.log
-          profile_status="${PIPESTATUS[0]}"
-          if [ "$profile_status" -ne 0 ]; then
-            tail -n 80 build/logs/ensure-visionos-profile.log | while IFS= read -r line; do
-              [ -n "$line" ] && echo "::error::${line}"
-            done
-          fi
-          exit "$profile_status"
-
-      - name: Install visionOS App Store profile
-        run: |
-          bash .github/scripts/install-provisioning-profile.sh \
-            "$VISIONOS_PROFILE_NAME" \
-            "IOS_APP_STORE" \
-            "$RUNNER_TEMP/nightfall-visionos.mobileprovision" \
-            "VISIONOS_PROFILE_SPECIFIER"
-
-      - name: Ensure Mac Catalyst App Store profile
-        run: |
-          set +e
-          mkdir -p build/logs
-          bash .github/scripts/ensure-game-center-profile.sh "$MACCATALYST_PROFILE_NAME" "MAC_APP_STORE" 2>&1 | tee build/logs/ensure-maccatalyst-profile.log
-          profile_status="${PIPESTATUS[0]}"
-          if [ "$profile_status" -ne 0 ]; then
-            tail -n 80 build/logs/ensure-maccatalyst-profile.log | while IFS= read -r line; do
-              [ -n "$line" ] && echo "::error::${line}"
-            done
-          fi
-          exit "$profile_status"
-
-      - name: Install Mac Catalyst App Store profile
-        run: |
-          bash .github/scripts/install-provisioning-profile.sh \
-            "$MACCATALYST_PROFILE_NAME" \
-            "MAC_APP_STORE" \
-            "$RUNNER_TEMP/nightfall-maccatalyst.mobileprovision" \
-            "MACCATALYST_PROFILE_SPECIFIER"
-
       - name: Show Xcode version
         run: |
           xcode-select -p
@@ -268,113 +174,10 @@ jobs:
 
       - name: Archive and upload iOS
         id: upload_ios
-        continue-on-error: true
         run: |
           set -o pipefail
           mkdir -p build/logs
           bundle exec fastlane ios build_upload_ios 2>&1 | tee build/logs/fastlane-ios-upload.log
-
-      - name: Archive and upload tvOS
-        id: upload_tvos
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          mkdir -p build/logs
-          bundle exec fastlane ios build_upload_tvos 2>&1 | tee build/logs/fastlane-tvos-upload.log
-
-      - name: Archive and upload visionOS
-        id: upload_visionos
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          mkdir -p build/logs
-          bundle exec fastlane ios build_upload_visionos 2>&1 | tee build/logs/fastlane-visionos-upload.log
-
-      - name: Archive and upload Mac Catalyst
-        id: upload_maccatalyst
-        continue-on-error: true
-        run: |
-          set +e
-          mkdir -p build/logs
-          bundle exec fastlane ios build_upload_maccatalyst 2>&1 | tee build/logs/fastlane-maccatalyst-upload.log
-          fastlane_status="${PIPESTATUS[0]}"
-
-          if [ "$fastlane_status" -ne 0 ]; then
-            echo "::error::Mac Catalyst Fastlane upload failed with exit code ${fastlane_status}."
-            emit_reversed_tail() {
-              local label="$1"
-              local file="$2"
-              [ -f "$file" ] || return 0
-              echo "::error::Newest ${label} lines follow."
-              tail -n 120 "$file" | awk '{ lines[NR] = $0 } END { for (i = NR; i >= 1; i--) print lines[i] }' | head -n 35 | while IFS= read -r line; do
-                [ -n "$line" ] && echo "::error::${line}"
-              done
-            }
-            emit_error_matches() {
-              local label="$1"
-              local file="$2"
-              local encoded matches
-              [ -f "$file" ] || return 0
-              matches="$(python3 - "$file" <<'PY'
-          import re
-          import sys
-
-          path = sys.argv[1]
-          with open(path, "r", encoding="utf-8", errors="replace") as handle:
-              lines = handle.read().splitlines()
-
-          pattern = re.compile(
-              r"error|failed|failure|invalid|missing|not found|provision|profile|certificate|"
-              r"codesign|signing|installer|package|pkg|app store|transporter|itunes|asset|"
-              r"bundle|entitlement|productbuild|pkgbuild|exception|nomethoderror|nameerror|"
-              r"argumenterror|syntaxerror",
-              re.IGNORECASE,
-          )
-          matches = [f"{index}: {line}" for index, line in enumerate(lines, start=1) if pattern.search(line)]
-          if matches:
-              print("Matched diagnostics:")
-              print("\n".join(matches[-60:]))
-          else:
-              sample = lines[:40] + ["..."] + lines[-60:] if len(lines) > 100 else lines
-              print("No keyword matches; log excerpt:")
-              print("\n".join(sample))
-          PY
-              )"
-              [ -n "$matches" ] || return 0
-              encoded="$(printf '%s' "$matches" | python3 -c 'import sys; text = sys.stdin.read(); print(text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A"))')"
-              echo "::error title=${label} diagnostics::${encoded}"
-            }
-            find_distribution_logs() {
-              for root in "$RUNNER_TEMP" "${TMPDIR:-/tmp}" "$HOME/Library/Developer/Xcode" "$HOME/Library/Logs" /tmp; do
-                [ -d "$root" ] || continue
-                find "$root" -type f \( -path "*.xcdistributionlogs/*" -o -iname "*distribution*.log" -o -iname "IDEDistribution*.log" \) -print 2>/dev/null || true
-              done | awk '!seen[$0]++'
-            }
-
-            emit_error_matches "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
-            distribution_log_count=0
-            while IFS= read -r distribution_log; do
-              echo "::error::Xcode distribution log candidate: ${distribution_log}"
-              emit_error_matches "Xcode distribution log" "$distribution_log"
-              distribution_log_count=$((distribution_log_count + 1))
-              [ "$distribution_log_count" -ge 3 ] && break
-            done < <(find_distribution_logs)
-            if [ -d "$HOME/Library/Developer/Xcode/Archives" ]; then
-              while IFS= read -r distribution_log; do
-                emit_reversed_tail "Xcode distribution log" "$distribution_log"
-                distribution_log_count=$((distribution_log_count + 1))
-                [ "$distribution_log_count" -ge 3 ] && break
-              done < <(find "$HOME/Library/Developer/Xcode/Archives" -type f \( -name "*.log" -o -name "*.txt" \) -print | xargs ls -t 2>/dev/null || true)
-            fi
-            emit_reversed_tail "Fastlane output" "build/logs/fastlane-maccatalyst-upload.log"
-            if [ -d "$HOME/Library/Logs/gym" ]; then
-              while IFS= read -r gym_log; do
-                emit_reversed_tail "raw gym log" "$gym_log"
-              done < <(find "$HOME/Library/Logs/gym" -type f -name "*.log" | sort)
-            fi
-          fi
-
-          exit "$fastlane_status"
 
       - name: Collect upload diagnostics
         if: always()
@@ -395,10 +198,7 @@ jobs:
             } >> "$diagnostics_file"
           }
 
-          append_excerpt "Fastlane Mac Catalyst upload" "build/logs/fastlane-maccatalyst-upload.log"
           append_excerpt "Fastlane iOS upload" "build/logs/fastlane-ios-upload.log"
-          append_excerpt "Fastlane tvOS upload" "build/logs/fastlane-tvos-upload.log"
-          append_excerpt "Fastlane visionOS upload" "build/logs/fastlane-visionos-upload.log"
 
           if [ -d "$HOME/Library/Logs/gym" ]; then
             while IFS= read -r file; do
@@ -413,13 +213,10 @@ jobs:
             echo '```' >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Summarize upload results
+      - name: Summarize upload result
         if: always()
         env:
           IOS_OUTCOME: ${{ steps.upload_ios.outcome }}
-          TVOS_OUTCOME: ${{ steps.upload_tvos.outcome }}
-          VISIONOS_OUTCOME: ${{ steps.upload_visionos.outcome }}
-          MACCATALYST_OUTCOME: ${{ steps.upload_maccatalyst.outcome }}
         run: |
           {
             echo "### Platform upload results"
@@ -427,25 +224,15 @@ jobs:
             echo "| Platform | Outcome |"
             echo "| --- | --- |"
             echo "| iOS | ${IOS_OUTCOME} |"
-            echo "| tvOS | ${TVOS_OUTCOME} |"
-            echo "| visionOS | ${VISIONOS_OUTCOME} |"
-            echo "| Mac Catalyst | ${MACCATALYST_OUTCOME} |"
           } >> "$GITHUB_STEP_SUMMARY"
-
-          failed=0
-          for outcome in "$IOS_OUTCOME" "$TVOS_OUTCOME" "$VISIONOS_OUTCOME" "$MACCATALYST_OUTCOME"; do
-            [ "$outcome" = "success" ] || failed=1
-          done
-          exit "$failed"
 
       - name: Upload IPA artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: NightfallProtocol-platform-archives
+          name: NightfallProtocol-iOS-archive
           path: |
             build/logs/**/*
             build/export/**/*.ipa
-            build/export/**/*.pkg
             build/export/**/*.dSYM.zip
           if-no-files-found: ignore

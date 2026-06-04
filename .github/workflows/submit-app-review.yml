@@ -19,9 +19,9 @@ on:
         required: true
         default: "62"
       platforms:
-        description: "Comma-separated ASC platforms"
+        description: "ASC platform to submit"
         required: true
-        default: "IOS,TV_OS,VISION_OS,MAC_OS"
+        default: "IOS"
 
 jobs:
   submit-review:
@@ -36,7 +36,7 @@ jobs:
       FASTLANE_HIDE_GITHUB_ISSUES: "1"
       INPUT_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '1.0' }}
       INPUT_BUILD_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.build_number || '' }}
-      INPUT_PLATFORMS: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || (contains(github.ref_name, 'macos') && 'MAC_OS' || (contains(github.ref_name, 'tvos') && 'TV_OS' || (contains(github.ref_name, 'visionos') && 'VISION_OS' || (contains(github.ref_name, 'ios') && 'IOS' || 'IOS,TV_OS,VISION_OS,MAC_OS')))) }}
+      INPUT_PLATFORMS: "IOS"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -206,50 +206,6 @@ platform :ios do
     )
   end
 
-  desc "Archive Nightfall Protocol for tvOS and upload the signed IPA to TestFlight."
-  lane :build_upload_tvos do
-    nightfall_build_and_upload(
-      platform_key: "tvos",
-      destination: "generic/platform=tvOS",
-      sdk: "appletvos",
-      profile_env: "TVOS_PROFILE_SPECIFIER",
-      default_profile: "NightfallProtocol_tvOS_App_Store",
-      artifact_name: "NightfallProtocol-tvOS.ipa",
-      app_platform: "appletvos"
-    )
-  end
-
-  desc "Archive Nightfall Protocol for visionOS and upload the signed IPA to TestFlight."
-  lane :build_upload_visionos do
-    nightfall_build_and_upload(
-      platform_key: "visionos",
-      destination: "generic/platform=visionOS",
-      sdk: "xros",
-      profile_env: "VISIONOS_PROFILE_SPECIFIER",
-      default_profile: "NightfallProtocol_App_Store",
-      artifact_name: "NightfallProtocol-visionOS.ipa",
-      app_platform: "xros"
-    )
-  end
-
-  desc "Archive Nightfall Protocol for Mac Catalyst and upload the signed PKG to TestFlight."
-  lane :build_upload_maccatalyst do
-    nightfall_build_and_upload(
-      platform_key: "maccatalyst",
-      destination: "generic/platform=macOS,variant=Mac Catalyst",
-      sdk: "macosx",
-      profile_env: "MACCATALYST_PROFILE_SPECIFIER",
-      default_profile: "NightfallProtocol_MacCatalyst_App_Store",
-      artifact_name: "NightfallProtocol-macOS",
-      catalyst_platform: "macos",
-      app_platform: "osx",
-      installer_cert_env: "MAC_INSTALLER_CERT_NAME",
-      signing_certificate_env: "MACCATALYST_SIGNING_CERT_NAME",
-      default_signing_certificate: "3rd Party Mac Developer Application",
-      manual_package_pkg: true
-    )
-  end
-
   desc "Archive Nightfall Protocol and upload the signed iOS IPA to TestFlight."
   lane :build_upload do
     build_upload_ios
@@ -288,7 +244,6 @@ platform :ios do
     }
 
     deliver(**shared_options.merge(platform: "ios"))
-    deliver(**shared_options.merge(platform: "appletvos"))
   end
 
   desc "Print the cosmetic-only in-app purchase manifest for App Store setup."

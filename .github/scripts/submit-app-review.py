@@ -21,10 +21,8 @@ SUBMITTED_STATES = {
     "PROCESSING_FOR_APP_STORE",
     "READY_FOR_SALE",
 }
-KNOWN_REVIEW_SUBMISSIONS = {
-    "TV_OS": "49ef16d4-7044-443b-abe7-e3fe55054b2b",
-    "VISION_OS": "9b1b9d48-4705-41c8-975b-6a3495f3bf97",
-}
+SUPPORTED_PLATFORMS = {"IOS"}
+KNOWN_REVIEW_SUBMISSIONS: dict[str, str] = {}
 
 
 class AppStoreConnectError(RuntimeError):
@@ -88,13 +86,20 @@ def main() -> int:
     parser.add_argument("--build-number", required=True)
     parser.add_argument(
         "--platforms",
-        default="IOS,TV_OS,VISION_OS,MAC_OS",
-        help="Comma-separated App Store Connect platforms.",
+        default="IOS",
+        help="Comma-separated App Store Connect platforms. Nightfall Protocol currently submits iOS only.",
     )
     args = parser.parse_args()
 
     client = AppStoreConnectClient(generate_jwt())
     platforms = [platform.strip() for platform in args.platforms.split(",") if platform.strip()]
+    unsupported_platforms = [platform for platform in platforms if platform not in SUPPORTED_PLATFORMS]
+    if unsupported_platforms:
+        print(
+            "ERROR: Nightfall Protocol is configured for iOS only. "
+            f"Unsupported requested platforms: {', '.join(unsupported_platforms)}."
+        )
+        return 2
 
     print(f"Preparing app {args.app_id} version {args.version} build {args.build_number}.")
     versions = find_app_store_versions(client, args.app_id, args.version)
@@ -354,7 +359,7 @@ def find_review_submission_for_version(
 def list_review_submissions(
     client: AppStoreConnectClient, app_id: str, platform: str
 ) -> list[dict[str, Any]]:
-    review_platform = "XROS" if platform == "VISION_OS" else platform
+    review_platform = platform
     queries = [
         urllib.parse.urlencode(
             {
