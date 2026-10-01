@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from datetime import datetime
 import hashlib
 import importlib.util
 import json
@@ -73,9 +74,24 @@ def main():
     for test in manifest:
         if "testLegalLinksOpenTheirDestinations" not in test["testIdentifier"]:
             continue
-        recording = next(a for a in test["attachments"] if a["exportedFileName"].endswith(".mp4"))
+        records = [a for a in test["attachments"] if a["exportedFileName"].endswith(".mp4")]
+        if records:
+            video = folder / records[0]["exportedFileName"]
+        else:
+            images = {a["suggestedHumanReadableName"].split("_0_")[0]: a for a in test["attachments"] if a["exportedFileName"].endswith(".png")}
+            names = ("legal-links-from-settings", "privacy-policy-opened-in-browser", "apple-eula-opened-in-browser")
+            if not all(name in images for name in names):
+                raise RuntimeError("Recording requires captures of Settings and both verified legal pages.")
+            source = args.folder / "review.mp4"
+            metadata = json.loads(subprocess.check_output(["ffprobe", "-v", "quiet", "-show_format", "-of", "json", str(source)], text=True))
+            created = datetime.fromisoformat(metadata["format"]["tags"]["creation_time"]).timestamp()
+            start = max(0, images[names[0]]["timestamp"] - created - 8)
+            duration = images[names[-1]]["timestamp"] - created + 8 - start
+            video = args.folder / "Nightfall-Protocol-verified-legal-links.mp4"
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", str(start), "-i", str(source), "-t", str(duration),
+                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "24", "-pix_fmt", "yuv420p", "-an", str(video)], check=True)
         upload(client, "appStoreReviewAttachments", "appStoreReviewDetail", "appStoreReviewDetails", detail["id"],
-               folder / recording["exportedFileName"])
+               video)
         break
     else:
         raise RuntimeError("No legal-link test recording found in the evidence artifact.")

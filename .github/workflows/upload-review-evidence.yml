@@ -45,6 +45,10 @@ jobs:
           ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
           ASSET_TYPE: ${{ inputs.asset_type }}
         run: |
+          if ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
           mkdir -p "$RUNNER_TEMP/private_keys"
           export ASC_KEY_PATH="$RUNNER_TEMP/private_keys/ReviewEvidence.p8"
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$ASC_KEY_PATH"

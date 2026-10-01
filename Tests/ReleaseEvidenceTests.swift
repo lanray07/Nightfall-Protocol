@@ -7,24 +7,28 @@ final class ReleaseEvidenceTests: XCTestCase {
 
     func testLegalLinksOpenTheirDestinations() {
         continueAfterFailure = false
+        let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+        safari.launch()
+        if safari.buttons["Continue"].waitForExistence(timeout: 5) { safari.buttons["Continue"].tap() }
         let app = XCUIApplication()
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_GB"]
         app.launch()
         XCTAssertTrue(app.buttons["Settings"].waitForExistence(timeout: 60))
         app.buttons["Settings"].tap()
         XCTAssertTrue(app.buttons["Privacy Policy"].waitForExistence(timeout: 15))
+        capture("legal-links-from-settings", app: app)
         app.buttons["Privacy Policy"].tap()
-        let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
         XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 30))
-        if safari.buttons["Continue"].exists { safari.buttons["Continue"].tap() }
-        XCTAssertTrue(safari.webViews.firstMatch.waitForExistence(timeout: 45))
+        let privacy = safari.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@", "Nightfall Protocol Privacy Policy")).firstMatch
+        XCTAssertTrue(privacy.waitForExistence(timeout: 75))
         capture("privacy-policy-opened-in-browser", app: safari)
         print(safari.debugDescription)
         app.activate()
         XCTAssertTrue(app.buttons["Terms of Use"].waitForExistence(timeout: 15))
         app.buttons["Terms of Use"].tap()
         XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 30))
-        XCTAssertTrue(safari.webViews.firstMatch.waitForExistence(timeout: 45))
+        let terms = safari.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@", "LICENSED APPLICATION END USER LICENSE AGREEMENT")).firstMatch
+        XCTAssertTrue(terms.waitForExistence(timeout: 75))
         capture("apple-eula-opened-in-browser", app: safari)
         print(safari.debugDescription)
         app.activate()

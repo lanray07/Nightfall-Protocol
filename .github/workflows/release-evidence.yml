@@ -2,6 +2,12 @@ name: iOS Release Evidence
 
 on:
   workflow_dispatch:
+    inputs:
+      test_scope:
+        description: Release checks to run
+        type: choice
+        options: [all, legal, purchases]
+        default: all
 
 jobs:
   review-tests:
@@ -34,16 +40,25 @@ jobs:
           xcrun simctl ui "$simulator_id" appearance dark
       - name: Run StoreKit and UI tests with recording
         timeout-minutes: 15
+        env:
+          TEST_SCOPE: ${{ inputs.test_scope }}
         run: |
           mkdir -p build/evidence
           xcrun simctl io "$SIMULATOR_ID" recordVideo --codec=h264 build/evidence/review.mp4 > build/evidence/recording.log 2>&1 &
           recording_pid=$!
           set +e
           set -o pipefail
+          test_args=()
+          case "$TEST_SCOPE" in
+            legal) test_args+=(-only-testing:ReleaseEvidenceTests/ReleaseEvidenceTests/testLegalLinksOpenTheirDestinations) ;;
+            purchases) test_args+=(-only-testing:ReleaseEvidenceTests/ReleaseEvidenceTests/testPurchaseRestoreExpiryAndLegalLinks) ;;
+            all|'') ;;
+            *) exit 2 ;;
+          esac
           xcodebuild -project NightfallProtocol.xcodeproj -scheme ReleaseEvidence \
             -configuration Debug -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
             -parallel-testing-enabled NO -resultBundlePath build/evidence/Review.xcresult \
-            CODE_SIGNING_ALLOWED=NO test 2>&1 | tee build/evidence/tests.log
+            CODE_SIGNING_ALLOWED=NO "${test_args[@]}" test 2>&1 | tee build/evidence/tests.log
           result=${PIPESTATUS[0]}
           kill -INT "$recording_pid" || true
           wait "$recording_pid" || true
