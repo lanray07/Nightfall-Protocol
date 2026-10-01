@@ -404,7 +404,7 @@ struct StoreItemCard: View {
             Text(LocalizedStringKey(item.descriptionKey))
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.72))
-                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
 
             LocalizedButton(
                 titleKey: item.owned ? "state.owned" : "action.purchase",

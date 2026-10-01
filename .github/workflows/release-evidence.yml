@@ -1,0 +1,53 @@
+name: iOS Release Evidence
+
+on:
+  workflow_dispatch:
+
+jobs:
+  review-tests:
+    name: Purchase and Settings checks (${{ matrix.device }})
+    runs-on: macos-26
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iPhone, iPad]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Prepare test-only target
+        run: bundle exec ruby .github/scripts/prepare-review-tests.rb
+      - name: Select simulator
+        env:
+          DEVICE_FAMILY: ${{ matrix.device }}
+        run: |
+          simulator_id=$(xcrun simctl list devices available -j | python3 -c 'import json,os,sys; d=json.load(sys.stdin); family=os.environ["DEVICE_FAMILY"]; devices=[v for k,vs in d["devices"].items() if ".iOS-" in k for v in vs if v["name"].startswith(family)]; preferred=[v for v in devices if ("Pro Max" in v["name"] if family=="iPhone" else "13-inch" in v["name"])]; print((preferred or devices)[0]["udid"])')
+          echo "SIMULATOR_ID=$simulator_id" >> "$GITHUB_ENV"
+          xcrun simctl boot "$simulator_id"
+          xcrun simctl bootstatus "$simulator_id" -b
+          xcrun simctl ui "$simulator_id" appearance dark
+      - name: Run StoreKit and UI tests with recording
+        run: |
+          mkdir -p build/evidence
+          xcrun simctl io "$SIMULATOR_ID" recordVideo --codec=h264 build/evidence/review.mp4 > build/evidence/recording.log 2>&1 &
+          recording_pid=$!
+          set +e
+          set -o pipefail
+          xcodebuild -project NightfallProtocol.xcodeproj -scheme ReleaseEvidence \
+            -configuration Debug -destination "platform=iOS Simulator,id=$SIMULATOR_ID" \
+            -parallel-testing-enabled NO -resultBundlePath build/evidence/Review.xcresult \
+            CODE_SIGNING_ALLOWED=NO test 2>&1 | tee build/evidence/tests.log
+          result=${PIPESTATUS[0]}
+          kill -INT "$recording_pid" || true
+          wait "$recording_pid" || true
+          xcrun xcresulttool export attachments --path build/evidence/Review.xcresult --output-path build/evidence/attachments || true
+          exit "$result"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-evidence-${{ matrix.device }}
+          path: build/evidence/
+          retention-days: 14
