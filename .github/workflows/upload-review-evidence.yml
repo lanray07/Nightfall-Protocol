@@ -1,0 +1,48 @@
+name: Upload iOS Review Evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      evidence_run:
+        description: Release Evidence workflow run ID
+        required: true
+        type: string
+      device:
+        description: Device capture
+        type: choice
+        options: [iPhone, iPad]
+        default: iPhone
+      screenshots_only:
+        description: Repair subscription screenshot only
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download genuine Xcode evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_RUN: ${{ inputs.evidence_run }}
+          DEVICE: ${{ inputs.device }}
+        run: gh run download "$EVIDENCE_RUN" --repo "$GITHUB_REPOSITORY" --name "release-evidence-$DEVICE" --dir build/review-evidence
+      - name: Upload review-only assets
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          SCREENSHOTS_ONLY: ${{ inputs.screenshots_only }}
+        run: |
+          args=()
+          if [[ "$SCREENSHOTS_ONLY" == "true" ]]; then args+=(--screenshots-only); fi
+          python3 .github/scripts/upload-review-evidence.py \
+            --folder build/review-evidence \
+            --version-id 1330f26e-a016-479a-835c-2599777d223d \
+            --subscription-id 6772630925 "${args[@]}"
