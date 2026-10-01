@@ -19,4 +19,6 @@ The current illustrated frames are design references. Use the **App Store Screen
 
 The capture workflow produces 1320 x 2868 iPhone 6.9-inch PNGs and 2064 x 2752 iPad 13-inch PNGs under `fastlane/screenshots/<locale>/`, with unique device-prefixed names. English is ready; other languages require completion of the app string catalog through the localization workflow. The eleven store descriptions and caption sets are in `fastlane/localization/listing.json`.
 
+`Captured/en-GB` contains the reviewed English selection: seven actual app captures per device, 14 PNGs total. The hub preview is excluded because it displays the existing unfinished Co-op Placeholder action. The upload workflow makes the same selection automatically and validates it before replacing store screenshots. See `Captured/README.md` for the capture source and dimensions.
+
 See `fastlane/README.md` for translation, review, capture, and upload commands.

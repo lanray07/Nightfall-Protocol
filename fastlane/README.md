@@ -23,7 +23,7 @@ Optional App Review contact secrets:
 - App Store display name: Nightfall Protocol
 - Subtitle, description, keywords, support URL, privacy URL, copyright, and release notes
 - Eleven localized listings exported from `localization/listing.json`
-- Eight captioned screenshots per locale for iPhone 6.9-inch and iPad 13-inch, captured from the running app
+- Seven selected captioned screenshots per locale for iPhone 6.9-inch and iPad 13-inch, captured from the running app
 - App Review notes, and contact details if the optional contact secrets are present
 
 The workflow intentionally does not submit the app for review.
@@ -48,13 +48,27 @@ Capture fixtures and large localized caption headers are restricted to Debug sim
 
 On a Mac with Xcode, the equivalent command is `python scripts/capture_screenshots.py --locales en-GB`. Output is `fastlane/screenshots/<locale>/<device>-<scene>.png`, preventing iPhone/iPad filename collisions. The export contains 16 PNGs per locale, eight per device, plus `capture-manifest.json` for freshness and dimension checks. Use a new output directory for each capture run.
 
-Download and review the `app-store-screenshots` artifact. To upload it, run **App Store Connect Metadata** with the completed screenshot workflow run ID. That workflow verifies the export against the current listing before upload. With no run ID it uploads metadata only and leaves screenshots untouched. Local Fastlane uploads can enable screenshots with `UPLOAD_SCREENSHOTS=1`; validation is required.
+The iPhone 1320 x 2868 and iPad 2064 x 2752 portrait sizes match [Apple's screenshot specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/). Cold simulator startup can take several minutes on hosted Macs. Capture logs each command and uses bounded waits, including five minutes for simulator boot, so failures report the stalled command. Use `--derived-data build/DerivedData` to reuse a prior Debug simulator build.
+
+Download and review the `app-store-screenshots` artifact. The full capture contains eight scenes per device. `scripts/curate_screenshots.py` excludes the hub scene because the existing app displays a `Co-op Placeholder` action there, leaving seven scenes per device for upload. This does not remove or alter the app's modes. Implement or remove that unfinished feature in the app before making the hub scene uploadable.
+
+To upload the selected set, run **App Store Connect Metadata** with the completed screenshot workflow run ID. That workflow selects scenes and verifies the export against the current listing before upload. With no run ID it uploads metadata only and leaves screenshots untouched. Local Fastlane uploads can enable screenshots with `UPLOAD_SCREENSHOTS=1` and choose a curated directory with `SCREENSHOTS_PATH`; validation rejects raw exports containing the placeholder scene.
+
+The reviewed English selection is committed in `AppStoreAssets/Captured` (14 PNGs). It came from [successful capture run 36852106165](https://github.com/lanray07/Nightfall-Protocol/actions/runs/36852106165). For a new local export, use a fresh directory at each stage:
+
+```sh
+python scripts/capture_screenshots.py --locales en-GB --output build/raw-store-screenshots
+python scripts/curate_screenshots.py --input build/raw-store-screenshots --output fastlane/screenshots
+python scripts/validate_screenshots.py --store-ready
+```
+
+The committed selection can be validated with `python scripts/validate_screenshots.py --directory AppStoreAssets/Captured --store-ready`. A local metadata upload can use `UPLOAD_SCREENSHOTS=1 SCREENSHOTS_PATH="$PWD/AppStoreAssets/Captured" bundle exec fastlane ios metadata`; this updates the listing but does not submit an App Review request.
 
 Original illustrated assets in `AppStoreAssets` are preserved as design references. They are not used by the capture or upload workflows. A listing update does not resolve the outstanding IAP submission and promotional-image review issues by itself.
 
 ## Xcode Builds
 
-`.github/workflows/xcode-build.yml` runs an unsigned iOS Simulator build on GitHub's macOS runner for every push and pull request. To upload a signed build to TestFlight, run the `Xcode Build` workflow manually and enable `upload_to_testflight`.
+`.github/workflows/xcode-build.yml` runs an unsigned iOS Simulator build on GitHub's macOS runner for pushes to main and pull requests. To upload a signed build to TestFlight, run the `Xcode Build` workflow manually and enable `upload_to_testflight`.
 
 Signed uploads require `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_KEY_P8_BASE64` repository secrets. The workflow uses automatic signing with Xcode and uploads the archived IPA through Fastlane.
 

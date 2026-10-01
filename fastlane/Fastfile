@@ -215,12 +215,13 @@ platform :ios do
   lane :metadata do
     sh("python3 #{Shellwords.escape(File.expand_path('../scripts/localize.py', __dir__))} --check")
     upload_screenshots = ENV["UPLOAD_SCREENSHOTS"] == "1"
-    sh("python3 #{Shellwords.escape(File.expand_path('../scripts/validate_screenshots.py', __dir__))}") if upload_screenshots
+    screenshot_directory = File.expand_path(ENV.fetch("SCREENSHOTS_PATH", "fastlane/screenshots"), File.expand_path("..", __dir__))
+    sh("python3 #{Shellwords.escape(File.expand_path('../scripts/validate_screenshots.py', __dir__))} --store-ready --directory #{Shellwords.escape(screenshot_directory)}") if upload_screenshots
 
     options = {
       api_key: nightfall_api_key,
       metadata_path: "fastlane/metadata",
-      screenshots_path: "fastlane/screenshots",
+      screenshots_path: screenshot_directory,
       skip_binary_upload: true,
       skip_screenshots: !upload_screenshots,
       submit_for_review: false,

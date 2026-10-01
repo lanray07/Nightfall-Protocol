@@ -14,6 +14,7 @@ from localize import (ROOT, coverage, digest, export_metadata, protect, read_jso
                       seed_listing_state, tokens, translate_catalog, translate_listing, validate_listing)
 from validate_screenshots import validate_screenshots
 from capture_screenshots import run
+from curate_screenshots import curate
 
 
 class FakeTranslator:
@@ -129,12 +130,35 @@ class LocalizationTests(unittest.TestCase):
             manifest_path = root / "capture-manifest.json"
             manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
             validate_screenshots(listing, root)
+            with self.assertRaisesRegex(ValueError, "Placeholder"):
+                validate_screenshots(listing, root, store_ready=True)
+            with self.assertRaisesRegex(ValueError, "fresh"):
+                curate(listing, root, root / "selected")
+            with tempfile.TemporaryDirectory() as output_directory:
+                selected = Path(output_directory) / "selected"
+                curate(listing, root, selected)
+                validate_screenshots(listing, selected, store_ready=True)
+                self.assertEqual(len(list(selected.rglob("*.png"))), 14)
+                self.assertEqual(len(list(root.rglob("*.png"))), 16)
+                self.assertNotIn("06-operator-progression", read_json(selected / "capture-manifest.json")["scenes"])
+                with self.assertRaisesRegex(ValueError, "fresh"):
+                    curate(listing, root, selected)
             (root / paths[0]).unlink()
             with self.assertRaisesRegex(ValueError, "Missing"):
                 validate_screenshots(listing, root)
             listing["locales"]["en-GB"]["captions"][0][0] = "Updated caption"
             with self.assertRaisesRegex(ValueError, "stale"):
                 validate_screenshots(listing, root)
+
+    def test_unknown_screenshot_scene_is_rejected_before_reading_images(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = {"listing_hash": digest(json.dumps(self.listing, ensure_ascii=False, sort_keys=True)),
+                        "locales": ["en-GB"], "devices": list(self.listing["devices"]),
+                        "scenes": ["unknown-scene"], "screenshots": []}
+            (root / "capture-manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "known scenes"):
+                validate_screenshots(self.listing, root)
 
     @staticmethod
     def write_png(path):

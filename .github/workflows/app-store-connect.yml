@@ -11,6 +11,10 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   upload-metadata:
     name: Upload metadata and screenshots
@@ -48,14 +52,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-store-screenshots
-          path: fastlane/screenshots
+          path: build/raw-store-screenshots
           run-id: ${{ inputs.screenshot_run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Validate captured screenshots
+      - name: Select and validate upload screenshots
         if: github.event_name == 'workflow_dispatch' && inputs.screenshot_run_id != ''
         run: |
-          python scripts/validate_screenshots.py
+          python scripts/curate_screenshots.py --input build/raw-store-screenshots --output fastlane/screenshots
+          python scripts/validate_screenshots.py --store-ready
           echo "UPLOAD_SCREENSHOTS=1" >> "$GITHUB_ENV"
 
       - name: Upload metadata and screenshots

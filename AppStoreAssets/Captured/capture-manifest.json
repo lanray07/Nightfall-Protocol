@@ -1,0 +1,39 @@
+{
+  "listing_hash": "5322debc0bab99ce45372649d704933f7e2c46af55df821e6f410067e5457fd2",
+  "locales": [
+    "en-GB"
+  ],
+  "devices": [
+    "iPhone-6.9",
+    "iPad-13"
+  ],
+  "screenshots": [
+    "en-GB/iPhone-6.9-01-offline-survival-horror.png",
+    "en-GB/iPhone-6.9-02-nightmare-extraction-missions.png",
+    "en-GB/iPhone-6.9-03-escape-reality-collapse.png",
+    "en-GB/iPhone-6.9-04-collect-dream-artifacts.png",
+    "en-GB/iPhone-6.9-05-extraction-rewards-and-ranks.png",
+    "en-GB/iPhone-6.9-07-daily-nightmare-challenge.png",
+    "en-GB/iPhone-6.9-08-play-in-your-language.png",
+    "en-GB/iPad-13-01-offline-survival-horror.png",
+    "en-GB/iPad-13-02-nightmare-extraction-missions.png",
+    "en-GB/iPad-13-03-escape-reality-collapse.png",
+    "en-GB/iPad-13-04-collect-dream-artifacts.png",
+    "en-GB/iPad-13-05-extraction-rewards-and-ranks.png",
+    "en-GB/iPad-13-07-daily-nightmare-challenge.png",
+    "en-GB/iPad-13-08-play-in-your-language.png"
+  ],
+  "source": "iOS simulator; actual SwiftUI and SpriteKit views",
+  "scenes": [
+    "01-offline-survival-horror",
+    "02-nightmare-extraction-missions",
+    "03-escape-reality-collapse",
+    "04-collect-dream-artifacts",
+    "05-extraction-rewards-and-ranks",
+    "07-daily-nightmare-challenge",
+    "08-play-in-your-language"
+  ],
+  "excluded_preview_scenes": [
+    "06-operator-progression"
+  ]
+}

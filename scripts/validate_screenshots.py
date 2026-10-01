@@ -9,6 +9,8 @@ import zlib
 
 from localize import ROOT, digest, read_json
 
+PREVIEW_ONLY_SCENES = {"06-operator-progression"}
+
 
 def png_size(path):
     with path.open("rb") as handle:
@@ -37,19 +39,25 @@ def png_size(path):
                 return size
 
 
-def validate_screenshots(listing, directory):
+def validate_screenshots(listing, directory, store_ready=False):
     manifest = read_json(directory / "capture-manifest.json")
     expected_hash = digest(json.dumps(listing, ensure_ascii=False, sort_keys=True))
     if manifest["listing_hash"] != expected_hash:
         raise ValueError("Screenshots are stale; recapture after changing listing copy or captions")
     if not manifest["locales"] or set(manifest["devices"]) != set(listing["devices"]):
         raise ValueError("Capture both required iPhone and iPad device sets")
+    scene_ids = manifest.get("scenes", [scene["id"] for scene in listing["scenes"]])
+    selected = [scene for scene in listing["scenes"] if scene["id"] in scene_ids]
+    if not scene_ids or len(scene_ids) > 10 or scene_ids != [scene["id"] for scene in selected]:
+        raise ValueError("Select between one and ten known scenes in capture order, without duplicates")
+    if store_ready and PREVIEW_ONLY_SCENES.intersection(scene_ids):
+        raise ValueError("Exclude the hub scene while its Co-op Placeholder action is unfinished; run curate_screenshots.py")
     expected = set()
     for code in manifest["locales"]:
         if code not in listing["locales"]:
             raise ValueError("Unsupported screenshot locale " + code)
         for device, specification in listing["devices"].items():
-            for scene in listing["scenes"]:
+            for scene in selected:
                 name = code + "/" + device + "-" + scene["id"] + ".png"
                 expected.add(name)
                 path = directory / name
@@ -58,7 +66,7 @@ def validate_screenshots(listing, directory):
                 if png_size(path) != (specification["width"], specification["height"]):
                     raise ValueError("Incorrect screenshot dimensions for " + name)
     actual = {str(path.relative_to(directory)).replace("\\", "/") for path in directory.rglob("*.png")}
-    if actual != expected or set(manifest["screenshots"]) != expected:
+    if actual != expected or set(manifest["screenshots"]) != expected or len(manifest["screenshots"]) != len(expected):
         raise ValueError("Screenshot export contains missing, duplicate or unexpected files")
     print("Validated %d screenshots across %d locales" % (len(expected), len(manifest["locales"])))
 
@@ -66,5 +74,6 @@ def validate_screenshots(listing, directory):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--directory", type=Path, default=ROOT / "fastlane/screenshots")
+    parser.add_argument("--store-ready", action="store_true", help="Reject scenes containing unfinished features")
     args = parser.parse_args()
-    validate_screenshots(read_json(ROOT / "fastlane/localization/listing.json"), args.directory)
+    validate_screenshots(read_json(ROOT / "fastlane/localization/listing.json"), args.directory, args.store_ready)
