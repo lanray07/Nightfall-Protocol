@@ -52,7 +52,7 @@ def main():
     parser.add_argument("--folder", type=Path, required=True)
     parser.add_argument("--version-id", required=True)
     parser.add_argument("--subscription-id", required=True)
-    parser.add_argument("--screenshots-only", action="store_true")
+    parser.add_argument("--assets", choices=("screenshot", "recording", "both"), default="both")
     args = parser.parse_args()
     token = subprocess.check_output(["bash", ".github/scripts/app-store-connect-jwt.sh"], text=True).strip()
     client = module.AppStoreConnectClient(token)
@@ -62,11 +62,12 @@ def main():
     folder = args.folder / "attachments"
     manifest = json.loads((folder / "manifest.json").read_text())
     captures = [attachment for test in manifest for attachment in test["attachments"]]
-    screenshot = next(a for a in captures if a["suggestedHumanReadableName"].startswith("premium-pass-live-storekit-test"))
-    existing = client.request("GET", f"/v1/subscriptions/{args.subscription_id}/appStoreReviewScreenshot").get("data")
-    upload(client, "subscriptionAppStoreReviewScreenshots", "subscription", "subscriptions", args.subscription_id,
-           folder / screenshot["exportedFileName"], existing)
-    if args.screenshots_only:
+    if args.assets != "recording":
+        screenshot = next(a for a in captures if a["suggestedHumanReadableName"].startswith("premium-pass-live-storekit-test"))
+        existing = client.request("GET", f"/v1/subscriptions/{args.subscription_id}/appStoreReviewScreenshot").get("data")
+        upload(client, "subscriptionAppStoreReviewScreenshots", "subscription", "subscriptions", args.subscription_id,
+               folder / screenshot["exportedFileName"], existing)
+    if args.assets == "screenshot":
         return
     detail = client.request("GET", f"/v1/appStoreVersions/{args.version_id}/appStoreReviewDetail")["data"]
     for test in manifest:

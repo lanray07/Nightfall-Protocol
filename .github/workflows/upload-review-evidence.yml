@@ -12,10 +12,11 @@ on:
         type: choice
         options: [iPhone, iPad]
         default: iPhone
-      screenshots_only:
-        description: Repair subscription screenshot only
-        type: boolean
-        default: false
+      asset_type:
+        description: Review assets to upload
+        type: choice
+        options: [screenshot, recording, both]
+        default: both
 
 permissions:
   contents: read
@@ -42,16 +43,14 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
-          SCREENSHOTS_ONLY: ${{ inputs.screenshots_only }}
+          ASSET_TYPE: ${{ inputs.asset_type }}
         run: |
           mkdir -p "$RUNNER_TEMP/private_keys"
           export ASC_KEY_PATH="$RUNNER_TEMP/private_keys/ReviewEvidence.p8"
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$ASC_KEY_PATH"
           chmod 600 "$ASC_KEY_PATH"
           trap 'rm -f "$ASC_KEY_PATH"' EXIT
-          args=()
-          if [[ "$SCREENSHOTS_ONLY" == "true" ]]; then args+=(--screenshots-only); fi
           python3 .github/scripts/upload-review-evidence.py \
             --folder build/review-evidence \
             --version-id 1330f26e-a016-479a-835c-2599777d223d \
-            --subscription-id 6772630925 "${args[@]}"
+            --subscription-id 6772630925 --assets "$ASSET_TYPE"
