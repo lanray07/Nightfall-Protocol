@@ -79,7 +79,8 @@ jobs:
 
       - name: Capture English App Store screenshots
         if: github.event_name == 'workflow_dispatch' && inputs.capture_store_screenshots
-        run: python scripts/capture_screenshots.py --locales en-GB
+        timeout-minutes: 20
+        run: python scripts/capture_screenshots.py --locales en-GB --derived-data build/DerivedData
 
       - name: Export App Store screenshots
         if: github.event_name == 'workflow_dispatch' && inputs.capture_store_screenshots

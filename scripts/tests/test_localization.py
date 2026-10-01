@@ -1,4 +1,6 @@
 import copy
+from contextlib import redirect_stdout
+import io
 import json
 from pathlib import Path
 import struct
@@ -11,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from localize import (ROOT, coverage, digest, export_metadata, protect, read_json, restore,
                       seed_listing_state, tokens, translate_catalog, translate_listing, validate_listing)
 from validate_screenshots import validate_screenshots
+from capture_screenshots import run
 
 
 class FakeTranslator:
@@ -95,6 +98,19 @@ class LocalizationTests(unittest.TestCase):
     def test_coverage_does_not_count_english_fallback_as_translation(self):
         catalog = {"sourceLanguage": "en", "strings": {"play": {"localizations": {"en": {"stringUnit": {"value": "Play"}}}}}}
         self.assertEqual(coverage(catalog, {"ja": self.listing["locales"]["ja"]})["ja"]["missing"], 1)
+
+    def test_capture_commands_report_output_and_failures(self):
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(run(sys.executable, "-c", "print('ready')", timeout=10), "ready")
+            with self.assertRaisesRegex(RuntimeError, "failed"):
+                run(sys.executable, "-c", "raise SystemExit(1)", timeout=10)
+
+    def test_stalled_capture_commands_and_cleanup_are_bounded(self):
+        with redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(RuntimeError, "timed out"):
+                run(sys.executable, "-c", "import time; time.sleep(60)", timeout=0.2)
+            self.assertEqual(run(sys.executable, "-c", "import time; time.sleep(60)",
+                                 timeout=0.2, check=False), "")
 
     def test_screenshot_sets_keep_devices_separate_and_reject_stale_exports(self):
         listing = copy.deepcopy(self.listing)

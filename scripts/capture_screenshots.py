@@ -6,6 +6,8 @@ import json
 import os
 from pathlib import Path
 import platform
+import shlex
+import signal
 import subprocess
 import time
 
@@ -15,11 +17,29 @@ from validate_screenshots import validate_screenshots
 BUNDLE_ID = "com.nightfallprotocol.prototype"
 
 
-def run(*args, env=None, check=True):
-    result = subprocess.run(args, env=env, text=True, capture_output=True)
-    if check and result.returncode:
-        raise RuntimeError("%s failed:\n%s\n%s" % (args[0], result.stdout[-3000:], result.stderr[-3000:]))
-    return result.stdout.strip()
+def run(*args, env=None, check=True, timeout=120):
+    command = shlex.join(args)
+    print("Running: " + command, flush=True)
+    started = time.monotonic()
+    with subprocess.Popen(args, env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                          start_new_session=os.name == "posix") as process:
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            if os.name == "posix":
+                os.killpg(process.pid, signal.SIGKILL)
+            else:
+                process.kill()
+            stdout, stderr = process.communicate()
+            message = "%s timed out after %ss:\n%s\n%s" % (command, timeout, stdout[-3000:], stderr[-3000:])
+            if check:
+                raise RuntimeError(message) from None
+            print(message, flush=True)
+            return ""
+        if check and process.returncode:
+            raise RuntimeError("%s failed:\n%s\n%s" % (command, stdout[-3000:], stderr[-3000:]))
+    print("Finished in %.1fs" % (time.monotonic() - started), flush=True)
+    return stdout.strip()
 
 
 def wait_for_screen(marker, route, language):
@@ -44,7 +64,7 @@ def capture(listing, codes, devices, output, derived):
     runtime = max(available, key=lambda item: tuple(int(part) for part in item["version"].split(".")))
     run("xcodebuild", "-project", str(ROOT / "NightfallProtocol.xcodeproj"), "-scheme", "NightfallProtocol",
         "-configuration", "Debug", "-sdk", "iphonesimulator", "-destination", "generic/platform=iOS Simulator",
-        "-derivedDataPath", str(derived), "CODE_SIGNING_ALLOWED=NO", "build")
+        "-derivedDataPath", str(derived), "CODE_SIGNING_ALLOWED=NO", "build", timeout=900)
     app = derived / "Build/Products/Debug-iphonesimulator/NightfallProtocol.app"
     manifest = {"listing_hash": digest(json.dumps(listing, ensure_ascii=False, sort_keys=True)), "locales": codes,
                 "devices": devices, "screenshots": [], "source": "iOS simulator; actual SwiftUI and SpriteKit views"}
@@ -57,7 +77,7 @@ def capture(listing, codes, devices, output, derived):
                         device_type["identifier"], runtime["identifier"])
         try:
             run("xcrun", "simctl", "boot", simulator)
-            run("xcrun", "simctl", "bootstatus", simulator, "-b")
+            run("xcrun", "simctl", "bootstatus", simulator, "-b", timeout=300)
             run("xcrun", "simctl", "ui", simulator, "appearance", "dark")
             run("xcrun", "simctl", "status_bar", simulator, "override", "--time", "9:41", "--batteryState", "charged", "--batteryLevel", "100")
             run("xcrun", "simctl", "install", simulator, str(app))
@@ -82,8 +102,8 @@ def capture(listing, codes, devices, output, derived):
                     manifest["screenshots"].append(str(path.relative_to(output)).replace("\\", "/"))
                     print("Captured " + str(path.relative_to(output)), flush=True)
         finally:
-            run("xcrun", "simctl", "shutdown", simulator, check=False)
-            run("xcrun", "simctl", "delete", simulator, check=False)
+            run("xcrun", "simctl", "shutdown", simulator, check=False, timeout=30)
+            run("xcrun", "simctl", "delete", simulator, check=False, timeout=30)
     save_json(output / "capture-manifest.json", manifest)
     validate_screenshots(listing, output)
 
@@ -92,6 +112,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--locales", default="en-GB", help="Comma-separated locales; app strings must be translated first")
     parser.add_argument("--output", type=Path, default=ROOT / "fastlane/screenshots")
+    parser.add_argument("--derived-data", type=Path, default=ROOT / "build/ScreenshotDerivedData")
     args = parser.parse_args()
     if platform.system() != "Darwin":
         parser.error("Screenshot capture requires macOS and Xcode. Use the App Store Screenshots GitHub Actions workflow.")
@@ -108,7 +129,7 @@ def main():
     incomplete = [code for code, count in counts.items() if count["missing"]]
     if incomplete:
         parser.error("Translate the app before capture for " + ",".join(incomplete) + ": python scripts/localize.py --translate --locales " + ",".join(incomplete))
-    capture(listing, codes, devices, args.output.resolve(), ROOT / "build/ScreenshotDerivedData")
+    capture(listing, codes, devices, args.output.resolve(), args.derived_data.resolve())
 
 
 if __name__ == "__main__":
