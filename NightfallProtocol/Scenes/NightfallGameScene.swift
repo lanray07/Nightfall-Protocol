@@ -1,3 +1,4 @@
+import Foundation
 import QuartzCore
 import SpriteKit
 
@@ -5,6 +6,14 @@ import SpriteKit
 final class NightfallGameScene: SKScene {
     var onEvent: (@MainActor (GameplaySceneEvent) -> Void)?
     var collapseProvider: (@MainActor () -> Double)?
+    private var premiumEnabled = false
+    private var lastCosmeticTrailTime: TimeInterval = 0
+
+    static var monthlyCosmeticColor: SKColor {
+        let colors: [SKColor] = [.systemPink, .systemMint, .systemOrange, .systemYellow]
+        let month = Calendar(identifier: .gregorian).component(.month, from: Date())
+        return colors[(month - 1) % colors.count]
+    }
 
     private var mission: MissionPlan?
     private let player = SKShapeNode(circleOfRadius: 17)
@@ -33,10 +42,12 @@ final class NightfallGameScene: SKScene {
 
     func configure(
         mission: MissionPlan,
+        premiumEnabled: Bool = false,
         onEvent: @escaping @MainActor (GameplaySceneEvent) -> Void,
         collapseProvider: @escaping @MainActor () -> Double
     ) {
         self.mission = mission
+        self.premiumEnabled = premiumEnabled
         self.onEvent = onEvent
         self.collapseProvider = collapseProvider
         buildWorld()
@@ -48,6 +59,11 @@ final class NightfallGameScene: SKScene {
 
     override func didChangeSize(_ oldSize: CGSize) {
         buildWorld()
+    }
+
+    func setPremiumEnabled(_ enabled: Bool) {
+        premiumEnabled = enabled
+        player.fillColor = enabled ? Self.monthlyCosmeticColor : SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
     }
 
     func performInteraction() {
@@ -103,6 +119,18 @@ final class NightfallGameScene: SKScene {
         lastUpdateTime = currentTime
 
         movePlayer(deltaTime: deltaTime)
+        if premiumEnabled, currentTime - lastCosmeticTrailTime > 0.09,
+           let targetPosition, targetPosition.distance(to: player.position) > 4 {
+            lastCosmeticTrailTime = currentTime
+            let mote = SKShapeNode(circleOfRadius: 4)
+            mote.fillColor = Self.monthlyCosmeticColor
+            mote.strokeColor = .clear
+            mote.position = player.position
+            mote.zPosition = 0.5
+            mote.glowWidth = 3
+            addChild(mote)
+            mote.run(.sequence([.group([.fadeOut(withDuration: 0.55), .scale(to: 0.1, duration: 0.55)]), .removeFromParent()]))
+        }
         moveEnemies(deltaTime: deltaTime, currentTime: currentTime)
         updateCollapseVisuals(currentTime: currentTime)
         trackPlayerPath()
@@ -116,6 +144,7 @@ final class NightfallGameScene: SKScene {
         enemyAgents = []
         playerTrail = []
         lastUpdateTime = 0
+        lastCosmeticTrailTime = 0
         exitRelocationThreshold = 0.35
         backgroundColor = SKColor(red: 0.015, green: 0.018, blue: 0.03, alpha: 1)
 
@@ -179,10 +208,11 @@ final class NightfallGameScene: SKScene {
 
     private func buildPlayer() {
         player.position = CGPoint(x: size.width * 0.16, y: size.height * 0.18)
-        player.fillColor = SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
+        player.fillColor = premiumEnabled ? Self.monthlyCosmeticColor : SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
         player.strokeColor = .white
         player.lineWidth = 2
         player.glowWidth = 5
+        player.zPosition = 1
         player.name = "player"
         addChild(player)
     }

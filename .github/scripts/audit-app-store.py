@@ -39,13 +39,21 @@ def main() -> None:
         report["versions"].append(entry)
 
     groups = get(f"/v1/apps/{app_id}/subscriptionGroups?limit=200") or []
+    report["subscription_groups"] = []
     for group in groups:
+        group_entry = {"id": group["id"], "attributes": group.get("attributes", {}), "versions": get(f"/v1/subscriptionGroups/{group['id']}/versions?limit=200"), "localizations": get(f"/v1/subscriptionGroups/{group['id']}/subscriptionGroupLocalizations?limit=200")}
+        report["subscription_groups"].append(group_entry)
         for item in get(f"/v1/subscriptionGroups/{group['id']}/subscriptions?limit=200") or []:
             attrs = item.get("attributes", {})
             entry = {"id": item["id"], "group_id": group["id"], **{key: attrs.get(key) for key in ("name", "productId", "state", "subscriptionPeriod")}}
             entry["localizations"] = [i.get("attributes", {}) for i in get(f"/v1/subscriptions/{item['id']}/subscriptionLocalizations") or []]
             screenshot = get(f"/v1/subscriptions/{item['id']}/appStoreReviewScreenshot")
             entry["review_screenshot"] = (screenshot or {}).get("attributes", {}).get("assetDeliveryState")
+            entry["promotional_images"] = get(f"/v1/subscriptions/{item['id']}/images?limit=200")
+            entry["versions"] = get(f"/v1/subscriptions/{item['id']}/versions?limit=200")
+            for version in entry["versions"] or []:
+                version["localizations"] = get(f"/v1/subscriptionVersions/{version['id']}/localizations?limit=200")
+                version["images"] = get(f"/v1/subscriptionVersions/{version['id']}/images?limit=200")
             report["subscriptions"].append(entry)
     for item in get(f"/v1/apps/{app_id}/inAppPurchasesV2?limit=200") or []:
         attrs = item.get("attributes", {})
@@ -56,6 +64,9 @@ def main() -> None:
         {"id": item["id"], **{key: item.get("attributes", {}).get(key) for key in ("platform", "state", "submittedDate")}}
         for item in get(f"/v1/apps/{app_id}/reviewSubmissions?limit=200") or []
     ]
+    for submission in report["review_submissions"]:
+        if submission["platform"] == "IOS":
+            submission["items"] = get(f"/v1/reviewSubmissions/{submission['id']}/items?limit=200")
     report["builds"] = [{"id": item["id"], **{key: item.get("attributes", {}).get(key) for key in ("version", "processingState", "expired", "uploadedDate")}} for item in get(f"/v1/builds?filter[app]={app_id}&sort=-uploadedDate&limit=10") or []]
     destination = Path("build/logs/app-store-audit.json")
     destination.parent.mkdir(parents=True, exist_ok=True)

@@ -1,4 +1,8 @@
-Nightfall Protocol is an offline playable prototype. No account or sign-in is required. The Store screen shows only the submitted Premium Pass purchase, and it is cosmetic-only with no gameplay advantages. This build removes references to unsubmitted cosmetic packs, uses the live StoreKit purchase flow, and displays functional Privacy Policy and Terms of Use links in both Settings and the Store purchase flow.
+Nightfall Protocol is an offline playable game. No account or sign-in is required. The Store offers one auto-renewing monthly subscription: Premium Pass, product ID com.nightfallprotocol.subscription.premium.monthly. It uses live StoreKit, not mock purchases. Starter Cosmetic Pack, Nightmare Skin Pack, and the old non-consumable Premium Pass are not offered by this binary.
+
+From the title screen, open Store, tap the Premium Pass purchase button, and complete the sandbox purchase. Active access changes the player color and movement trail to the monthly palette, adds an animated glow to successful extractions, and displays artifact lore in the Collection. These benefits do not change health, enemy speed, loot odds, progression, or missions. Restore Purchases rechecks verified StoreKit entitlements; expired or revoked subscriptions do not retain premium access.
+
+Privacy Policy and Terms of Use links are available in Settings and Store. The purchase screen displays the StoreKit-localized price and monthly renewal disclosures.
 
 The Settings controls and legal links now include explicit accessibility labels. The promoted in-app purchase image is intentionally removed during upload because the product is not being promoted on the App Store.
 

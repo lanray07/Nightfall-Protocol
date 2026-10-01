@@ -1,25 +1,37 @@
 {
   "identifier": "NightfallProtocolStoreKit",
   "nonRenewingSubscriptions": [],
-  "products": [
+  "products": [],
+  "settings": {},
+  "subscriptionGroups": [
     {
-      "displayPrice": "9.99",
-      "familyShareable": false,
-      "internalID": "premium-pass-monthly",
-      "localizations": [
+      "id": "22110001",
+      "name": "Nightfall Premium Protocol",
+      "localizations": [],
+      "subscriptions": [
         {
-          "description": "Monthly cosmetic-only rewards, nightmare trails, extraction animations, and premium lore presentation.",
-          "displayName": "Premium Pass",
-          "locale": "en_US"
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "9.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "premium-pass-monthly",
+          "localizations": [
+            {
+              "description": "Monthly rotating trail colors, extraction glow, and expanded artifact lore display while subscribed. Cosmetic only.",
+              "displayName": "Premium Pass",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.nightfallprotocol.subscription.premium.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Premium Pass Monthly",
+          "subscriptionGroupID": "22110001",
+          "type": "RecurringSubscription"
         }
-      ],
-      "productID": "com.nightfallprotocol.pass.premium",
-      "referenceName": "Premium Pass Monthly",
-      "type": "NonConsumable"
+      ]
     }
   ],
-  "settings": {},
-  "subscriptionGroups": [],
   "version": {
     "major": 4,
     "minor": 0

@@ -7,6 +7,7 @@ import UIKit
 #endif
 
 struct ArtifactCollectionView: View {
+    @Environment(AppServices.self) private var services
     let artifacts: [Artifact]
 
     var body: some View {
@@ -22,7 +23,16 @@ struct ArtifactCollectionView: View {
 
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 170), spacing: 12)], spacing: 12) {
                         ForEach(artifacts) { artifact in
-                            ArtifactCard(artifact: artifact)
+                            VStack(alignment: .leading, spacing: 8) {
+                                ArtifactCard(artifact: artifact)
+                                if services.store.hasPremiumAccess && artifact.unlocked {
+                                    Text(LocalizedStringKey(artifact.loreKey))
+                                        .font(.body.monospaced())
+                                        .foregroundStyle(Color(NightfallGameScene.monthlyCosmeticColor))
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .padding(.horizontal, 8)
+                                }
+                            }
                         }
                     }
                 }
@@ -36,6 +46,8 @@ struct ExtractionResultView: View {
     @Environment(LanguageManager.self) private var languageManager
     @Environment(AppServices.self) private var services
     @State private var showingCopiedAlert = false
+    @State private var extractionGlow = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     let summary: ExtractionSummary
     let onReturnHub: () -> Void
@@ -49,6 +61,8 @@ struct ExtractionResultView: View {
                     Image(systemName: summary.success ? "checkmark.seal.fill" : "xmark.octagon.fill")
                         .font(.system(size: 58, weight: .bold))
                         .foregroundStyle(summary.success ? .green : .red)
+                        .shadow(color: services.store.hasPremiumAccess ? Color(NightfallGameScene.monthlyCosmeticColor).opacity(extractionGlow ? 0.9 : 0.2) : .clear, radius: extractionGlow ? 28 : 6)
+                        .scaleEffect(extractionGlow ? 1.08 : 1)
 
                     Text(LocalizedStringKey(summary.success ? "result.success.title" : "result.failure.title"))
                         .font(.largeTitle.bold())
@@ -135,6 +149,13 @@ struct ExtractionResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            if summary.success && services.store.hasPremiumAccess && !reduceMotion {
+                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
+                    extractionGlow = true
+                }
+            }
+        }
         .alert(Text(LocalizedStringKey("result.recap.copied")), isPresented: $showingCopiedAlert) {
             Button(LocalizedStringKey("action.close")) {}
         }

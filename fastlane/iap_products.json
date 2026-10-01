@@ -2,11 +2,11 @@
   "products": [
     {
       "reference_name": "Premium Pass Monthly",
-      "product_id": "com.nightfallprotocol.pass.premium",
+      "product_id": "com.nightfallprotocol.subscription.premium.monthly",
       "type": "auto_renewable_subscription",
       "price_reference": "GBP 9.99/month",
       "display_name": "Premium Pass",
-      "description": "Monthly cosmetic-only rewards, nightmare trails, extraction animations, and premium lore presentation.",
+      "description": "Monthly rotating trail palette, extraction glow, and expanded artifact lore display while subscribed. Cosmetic only; no gameplay advantage.",
       "review_note": "Cosmetic-only monthly subscription. Does not unlock gameplay power, loot odds, survivability, ads, chat, or real-money wagering.",
       "subscription_group": "Nightfall Premium Protocol",
       "duration": "1 month"

@@ -4300,25 +4300,25 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Monthly cosmetic-only rewards, nightmare trails, extraction animations, and premium lore presentation."
+            "value": "A monthly rotating trail palette, extraction glow, and expanded artifact lore display while your subscription is active. Cosmetic only; no gameplay advantage."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Recompensas cosmeticas mensuales, rastros de pesadilla, animaciones de extraccion y presentacion de historia premium."
+            "value": "Una paleta de rastros que cambia cada mes, brillo de extraccion y una vista ampliada de la historia de artefactos mientras tu suscripcion este activa. Solo cosmetico; sin ventaja de juego."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Recompenses cosmetiques mensuelles, traces de cauchemar, animations d extraction et presentation lore premium."
+            "value": "Une palette de traces changeant chaque mois, un effet lumineux d'extraction et un affichage enrichi des recits d'artefacts pendant votre abonnement. Cosmetique uniquement ; aucun avantage de jeu."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Monatliche kosmetische Belohnungen, Alptraumspuren, Extraktionsanimationen und Premium-Lore-Praesentation."
+            "value": "Monatlich wechselnde Spurfarben, Extraktionsleuchten und eine erweiterte Anzeige der Artefaktgeschichten bei aktivem Abonnement. Nur kosmetisch; kein Spielvorteil."
           }
         }
       }
