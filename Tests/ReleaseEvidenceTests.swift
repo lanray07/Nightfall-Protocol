@@ -5,6 +5,31 @@ import XCTest
 final class ReleaseEvidenceTests: XCTestCase {
     private let productID = "com.nightfallprotocol.subscription.premium.monthly"
 
+    func testLegalLinksOpenTheirDestinations() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_GB"]
+        app.launch()
+        XCTAssertTrue(app.buttons["Settings"].waitForExistence(timeout: 60))
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(app.buttons["Privacy Policy"].waitForExistence(timeout: 15))
+        app.buttons["Privacy Policy"].tap()
+        let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+        XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 30))
+        if safari.buttons["Continue"].exists { safari.buttons["Continue"].tap() }
+        XCTAssertTrue(safari.webViews.firstMatch.waitForExistence(timeout: 45))
+        capture("privacy-policy-opened-in-browser", app: safari)
+        print(safari.debugDescription)
+        app.activate()
+        XCTAssertTrue(app.buttons["Terms of Use"].waitForExistence(timeout: 15))
+        app.buttons["Terms of Use"].tap()
+        XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 30))
+        XCTAssertTrue(safari.webViews.firstMatch.waitForExistence(timeout: 45))
+        capture("apple-eula-opened-in-browser", app: safari)
+        print(safari.debugDescription)
+        app.activate()
+    }
+
     func testPurchaseRestoreExpiryAndLegalLinks() throws {
         continueAfterFailure = false
         let session = try SKTestSession(configurationFileNamed: "NightfallProtocol")

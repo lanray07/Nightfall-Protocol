@@ -1,12 +1,10 @@
 Enter the dream. Escape the nightmare.
 
-Nightfall Protocol is a cinematic psychological extraction horror game built around tense, unpredictable missions. Enter unstable nightmare zones, complete dangerous objectives, collect rare artifacts, survive adaptive entities, and extract before the Reality Collapse meter reaches zero.
+Nightfall Protocol is a solo psychological extraction horror game. Enter unstable nightmare zones, complete randomized objectives, collect artifacts, avoid patrolling entities, and extract before the Reality Collapse meter reaches zero.
 
-Every run combines randomized objectives, shifting rooms, collapse events, enemy patrols, loot drops, and atmospheric mission lore. Watch the map change under pressure, manage health and sanity, and decide when to risk one more artifact or run for extraction.
+Manage health and sanity as collapse events intensify. Decide whether to risk another artifact or head for extraction. Successful runs earn XP and keep collected loot; failed runs lose temporary loot while preserving long-term progression. Base missions and the extraction loop are playable offline.
 
-Progress through operator levels, build your artifact collection, unlock lore files, and customize your profile with ethical cosmetic-only store items. Purchases never provide gameplay power.
-
-Nightfall Protocol is playable offline and designed for quick solo extraction runs with daily nightmare, endless descent, co-op, and story protocol foundations ready to expand.
+An optional Premium Pass auto-renews monthly through Apple. While active, it provides a monthly rotating player and trail palette, an extraction glow, and an expanded artifact lore display. It does not affect gameplay power, enemies, loot odds, or progression. Purchases and restoration require a network connection.
 
 Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
