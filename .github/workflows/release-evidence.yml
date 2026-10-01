@@ -21,6 +21,7 @@ jobs:
       - name: Prepare test-only target
         run: bundle exec ruby .github/scripts/prepare-review-tests.rb
       - name: Select simulator
+        timeout-minutes: 7
         env:
           DEVICE_FAMILY: ${{ matrix.device }}
         run: |
@@ -30,6 +31,7 @@ jobs:
           xcrun simctl bootstatus "$simulator_id" -b
           xcrun simctl ui "$simulator_id" appearance dark
       - name: Run StoreKit and UI tests with recording
+        timeout-minutes: 15
         run: |
           mkdir -p build/evidence
           xcrun simctl io "$SIMULATOR_ID" recordVideo --codec=h264 build/evidence/review.mp4 > build/evidence/recording.log 2>&1 &
