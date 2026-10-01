@@ -25,4 +25,8 @@ scheme.add_build_target(app)
 scheme.add_build_target(tests)
 scheme.add_test_target(tests)
 scheme.set_launch_target(app)
+scheme.launch_action.xml_element.add_element(
+  'StoreKitConfigurationFileReference',
+  'identifier' => '../NightfallProtocol/Resources/NightfallProtocol.storekit'
+)
 scheme.save_as('NightfallProtocol.xcodeproj', 'ReleaseEvidence', true)
