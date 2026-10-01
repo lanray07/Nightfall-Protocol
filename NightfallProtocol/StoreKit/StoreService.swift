@@ -129,9 +129,13 @@ final class StoreService {
                 guard productIDs.contains(transaction.productID) else {
                     throw StoreServiceError.failedVerification
                 }
-                await refreshAccess(context: context)
+                if isActive(transaction) {
+                    purchasedProductIDs.insert(transaction.productID)
+                } else {
+                    purchasedProductIDs.remove(transaction.productID)
+                }
+                synchronizePurchaseStates(context: context)
                 await transaction.finish()
-                lastErrorKey = nil
             } catch {
                 lastErrorKey = "error.purchase.failed"
             }
@@ -152,13 +156,16 @@ final class StoreService {
         for await entitlement in Transaction.currentEntitlements {
             guard let transaction = try? checkVerified(entitlement),
                   productIDs.contains(transaction.productID),
-                  transaction.revocationDate == nil,
-                  !transaction.isUpgraded,
-                  transaction.expirationDate.map({ $0 > Date() }) ?? true else { continue }
+                  isActive(transaction) else { continue }
             purchased.insert(transaction.productID)
         }
 
         purchasedProductIDs = purchased
+    }
+
+    private func isActive(_ transaction: Transaction) -> Bool {
+        transaction.revocationDate == nil && !transaction.isUpgraded &&
+            (transaction.expirationDate.map({ $0 > Date() }) ?? true)
     }
 
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {

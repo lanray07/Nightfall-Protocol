@@ -64,6 +64,9 @@ struct StoreView: View {
         .task {
             await viewModel.load(store: services.store)
         }
+        .onChange(of: services.store.purchasedProductIDs) { _, _ in
+            viewModel.items = services.store.catalogItems()
+        }
         .alert(Text(LocalizedStringKey(viewModel.messageKey ?? "state.notice")), isPresented: messageBinding) {
             Button(LocalizedStringKey("action.close")) {
                 viewModel.messageKey = nil

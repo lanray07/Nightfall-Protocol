@@ -76,6 +76,9 @@ final class ReleaseEvidenceTests: XCTestCase {
         capture("restored-subscription", app: app)
 
         try session.expireSubscription(productIdentifier: productID)
+        XCTAssertTrue(app.buttons["Purchase"].waitForExistence(timeout: 30))
+        XCTAssertFalse(app.buttons["Owned"].exists)
+        capture("expired-subscription-updated-without-relaunch", app: app)
         app.terminate()
         app.launch()
         XCTAssertTrue(app.buttons["Store"].waitForExistence(timeout: 45))
