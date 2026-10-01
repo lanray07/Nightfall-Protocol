@@ -1,12 +1,16 @@
-Enter the dream. Escape the nightmare.
+Nightfall Protocol is an offline, single-player survival horror game set inside unstable nightmare zones. Complete extraction missions, avoid enemy patrols and recover dream artifacts before Reality Collapse ends your run.
 
-Nightfall Protocol is a cinematic psychological extraction horror game built around tense, unpredictable missions. Enter unstable nightmare zones, complete dangerous objectives, collect rare artifacts, survive adaptive entities, and extract before the Reality Collapse meter reaches zero.
+NIGHTMARE EXTRACTION
+Choose a mission, enter the zone and complete objectives under pressure. Recover memories, investigate black sites, seal nightmare rifts and reach extraction with your loot.
 
-Every run combines randomized objectives, shifting rooms, collapse events, enemy patrols, loot drops, and atmospheric mission lore. Watch the map change under pressure, manage health and sanity, and decide when to risk one more artifact or run for extraction.
+SURVIVE REALITY COLLAPSE
+Watch your health, sanity and the rising collapse meter. Enemy encounters, room events and mission modifiers keep each run tense. Decide when to keep exploring and when to escape.
 
-Progress through operator levels, build your artifact collection, unlock lore files, and customize your profile with ethical cosmetic-only store items. Purchases never provide gameplay power.
+COLLECT AND PROGRESS
+Earn operator XP from successful runs, build your artifact collection and discover mission lore. Review your extraction score, rank and run code, then share your recap.
 
-Nightfall Protocol is playable offline and designed for quick solo extraction runs with daily nightmare, endless descent, co-op, and story protocol foundations ready to expand.
+PLAY OFFLINE
+Core solo gameplay works without an account or internet connection. Explore daily nightmare missions and return for another extraction run.
 
 Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

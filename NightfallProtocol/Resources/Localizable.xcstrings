@@ -4047,6 +4047,30 @@
         }
       }
     },
+    "settings.value.on": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "On"}}}
+    },
+    "settings.value.off": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Off"}}}
+    },
+    "settings.privacy.hint": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Opens the Privacy Policy."}}}
+    },
+    "settings.terms.hint": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Opens the Terms of Use."}}}
+    },
+    "settings.reset.hint": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Asks for confirmation before removing local progress."}}}
+    },
+    "store.premiumPass.renewalInfo": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "1-month subscription. Renews automatically until canceled in your Apple account settings."}}}
+    },
+    "store.premiumPass.purchase.accessibility": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Purchase Premium Pass monthly subscription"}}}
+    },
+    "store.premiumPass.owned.accessibility": {
+      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Premium Pass subscription active"}}}
+    },
     "settings.graphics": {
       "localizations": {
         "en": {
@@ -4328,7 +4352,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "?9.99/mo"
+            "value": "GBP 9.99/month"
           }
         },
         "es": {

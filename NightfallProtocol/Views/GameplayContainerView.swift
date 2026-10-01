@@ -1,3 +1,4 @@
+import Foundation
 import SpriteKit
 import SwiftUI
 
@@ -11,6 +12,13 @@ struct GameplayContainerView: View {
 
     init(mission: MissionPlan, onFinish: @escaping (ExtractionSummary) -> Void) {
         let model = GameplayViewModel(mission: mission)
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.environment["NF_SCREENSHOT_SCENE"] == "collapse" {
+            model.collapseLevel = 0.78
+            model.health = 0.82
+            model.sanity = 0.63
+        }
+        #endif
         _viewModel = StateObject(wrappedValue: model)
         _scene = State(initialValue: NightfallGameScene(size: CGSize(width: 900, height: 700)))
         self.onFinish = onFinish

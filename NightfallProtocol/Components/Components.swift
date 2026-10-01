@@ -45,6 +45,7 @@ struct LocalizedButton: View {
     let systemImage: String
     var role: ButtonRole?
     var prominent = false
+    var accessibilityLabelKey: String?
     let action: () -> Void
 
     var body: some View {
@@ -60,7 +61,7 @@ struct LocalizedButton: View {
             .minHeight(48)
         }
         .buttonStyle(NightfallButtonStyle(prominent: prominent))
-        .accessibilityLabel(Text(LocalizedStringKey(titleKey)))
+        .accessibilityLabel(Text(LocalizedStringKey(accessibilityLabelKey ?? titleKey)))
     }
 }
 
@@ -406,10 +407,18 @@ struct StoreItemCard: View {
                 .foregroundStyle(.white.opacity(0.72))
                 .lineLimit(3)
 
+            if let renewalInfoKey = item.renewalInfoKey {
+                Text(LocalizedStringKey(renewalInfoKey))
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.white.opacity(0.78))
+                    .lineLimit(3)
+            }
+
             LocalizedButton(
                 titleKey: item.owned ? "state.owned" : "action.purchase",
                 systemImage: item.owned ? "checkmark.seal.fill" : "cart.fill",
                 prominent: !item.owned,
+                accessibilityLabelKey: item.owned ? item.ownedAccessibilityLabelKey : item.purchaseAccessibilityLabelKey,
                 action: action
             )
             .disabled(item.owned)
@@ -444,6 +453,12 @@ struct LanguageSelectorView: View {
         }
         .pickerStyle(.navigationLink)
         .accessibilityLabel(Text(LocalizedStringKey("settings.language")))
+        .accessibilityValue(Text(LocalizedStringKey(selectedLanguageNameKey)))
+        .accessibilityIdentifier("settings.language")
+    }
+
+    private var selectedLanguageNameKey: String {
+        LanguageManager.supportedLanguages.first { $0.id == selection }?.nameKey ?? "settings.language"
     }
 }
 

@@ -1,0 +1,16 @@
+Nightfall Protocol é um jogo de terror e sobrevivência para um jogador, com partidas offline. Complete missões de extração, evite patrulhas inimigas e recupere artefatos dos sonhos antes que o Colapso da Realidade encerre sua partida.
+
+EXTRAÇÃO NO PESADELO
+Escolha uma missão e cumpra objetivos sob pressão. Recupere memórias, investigue instalações secretas, sele fendas e alcance a saída com seu saque.
+
+SOBREVIVA AO COLAPSO
+Acompanhe a saúde, a sanidade e o medidor de colapso. Inimigos, eventos nas salas e modificadores aumentam a tensão. Decida quando explorar e quando fugir.
+
+COLECIONE E PROGRIDA
+Ganhe experiência em extrações bem-sucedidas, amplie sua coleção de artefatos e descubra as histórias das missões. Confira pontuação, classificação e código da partida e compartilhe o resumo.
+
+JOGUE OFFLINE
+A experiência solo principal não exige conta nem conexão com a internet. Explore missões diárias de pesadelo e volte para outra extração.
+
+Termos de Uso: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Política de Privacidade: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

@@ -1,0 +1,57 @@
+name: Localization
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "fastlane/localization/**"
+      - "fastlane/metadata/**"
+      - "NightfallProtocol/Resources/Localizable.xcstrings"
+      - "scripts/**"
+      - ".github/workflows/localization.yml"
+  pull_request:
+    paths:
+      - "fastlane/**"
+      - "NightfallProtocol/Resources/Localizable.xcstrings"
+      - "scripts/**"
+  workflow_dispatch:
+    inputs:
+      translate:
+        description: "Translate missing app strings and changed listing copy using GOOGLE_TRANSLATE_API_KEY"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  localization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run localization tests
+        run: python -m unittest discover -s scripts/tests -v
+      - name: Auto-translate on main or manual request
+        if: github.event_name != 'pull_request'
+        env:
+          GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+          TRANSLATE_REQUESTED: ${{ github.event_name != 'workflow_dispatch' || inputs.translate }}
+        run: |
+          if [ "$TRANSLATE_REQUESTED" = "true" ] && [ -n "$GOOGLE_TRANSLATE_API_KEY" ]; then
+            python scripts/localize.py --translate
+          elif [ "$TRANSLATE_REQUESTED" = "true" ]; then
+            echo "::notice::Add GOOGLE_TRANSLATE_API_KEY to enable automatic translation. The eleven curated store listings remain available."
+          fi
+      - name: Validate localized copy
+        run: python scripts/localize.py --check
+      - name: Export localization files for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: localized-app-and-store-copy
+          path: |
+            NightfallProtocol/Resources/Localizable.xcstrings
+            fastlane/localization/
+            fastlane/metadata/

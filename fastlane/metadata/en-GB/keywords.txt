@@ -1,1 +1,1 @@
-horror,extraction,nightmare,stealth,roguelike,sci-fi,artifact,survival,ai,dream
+extraction,nightmare,stealth,artifact,escape,dream,mission,single player,roguelite,sci-fi,loot

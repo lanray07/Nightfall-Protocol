@@ -5,6 +5,11 @@ on:
     tags:
       - metadata-*
   workflow_dispatch:
+    inputs:
+      screenshot_run_id:
+        description: "Optional completed App Store Screenshots workflow run ID; leave blank for metadata only"
+        type: string
+        default: ""
 
 jobs:
   upload-metadata:
@@ -24,19 +29,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate localized metadata
+        run: python scripts/localize.py --check
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler-cache: true
 
-      - name: Prepare screenshot folders
-        shell: bash
+      - name: Download captured screenshots
+        if: github.event_name == 'workflow_dispatch' && inputs.screenshot_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: app-store-screenshots
+          path: fastlane/screenshots
+          run-id: ${{ inputs.screenshot_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate captured screenshots
+        if: github.event_name == 'workflow_dispatch' && inputs.screenshot_run_id != ''
         run: |
-          rm -rf fastlane/screenshots
-          mkdir -p fastlane/screenshots/en-GB
-          cp AppStoreAssets/iPhone-6.5/*.png fastlane/screenshots/en-GB/
-          cp AppStoreAssets/iPad-13/*.png fastlane/screenshots/en-GB/
+          python scripts/validate_screenshots.py
+          echo "UPLOAD_SCREENSHOTS=1" >> "$GITHUB_ENV"
 
       - name: Upload metadata and screenshots
         run: bundle exec fastlane ios metadata
