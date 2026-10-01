@@ -4,7 +4,9 @@ From the title screen, open Store, tap the Premium Pass purchase button, and com
 
 Privacy Policy and Terms of Use links are available in Settings and Store. The purchase screen displays the StoreKit-localized price and monthly renewal disclosures.
 
-The Settings controls and legal links now include explicit accessibility labels. The promoted in-app purchase image is intentionally removed during upload because the product is not being promoted on the App Store.
+The Settings controls and legal links now include explicit visible and accessibility labels. Promotional in-app purchase images have been removed because the products are not being promoted on the App Store.
+
+The App Review attachment Nightfall-Protocol-verified-legal-links.mp4 is a genuine iPad simulator recording. It shows Settings, opening the Privacy Policy and its loaded GitHub page, returning to Settings, and opening the loaded standard Apple EULA. The recording contains no simulated app or website screens. StoreKit purchase, restore, and expiry checks also passed in Xcode's local StoreKit testing environment on iPhone and iPad; these are local tests, not a claim of physical-device sandbox testing.
 
 Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
