@@ -27,6 +27,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
       - name: Download genuine Xcode evidence
         env:
           GH_TOKEN: ${{ github.token }}
@@ -40,6 +44,11 @@ jobs:
           ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
           SCREENSHOTS_ONLY: ${{ inputs.screenshots_only }}
         run: |
+          mkdir -p "$RUNNER_TEMP/private_keys"
+          export ASC_KEY_PATH="$RUNNER_TEMP/private_keys/ReviewEvidence.p8"
+          echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$ASC_KEY_PATH"
+          chmod 600 "$ASC_KEY_PATH"
+          trap 'rm -f "$ASC_KEY_PATH"' EXIT
           args=()
           if [[ "$SCREENSHOTS_ONLY" == "true" ]]; then args+=(--screenshots-only); fi
           python3 .github/scripts/upload-review-evidence.py \
