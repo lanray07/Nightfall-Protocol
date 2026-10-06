@@ -28,6 +28,7 @@ final class NightfallGameScene: SKScene {
     private var darknessMask: SKShapeNode?
     private var channelRing: SKShapeNode?
     private var mapDecor: [SKNode] = []
+    private var worldSize: CGSize?
 
     private var arena: CGRect {
         arena(for: size)
@@ -91,7 +92,10 @@ final class NightfallGameScene: SKScene {
 
     override func didChangeSize(_ oldSize: CGSize) {
         guard player.parent != nil else { buildWorld(); return }
-        let previous = arena(for: oldSize)
+        // configure/didMove may already have built the world at the new size.
+        // Remap from the dimensions actually used by the world, not the callback's old size.
+        guard let worldSize, worldSize != size else { return }
+        let previous = arena(for: worldSize)
         let next = arena
         func remap(_ location: CGPoint) -> CGPoint {
             let x = (location.x - previous.minX) / previous.width
@@ -111,6 +115,7 @@ final class NightfallGameScene: SKScene {
         playerTrail = playerTrail.map(remap)
         staticOverlay.path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
         rebuildMapDecor()
+        self.worldSize = size
     }
 
     func setPremiumEnabled(_ enabled: Bool) {
@@ -240,6 +245,7 @@ final class NightfallGameScene: SKScene {
         buildEnemies(for: mission.difficulty)
         buildMissionStations()
         buildOverlay()
+        worldSize = size
         publishMissionProgress()
     }
 
