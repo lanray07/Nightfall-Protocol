@@ -40,6 +40,7 @@ struct GameplayContainerView: View {
         }
         .navigationBarBackButtonHidden()
         .onAppear {
+            services.audio.setMusicEnabled(services.audio.musicEnabled)
             scene.configure(
                 mission: viewModel.mission,
                 premiumEnabled: services.store.hasPremiumAccess,
@@ -58,14 +59,17 @@ struct GameplayContainerView: View {
         .onDisappear {
             viewModel.stop()
             scene.isPaused = true
+            services.audio.suspend()
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active && viewModel.result == nil {
                 scene.isPaused = false
                 viewModel.start()
+                services.audio.setMusicEnabled(services.audio.musicEnabled)
             } else {
                 scene.isPaused = true
                 viewModel.stop()
+                services.audio.suspend()
             }
         }
         .onChange(of: services.store.hasPremiumAccess) { _, enabled in
@@ -241,6 +245,7 @@ struct GameplayContainerView: View {
 
             HStack(spacing: 12) {
                 LocalizedButton(titleKey: "action.interact", systemImage: "hand.tap.fill", prominent: true) {
+                    services.audio.playInterfacePulse()
                     scene.performInteraction()
                 }
 

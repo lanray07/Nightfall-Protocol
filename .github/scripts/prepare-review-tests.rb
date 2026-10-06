@@ -20,10 +20,26 @@ tests.build_configurations.each do |config|
   config.build_settings['SWIFT_EMIT_LOC_STRINGS'] = 'NO'
 end
 project.save
+models = project.new_target(:unit_test_bundle, 'GameplayModelTests', :ios, '17.0')
+models.add_dependency(app)
+models.source_build_phase.add_file_reference(project.main_group.new_file('Tests/GameplayModelTests.swift'))
+models.build_configurations.each do |config|
+  config.build_settings['GENERATE_INFOPLIST_FILE'] = 'YES'
+  config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.nightfallprotocol.gameplay-tests'
+  config.build_settings['PRODUCT_NAME'] = '$(TARGET_NAME)'
+  config.build_settings['SWIFT_VERSION'] = '5.0'
+  config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2'
+  config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+  config.build_settings['TEST_HOST'] = '$(BUILT_PRODUCTS_DIR)/NightfallProtocol.app/NightfallProtocol'
+  config.build_settings['BUNDLE_LOADER'] = '$(TEST_HOST)'
+end
+project.save
 scheme = Xcodeproj::XCScheme.new
 scheme.add_build_target(app)
 scheme.add_build_target(tests)
 scheme.add_test_target(tests)
+scheme.add_build_target(models)
+scheme.add_test_target(models)
 scheme.set_launch_target(app)
 scheme.launch_action.xml_element.add_element(
   'StoreKitConfigurationFileReference',

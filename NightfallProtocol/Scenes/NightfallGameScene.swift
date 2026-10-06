@@ -96,6 +96,9 @@ final class NightfallGameScene: SKScene {
 
         if let index = stations.indices.first(where: { stations[$0].position.distance(to: player.position) < 48 }) {
             rules.interact(station: index)
+            if rules.kind == .sealNightmareRift && rules.activated {
+                enemyAgents.forEach { $0.surgeUntil = CACurrentMediaTime() + 8 }
+            }
             publishMissionProgress()
             return
         }
@@ -511,7 +514,8 @@ final class NightfallGameScene: SKScene {
         let distance = hypot(vector.dx, vector.dy)
         guard distance > 4 else { return }
 
-        let speed: CGFloat = 178
+        let carryingCase = rules.kind == .extractDreamArtifact && rules.completed == 1
+        let speed: CGFloat = carryingCase ? 125 : 178
         let step = min(CGFloat(deltaTime) * speed, distance)
         player.position.x += vector.dx / distance * step
         player.position.y += vector.dy / distance * step
