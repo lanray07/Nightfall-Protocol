@@ -5286,6 +5286,26 @@
           }
         }
       }
+    },
+    "gameplay.map": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mission signal map. Touch a location to move your operator."
+          }
+        }
+      }
+    },
+    "error.save": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress could not be saved. Please try again."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

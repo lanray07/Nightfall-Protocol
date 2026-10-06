@@ -337,7 +337,7 @@ struct ArtifactCard: View {
                 .foregroundStyle(.white.opacity(0.72))
                 .lineLimit(3)
 
-            Text(LocalizedStringKey(artifact.gameplayBonusKey))
+            Text(LocalizedStringKey(artifact.nightmareOriginKey))
                 .font(.caption)
                 .foregroundStyle(.cyan.opacity(0.9))
                 .lineLimit(3)

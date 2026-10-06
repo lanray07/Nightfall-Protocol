@@ -56,6 +56,16 @@ struct AppRootView: View {
             await viewModel.bootstrap(context: modelContext, languageManager: languageManager, services: services)
             services.store.startMonitoring(context: modelContext)
             await services.store.refreshAccess(context: modelContext)
+            #if DEBUG && targetEnvironment(simulator)
+            if ProcessInfo.processInfo.environment["NF_GAMEPLAY_TEST"] == "memory" {
+                var mission = ObjectiveGenerator().generateMissions(for: .solo).first { $0.objectiveType == .recoverMemoryFragment }!
+                mission.seed = 42
+                mission.difficulty = .low
+                mission.modifierTitleKey = "modifier.glassMaze.title"
+                mission.modifierDescriptionKey = "modifier.glassMaze.description"
+                viewModel.path.append(AppRoute.gameplay(mission))
+            }
+            #endif
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

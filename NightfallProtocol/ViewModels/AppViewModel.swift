@@ -67,10 +67,6 @@ final class AppViewModel {
         context.insert(session)
 
         if summary.success {
-            if let chapter = mission.campaignChapter {
-                let unlocked = UserDefaults.standard.integer(forKey: "nightfall.campaign.completed")
-                UserDefaults.standard.set(max(unlocked, chapter + 1), forKey: "nightfall.campaign.completed")
-            }
             profile?.xp += summary.xpAwarded
             while let xp = profile?.xp, xp >= (profile?.level ?? 1) * 250 {
                 profile?.xp -= (profile?.level ?? 1) * 250
@@ -86,10 +82,24 @@ final class AppViewModel {
                     quantity: reward.quantity
                 ))
             }
+            if mission.campaignChapter != nil || summary.loot.contains(where: { $0.itemType == .artifact }) {
+                if let discovered = artifacts.sorted(by: { $0.nameKey < $1.nameKey }).first(where: { !$0.unlocked }) {
+                    discovered.unlocked = true
+                }
+            }
         }
 
-        try? context.save()
-        try? refreshCollections(context: context)
+        do {
+            try context.save()
+            if summary.success, let chapter = mission.campaignChapter {
+                let unlocked = UserDefaults.standard.integer(forKey: "nightfall.campaign.completed")
+                UserDefaults.standard.set(max(unlocked, chapter + 1), forKey: "nightfall.campaign.completed")
+            }
+            try refreshCollections(context: context)
+        } catch {
+            context.rollback()
+            errorKey = "error.save"
+        }
     }
 
     func resetProgress(context: ModelContext, services: AppServices, languageManager: LanguageManager) async {

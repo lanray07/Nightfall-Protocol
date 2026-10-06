@@ -140,17 +140,6 @@ struct SettingsView: View {
                         }
                     }
 
-                    Picker(selection: $viewModel.graphicsQuality) {
-                        ForEach(GraphicsQuality.allCases) { quality in
-                            Text(LocalizedStringKey(quality.titleKey))
-                                .tag(quality)
-                        }
-                    } label: {
-                        Label(LocalizedStringKey("settings.graphics"), systemImage: "display")
-                    }
-                    .accessibilityLabel(Text(LocalizedStringKey("settings.graphics")))
-                    .accessibilityValue(Text(LocalizedStringKey(viewModel.graphicsQuality.titleKey)))
-                    .accessibilityIdentifier("settings.graphics")
                 }
 
                 Section {

@@ -29,6 +29,9 @@ struct GameplayContainerView: View {
         ZStack {
             SpriteView(scene: scene, options: [.allowsTransparency])
                 .ignoresSafeArea()
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(LocalizedStringKey("gameplay.map")))
+                .accessibilityIdentifier("mission-arena")
 
             VStack(spacing: 12) {
                 topHUD
