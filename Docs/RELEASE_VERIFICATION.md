@@ -30,3 +30,7 @@ Exact-file comparison reports cover 1,656 other local Swift files and 4,976 proj
 The revised listing uploaded successfully in [37475906367](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475906367). Build 175 was signed and uploaded successfully in [37475802702](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475802702). Cold simulator screenshot capture was canceled after a migration delay. The store gallery uses ten unmodified PNG captures from the passing gameplay and legal-link tests in run 37473383260, with original timestamps and SHA-256 checksums recorded by the screenshot packager. Screenshot upload initially completed but reordering encountered the Ready for Review state; the submission was reopened before retrying.
 
 The gallery upload and ordering completed successfully in [37478061764](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37478061764). App Store Connect confirmed build 175 was processed as VALID before selection.
+
+## Submitted outcome
+
+App Store Connect visibly confirmed **Waiting for Review** on October 6, 2026 at 15:23 Europe/London for submission `a7e91f53-164f-489b-926a-863a9129272f`. Its three items are iOS 1.0 (175), Nightfall Premium Protocol subscription group, and Premium Pass Monthly. The original rejected submission's correspondence contains the sent nine-question response, PDF and two gameplay images; the current version's review notes reference that correspondence. The genuine legal-link recording is attached to the current version. Approval remains Apple's decision.
