@@ -6,227 +6,554 @@
   "privacy_url": "https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md",
   "terms_url": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
   "scenes": [
-    {"id": "01-offline-survival-horror", "route": "gameplay", "wait_seconds": 3},
-    {"id": "02-nightmare-extraction-missions", "route": "missions", "wait_seconds": 2},
-    {"id": "03-escape-reality-collapse", "route": "collapse", "wait_seconds": 3},
-    {"id": "04-collect-dream-artifacts", "route": "artifacts", "wait_seconds": 2},
-    {"id": "05-extraction-rewards-and-ranks", "route": "recap", "wait_seconds": 2},
-    {"id": "06-operator-progression", "route": "hub", "wait_seconds": 2},
-    {"id": "07-daily-nightmare-challenge", "route": "daily", "wait_seconds": 2},
-    {"id": "08-play-in-your-language", "route": "settings", "wait_seconds": 2}
+    {
+      "id": "01-offline-survival-horror",
+      "route": "gameplay",
+      "wait_seconds": 3
+    },
+    {
+      "id": "02-nightmare-extraction-missions",
+      "route": "missions",
+      "wait_seconds": 2
+    },
+    {
+      "id": "03-escape-reality-collapse",
+      "route": "collapse",
+      "wait_seconds": 3
+    },
+    {
+      "id": "04-collect-dream-artifacts",
+      "route": "artifacts",
+      "wait_seconds": 2
+    },
+    {
+      "id": "05-extraction-rewards-and-ranks",
+      "route": "recap",
+      "wait_seconds": 2
+    },
+    {
+      "id": "06-operator-progression",
+      "route": "hub",
+      "wait_seconds": 2
+    },
+    {
+      "id": "07-daily-nightmare-challenge",
+      "route": "daily",
+      "wait_seconds": 2
+    },
+    {
+      "id": "08-play-in-your-language",
+      "route": "settings",
+      "wait_seconds": 2
+    }
   ],
   "devices": {
-    "iPhone-6.9": {"simulator": "iPhone 17 Pro Max", "width": 1320, "height": 2868},
-    "iPad-13": {"simulator": "iPad Pro 13-inch (M4)", "width": 2064, "height": 2752}
+    "iPhone-6.9": {
+      "simulator": "iPhone 17 Pro Max",
+      "width": 1320,
+      "height": 2868
+    },
+    "iPad-13": {
+      "simulator": "iPad Pro 13-inch (M4)",
+      "width": 2064,
+      "height": 2752
+    }
   },
   "locales": {
     "en-GB": {
-      "language": "en", "google_target": "en",
+      "language": "en",
+      "google_target": "en",
       "subtitle": "Offline Survival Horror",
       "keywords": "extraction,nightmare,stealth,artifact,escape,dream,mission,single player,roguelite,sci-fi,loot",
       "promotional_text": "Enter shifting nightmare zones, recover artifacts and escape before reality collapses. Offline solo horror with mission modifiers, ranks and run recaps.",
-      "description": "Nightfall Protocol is an offline, single-player survival horror game set inside unstable nightmare zones. Complete extraction missions, avoid enemy patrols and recover dream artifacts before Reality Collapse ends your run.\n\nNIGHTMARE EXTRACTION\nChoose a mission, enter the zone and complete objectives under pressure. Recover memories, investigate black sites, seal nightmare rifts and reach extraction with your loot.\n\nSURVIVE REALITY COLLAPSE\nWatch your health, sanity and the rising collapse meter. Enemy encounters, room events and mission modifiers keep each run tense. Decide when to keep exploring and when to escape.\n\nCOLLECT AND PROGRESS\nEarn operator XP from successful runs, build your artifact collection and discover mission lore. Review your extraction score, rank and run code, then share your recap.\n\nPLAY OFFLINE\nCore solo gameplay works without an account or internet connection. Explore daily nightmare missions and return for another extraction run.",
+      "description": "Nightfall Protocol is an offline, single-player survival horror game set inside unstable nightmare zones. Complete extraction missions, avoid enemy patrols and recover dream artifacts before Reality Collapse ends your run.\n\nNIGHTMARE EXTRACTION\nChoose a mission, enter the zone and complete objectives under pressure. Recover memories, investigate black sites, seal nightmare rifts and reach extraction with your loot.\n\nSURVIVE REALITY COLLAPSE\nWatch your health, sanity and the rising collapse meter. Enemy encounters, room events and mission modifiers keep each run tense. Decide when to keep exploring and when to escape.\n\nCOLLECT AND PROGRESS\nEarn operator XP from successful runs, build your artifact collection and discover mission lore. Review your extraction score, rank and run code, then share your recap.\n\nPLAY OFFLINE\nCore solo gameplay works without an account or internet connection. Explore daily nightmare missions and return for another extraction run.\n\nSIGNAL CAMPAIGN\nPlay six connected chapters with separate mission rules: decode memories, stabilize carried artifacts, seal rifts under enemy pressure, escort lost echoes, survive a signal window and investigate two terminals. Successful missions unlock the next chapter.\n\nAn optional Premium Pass auto-renews monthly through Apple. Active access provides a monthly player and trail palette, extraction glow and expanded artifact lore display. It does not change gameplay power, enemies, loot odds or progression. Purchases and restoration require a network connection.",
       "release_notes": "Offline solo extraction missions, nightmare modifiers, artifact collections, operator progression and shareable run recaps.",
-      "terms_label": "Terms of Use", "privacy_label": "Privacy Policy",
+      "terms_label": "Terms of Use",
+      "privacy_label": "Privacy Policy",
       "captions": [
-        ["Offline Survival Horror", "Enter the nightmare. Bring your loot back."],
-        ["Nightmare Extraction Missions", "Recover memories. Seal rifts. Find the exit."],
-        ["Escape Reality Collapse", "Every second raises the pressure."],
-        ["Collect Dream Artifacts", "Build your collection and uncover the lore."],
-        ["Extract. Earn. Return.", "Review your rewards, score and rank."],
-        ["Operator Progression", "Earn XP through successful extractions."],
-        ["Daily Nightmare Challenge", "Face a new mission signal each day."],
-        ["Play in Your Language", "Choose your language and audio settings."]
+        [
+          "Offline Survival Horror",
+          "Enter the nightmare. Bring your loot back."
+        ],
+        [
+          "Nightmare Extraction Missions",
+          "Recover memories. Seal rifts. Find the exit."
+        ],
+        [
+          "Escape Reality Collapse",
+          "Every second raises the pressure."
+        ],
+        [
+          "Collect Dream Artifacts",
+          "Build your collection and uncover the lore."
+        ],
+        [
+          "Extract. Earn. Return.",
+          "Review your rewards, score and rank."
+        ],
+        [
+          "Operator Progression",
+          "Earn XP through successful extractions."
+        ],
+        [
+          "Daily Nightmare Challenge",
+          "Face a new mission signal each day."
+        ],
+        [
+          "Tune Your Mission Controls",
+          "Adjust sound, music, haptics and reminders."
+        ]
       ]
     },
     "es-ES": {
-      "language": "es", "google_target": "es",
+      "language": "es",
+      "google_target": "es",
       "subtitle": "Terror y supervivencia offline",
       "keywords": "extracción,pesadilla,sigilo,artefactos,escape,sueños,misiones,botín,roguelite",
       "promotional_text": "Entra en zonas de pesadilla, recupera artefactos y escapa antes del colapso. Terror en solitario sin conexión, con modificadores, rangos y resúmenes de partida.",
-      "description": "Nightfall Protocol es un juego de terror y supervivencia para un jugador que funciona sin conexión. Completa misiones de extracción, evita patrullas enemigas y recupera artefactos oníricos antes de que el Colapso de la Realidad termine tu partida.\n\nEXTRACCIÓN EN LA PESADILLA\nElige una misión y completa objetivos bajo presión. Recupera recuerdos, investiga instalaciones secretas, sella grietas de pesadilla y alcanza la salida con tu botín.\n\nSOBREVIVE AL COLAPSO\nVigila tu salud, cordura y el medidor de colapso. Los encuentros enemigos, los eventos de las salas y los modificadores añaden tensión. Decide cuándo explorar y cuándo escapar.\n\nCOLECCIONA Y PROGRESA\nGana experiencia en extracciones exitosas, amplía tu colección de artefactos y descubre la historia de las misiones. Consulta tu puntuación, rango y código de partida y comparte el resumen.\n\nJUEGA SIN CONEXIÓN\nLa experiencia principal en solitario no necesita cuenta ni conexión a internet. Explora las misiones de pesadilla diarias y vuelve para otra extracción.",
+      "description": "Nightfall Protocol es un juego de terror y supervivencia para un jugador que funciona sin conexión. Completa misiones de extracción, evita patrullas enemigas y recupera artefactos oníricos antes de que el Colapso de la Realidad termine tu partida.\n\nEXTRACCIÓN EN LA PESADILLA\nElige una misión y completa objetivos bajo presión. Recupera recuerdos, investiga instalaciones secretas, sella grietas de pesadilla y alcanza la salida con tu botín.\n\nSOBREVIVE AL COLAPSO\nVigila tu salud, cordura y el medidor de colapso. Los encuentros enemigos, los eventos de las salas y los modificadores añaden tensión. Decide cuándo explorar y cuándo escapar.\n\nCOLECCIONA Y PROGRESA\nGana experiencia en extracciones exitosas, amplía tu colección de artefactos y descubre la historia de las misiones. Consulta tu puntuación, rango y código de partida y comparte el resumen.\n\nJUEGA SIN CONEXIÓN\nLa experiencia principal en solitario no necesita cuenta ni conexión a internet. Explora las misiones de pesadilla diarias y vuelve para otra extracción.\n\nCAMPAÑA DE SEÑALES\nJuega seis capítulos conectados: descifra recuerdos, estabiliza artefactos, sella grietas, escolta ecos, sobrevive a la ventana de señal e investiga terminales. Las misiones completadas desbloquean el siguiente capítulo.\n\nEl Premium Pass opcional se renueva automáticamente cada mes mediante Apple. Ofrece colores mensuales para el personaje y su rastro, un brillo de extracción y más detalles narrativos de los artefactos. No modifica el poder, los enemigos, las probabilidades del botín ni la progresión. Las compras y la restauración requieren conexión.",
       "release_notes": "Misiones de extracción sin conexión, modificadores de pesadilla, artefactos, progreso del operador y resúmenes para compartir.",
-      "terms_label": "Condiciones de uso", "privacy_label": "Política de privacidad",
+      "terms_label": "Condiciones de uso",
+      "privacy_label": "Política de privacidad",
       "captions": [
-        ["Terror de supervivencia offline", "Entra en la pesadilla y vuelve con tu botín."],
-        ["Misiones de extracción", "Recupera recuerdos. Sella grietas. Escapa."],
-        ["Escapa del colapso", "La presión aumenta con cada segundo."],
-        ["Colecciona artefactos oníricos", "Amplía tu colección y descubre la historia."],
-        ["Extrae. Gana. Regresa.", "Consulta tus recompensas, puntos y rango."],
-        ["Progreso del operador", "Gana experiencia con extracciones exitosas."],
-        ["Desafío diario de pesadilla", "Una nueva señal de misión cada día."],
-        ["Juega en tu idioma", "Elige tu idioma y los ajustes de audio."]
+        [
+          "Terror de supervivencia offline",
+          "Entra en la pesadilla y vuelve con tu botín."
+        ],
+        [
+          "Misiones de extracción",
+          "Recupera recuerdos. Sella grietas. Escapa."
+        ],
+        [
+          "Escapa del colapso",
+          "La presión aumenta con cada segundo."
+        ],
+        [
+          "Colecciona artefactos oníricos",
+          "Amplía tu colección y descubre la historia."
+        ],
+        [
+          "Extrae. Gana. Regresa.",
+          "Consulta tus recompensas, puntos y rango."
+        ],
+        [
+          "Progreso del operador",
+          "Gana experiencia con extracciones exitosas."
+        ],
+        [
+          "Desafío diario de pesadilla",
+          "Una nueva señal de misión cada día."
+        ],
+        [
+          "Ajusta los controles",
+          "Configura sonido, música, vibración y recordatorios."
+        ]
       ]
     },
     "fr-FR": {
-      "language": "fr", "google_target": "fr",
+      "language": "fr",
+      "google_target": "fr",
       "subtitle": "Horreur et survie hors ligne",
       "keywords": "extraction,cauchemar,infiltration,artefact,fuite,rêve,mission,butin,roguelite",
       "promotional_text": "Explorez des zones de cauchemar, récupérez des artefacts et fuyez avant l'effondrement. Horreur solo hors ligne avec modificateurs, rangs et bilans de partie.",
-      "description": "Nightfall Protocol est un jeu d'horreur et de survie solo jouable hors ligne. Accomplissez des missions d'extraction, évitez les patrouilles ennemies et récupérez des artefacts oniriques avant que l'Effondrement de la Réalité mette fin à votre partie.\n\nEXTRACTION DANS LE CAUCHEMAR\nChoisissez une mission et remplissez vos objectifs sous pression. Retrouvez des souvenirs, explorez des sites secrets, scellez des failles et rejoignez la sortie avec votre butin.\n\nSURVIVEZ À L'EFFONDREMENT\nSurveillez votre santé, votre équilibre mental et la jauge d'effondrement. Ennemis, événements et modificateurs entretiennent la tension. À vous de décider quand explorer et quand fuir.\n\nCOLLECTIONNEZ ET PROGRESSEZ\nGagnez de l'expérience lors d'extractions réussies, enrichissez votre collection d'artefacts et découvrez les récits des missions. Consultez votre score, votre rang et votre code de partie, puis partagez votre bilan.\n\nJOUEZ HORS LIGNE\nLe jeu solo principal ne nécessite ni compte ni connexion internet. Explorez les missions de cauchemar quotidiennes et revenez pour une nouvelle extraction.",
+      "description": "Nightfall Protocol est un jeu d'horreur et de survie solo jouable hors ligne. Accomplissez des missions d'extraction, évitez les patrouilles ennemies et récupérez des artefacts oniriques avant que l'Effondrement de la Réalité mette fin à votre partie.\n\nEXTRACTION DANS LE CAUCHEMAR\nChoisissez une mission et remplissez vos objectifs sous pression. Retrouvez des souvenirs, explorez des sites secrets, scellez des failles et rejoignez la sortie avec votre butin.\n\nSURVIVEZ À L'EFFONDREMENT\nSurveillez votre santé, votre équilibre mental et la jauge d'effondrement. Ennemis, événements et modificateurs entretiennent la tension. À vous de décider quand explorer et quand fuir.\n\nCOLLECTIONNEZ ET PROGRESSEZ\nGagnez de l'expérience lors d'extractions réussies, enrichissez votre collection d'artefacts et découvrez les récits des missions. Consultez votre score, votre rang et votre code de partie, puis partagez votre bilan.\n\nJOUEZ HORS LIGNE\nLe jeu solo principal ne nécessite ni compte ni connexion internet. Explorez les missions de cauchemar quotidiennes et revenez pour une nouvelle extraction.\n\nCAMPAGNE DU SIGNAL\nJouez six chapitres liés : décodez des souvenirs, stabilisez des artefacts, scellez des failles, escortez des échos, survivez à la fenêtre du signal et examinez les terminaux. Réussir une mission débloque le chapitre suivant.\n\nLe Premium Pass facultatif se renouvelle automatiquement chaque mois via Apple. Il propose une palette mensuelle, une lueur d’extraction et un affichage enrichi de l’histoire des artefacts. Il ne modifie pas la puissance, les ennemis, les chances de butin ni la progression. Les achats et leur restauration nécessitent une connexion.",
       "release_notes": "Missions solo hors ligne, modificateurs de cauchemar, collections d'artefacts, progression et bilans de partie à partager.",
-      "terms_label": "Conditions d'utilisation", "privacy_label": "Politique de confidentialité",
+      "terms_label": "Conditions d'utilisation",
+      "privacy_label": "Politique de confidentialité",
       "captions": [
-        ["Survie et horreur hors ligne", "Entrez dans le cauchemar. Revenez avec le butin."],
-        ["Missions d'extraction", "Retrouvez les souvenirs. Scellez les failles."],
-        ["Fuyez l'effondrement", "Chaque seconde augmente la pression."],
-        ["Collectionnez les artefacts", "Enrichissez la collection et découvrez les récits."],
-        ["Extrayez. Gagnez. Revenez.", "Consultez vos récompenses, votre score et rang."],
-        ["Progression de l'opérateur", "Gagnez de l'expérience à chaque succès."],
-        ["Cauchemar quotidien", "Un nouveau signal de mission chaque jour."],
-        ["Jouez dans votre langue", "Choisissez votre langue et les réglages audio."]
+        [
+          "Survie et horreur hors ligne",
+          "Entrez dans le cauchemar. Revenez avec le butin."
+        ],
+        [
+          "Missions d'extraction",
+          "Retrouvez les souvenirs. Scellez les failles."
+        ],
+        [
+          "Fuyez l'effondrement",
+          "Chaque seconde augmente la pression."
+        ],
+        [
+          "Collectionnez les artefacts",
+          "Enrichissez la collection et découvrez les récits."
+        ],
+        [
+          "Extrayez. Gagnez. Revenez.",
+          "Consultez vos récompenses, votre score et rang."
+        ],
+        [
+          "Progression de l'opérateur",
+          "Gagnez de l'expérience à chaque succès."
+        ],
+        [
+          "Cauchemar quotidien",
+          "Un nouveau signal de mission chaque jour."
+        ],
+        [
+          "Réglez vos commandes",
+          "Ajustez le son, la musique, les vibrations et les rappels."
+        ]
       ]
     },
     "de-DE": {
-      "language": "de", "google_target": "de",
+      "language": "de",
+      "google_target": "de",
       "subtitle": "Offline Survival-Horror",
       "keywords": "extraktion,albtraum,schleichen,artefakt,flucht,traum,mission,beute,roguelite,einzelspieler",
       "promotional_text": "Erkunde Albtraumzonen, sammle Artefakte und entkomme vor dem Kollaps. Offline-Solo-Horror mit Missionsmodifikatoren, Rängen und Spielzusammenfassungen.",
-      "description": "Nightfall Protocol ist ein offline spielbares Survival-Horrorspiel für Einzelspieler. Erfülle Extraktionsmissionen, meide feindliche Patrouillen und sichere Traumartefakte, bevor der Realitätskollaps deinen Lauf beendet.\n\nEXTRAKTION IM ALBTRAUM\nWähle eine Mission und erfülle Ziele unter Zeitdruck. Berge Erinnerungen, untersuche geheime Anlagen, versiegle Albtraumrisse und erreiche mit deiner Beute den Ausgang.\n\nÜBERLEBE DEN KOLLAPS\nBehalte Gesundheit, geistige Stabilität und Kollapsanzeige im Blick. Gegner, Raumereignisse und Missionsmodifikatoren sorgen für Spannung. Entscheide, wann du weiter erkundest und wann du fliehst.\n\nSAMMELN UND AUFSTEIGEN\nVerdiene Erfahrung durch erfolgreiche Extraktionen, erweitere deine Artefaktsammlung und entdecke Missionsgeschichten. Prüfe Punktzahl, Rang und Laufcode und teile deine Zusammenfassung.\n\nOFFLINE SPIELEN\nDas zentrale Solospiel benötigt weder Konto noch Internetverbindung. Erkunde tägliche Albtraummissionen und kehre für eine weitere Extraktion zurück.",
+      "description": "Nightfall Protocol ist ein offline spielbares Survival-Horrorspiel für Einzelspieler. Erfülle Extraktionsmissionen, meide feindliche Patrouillen und sichere Traumartefakte, bevor der Realitätskollaps deinen Lauf beendet.\n\nEXTRAKTION IM ALBTRAUM\nWähle eine Mission und erfülle Ziele unter Zeitdruck. Berge Erinnerungen, untersuche geheime Anlagen, versiegle Albtraumrisse und erreiche mit deiner Beute den Ausgang.\n\nÜBERLEBE DEN KOLLAPS\nBehalte Gesundheit, geistige Stabilität und Kollapsanzeige im Blick. Gegner, Raumereignisse und Missionsmodifikatoren sorgen für Spannung. Entscheide, wann du weiter erkundest und wann du fliehst.\n\nSAMMELN UND AUFSTEIGEN\nVerdiene Erfahrung durch erfolgreiche Extraktionen, erweitere deine Artefaktsammlung und entdecke Missionsgeschichten. Prüfe Punktzahl, Rang und Laufcode und teile deine Zusammenfassung.\n\nOFFLINE SPIELEN\nDas zentrale Solospiel benötigt weder Konto noch Internetverbindung. Erkunde tägliche Albtraummissionen und kehre für eine weitere Extraktion zurück.\n\nSIGNALKAMPAGNE\nSpiele sechs verbundene Kapitel: Erinnerungen entschlüsseln, Artefakte stabilisieren, Risse versiegeln, Echos eskortieren, das Signalfenster überleben und Terminals untersuchen. Erfolgreiche Missionen schalten das nächste Kapitel frei.\n\nDer optionale Premium Pass verlängert sich monatlich automatisch über Apple. Er bietet monatliche Farben für die Figur und ihre Spur, ein Extraktionsleuchten und erweiterte Artefaktgeschichten. Er verändert weder Stärke noch Gegner, Beutechancen oder Fortschritt. Kauf und Wiederherstellung benötigen eine Internetverbindung.",
       "release_notes": "Offline-Extraktionsmissionen, Albtraummodifikatoren, Artefakte, Operator-Fortschritt und teilbare Spielzusammenfassungen.",
-      "terms_label": "Nutzungsbedingungen", "privacy_label": "Datenschutzrichtlinie",
+      "terms_label": "Nutzungsbedingungen",
+      "privacy_label": "Datenschutzrichtlinie",
       "captions": [
-        ["Offline Survival-Horror", "Betritt den Albtraum. Sichere deine Beute."],
-        ["Albtraum-Extraktionsmissionen", "Berge Erinnerungen. Versiegle Risse. Entkomme."],
-        ["Entkomme dem Realitätskollaps", "Jede Sekunde erhöht den Druck."],
-        ["Sammle Traumartefakte", "Erweitere die Sammlung und entdecke Geschichten."],
-        ["Extrahieren. Aufsteigen.", "Prüfe Belohnungen, Punktzahl und Rang."],
-        ["Operator-Fortschritt", "Verdiene Erfahrung durch erfolgreiche Extraktionen."],
-        ["Täglicher Albtraum", "Jeden Tag ein neues Missionssignal."],
-        ["Spiele in deiner Sprache", "Wähle deine Sprache und Audioeinstellungen."]
+        [
+          "Offline Survival-Horror",
+          "Betritt den Albtraum. Sichere deine Beute."
+        ],
+        [
+          "Albtraum-Extraktionsmissionen",
+          "Berge Erinnerungen. Versiegle Risse. Entkomme."
+        ],
+        [
+          "Entkomme dem Realitätskollaps",
+          "Jede Sekunde erhöht den Druck."
+        ],
+        [
+          "Sammle Traumartefakte",
+          "Erweitere die Sammlung und entdecke Geschichten."
+        ],
+        [
+          "Extrahieren. Aufsteigen.",
+          "Prüfe Belohnungen, Punktzahl und Rang."
+        ],
+        [
+          "Operator-Fortschritt",
+          "Verdiene Erfahrung durch erfolgreiche Extraktionen."
+        ],
+        [
+          "Täglicher Albtraum",
+          "Jeden Tag ein neues Missionssignal."
+        ],
+        [
+          "Passe deine Steuerung an",
+          "Stelle Ton, Musik, Haptik und Erinnerungen ein."
+        ]
       ]
     },
     "pt-BR": {
-      "language": "pt", "google_target": "pt",
+      "language": "pt",
+      "google_target": "pt",
       "subtitle": "Terror e sobrevivência offline",
       "keywords": "extração,pesadelo,furtividade,artefato,fuga,sonho,missão,saque,roguelite",
       "promotional_text": "Entre em zonas de pesadelo, recupere artefatos e fuja antes do colapso. Terror solo offline com modificadores, classificações e resumos de partida.",
-      "description": "Nightfall Protocol é um jogo de terror e sobrevivência para um jogador, com partidas offline. Complete missões de extração, evite patrulhas inimigas e recupere artefatos dos sonhos antes que o Colapso da Realidade encerre sua partida.\n\nEXTRAÇÃO NO PESADELO\nEscolha uma missão e cumpra objetivos sob pressão. Recupere memórias, investigue instalações secretas, sele fendas e alcance a saída com seu saque.\n\nSOBREVIVA AO COLAPSO\nAcompanhe a saúde, a sanidade e o medidor de colapso. Inimigos, eventos nas salas e modificadores aumentam a tensão. Decida quando explorar e quando fugir.\n\nCOLECIONE E PROGRIDA\nGanhe experiência em extrações bem-sucedidas, amplie sua coleção de artefatos e descubra as histórias das missões. Confira pontuação, classificação e código da partida e compartilhe o resumo.\n\nJOGUE OFFLINE\nA experiência solo principal não exige conta nem conexão com a internet. Explore missões diárias de pesadelo e volte para outra extração.",
+      "description": "Nightfall Protocol é um jogo de terror e sobrevivência para um jogador, com partidas offline. Complete missões de extração, evite patrulhas inimigas e recupere artefatos dos sonhos antes que o Colapso da Realidade encerre sua partida.\n\nEXTRAÇÃO NO PESADELO\nEscolha uma missão e cumpra objetivos sob pressão. Recupere memórias, investigue instalações secretas, sele fendas e alcance a saída com seu saque.\n\nSOBREVIVA AO COLAPSO\nAcompanhe a saúde, a sanidade e o medidor de colapso. Inimigos, eventos nas salas e modificadores aumentam a tensão. Decida quando explorar e quando fugir.\n\nCOLECIONE E PROGRIDA\nGanhe experiência em extrações bem-sucedidas, amplie sua coleção de artefatos e descubra as histórias das missões. Confira pontuação, classificação e código da partida e compartilhe o resumo.\n\nJOGUE OFFLINE\nA experiência solo principal não exige conta nem conexão com a internet. Explore missões diárias de pesadelo e volte para outra extração.\n\nCAMPANHA DE SINAIS\nJogue seis capítulos conectados: decifre memórias, estabilize artefatos, sele fendas, escolte ecos, sobreviva à janela de sinal e investigue terminais. Missões concluídas desbloqueiam o próximo capítulo.\n\nO Premium Pass opcional é renovado automaticamente a cada mês pela Apple. Oferece cores mensais para o personagem e seu rastro, brilho na extração e mais detalhes sobre os artefatos. Não altera poder, inimigos, chances de saque ou progressão. Compras e restauração exigem conexão.",
       "release_notes": "Missões solo offline, modificadores de pesadelo, artefatos, progressão do operador e resumos compartilháveis.",
-      "terms_label": "Termos de Uso", "privacy_label": "Política de Privacidade",
+      "terms_label": "Termos de Uso",
+      "privacy_label": "Política de Privacidade",
       "captions": [
-        ["Terror de sobrevivência offline", "Entre no pesadelo. Volte com seu saque."],
-        ["Missões de extração", "Recupere memórias. Sele fendas. Encontre a saída."],
-        ["Fuja do colapso da realidade", "A pressão aumenta a cada segundo."],
-        ["Colecione artefatos dos sonhos", "Amplie sua coleção e descubra as histórias."],
-        ["Extraia. Ganhe. Volte.", "Confira recompensas, pontuação e classificação."],
-        ["Progressão do operador", "Ganhe experiência com extrações bem-sucedidas."],
-        ["Pesadelo diário", "Um novo sinal de missão a cada dia."],
-        ["Jogue no seu idioma", "Escolha seu idioma e as configurações de áudio."]
+        [
+          "Terror de sobrevivência offline",
+          "Entre no pesadelo. Volte com seu saque."
+        ],
+        [
+          "Missões de extração",
+          "Recupere memórias. Sele fendas. Encontre a saída."
+        ],
+        [
+          "Fuja do colapso da realidade",
+          "A pressão aumenta a cada segundo."
+        ],
+        [
+          "Colecione artefatos dos sonhos",
+          "Amplie sua coleção e descubra as histórias."
+        ],
+        [
+          "Extraia. Ganhe. Volte.",
+          "Confira recompensas, pontuação e classificação."
+        ],
+        [
+          "Progressão do operador",
+          "Ganhe experiência com extrações bem-sucedidas."
+        ],
+        [
+          "Pesadelo diário",
+          "Um novo sinal de missão a cada dia."
+        ],
+        [
+          "Ajuste seus controles",
+          "Configure som, música, vibração e lembretes."
+        ]
       ]
     },
     "it": {
-      "language": "it", "google_target": "it",
+      "language": "it",
+      "google_target": "it",
       "subtitle": "Horror e sopravvivenza offline",
       "keywords": "estrazione,incubo,furtività,artefatto,fuga,sogno,missione,bottino,roguelite",
       "promotional_text": "Esplora zone da incubo, recupera artefatti e fuggi prima del collasso. Horror in solitaria offline con modificatori, gradi e riepiloghi delle partite.",
-      "description": "Nightfall Protocol è un gioco horror di sopravvivenza per un giocatore, disponibile offline. Completa missioni di estrazione, evita pattuglie nemiche e recupera artefatti onirici prima che il Collasso della Realtà concluda la partita.\n\nESTRAZIONE NELL'INCUBO\nScegli una missione e completa gli obiettivi sotto pressione. Recupera ricordi, indaga su siti segreti, sigilla fratture e raggiungi l'uscita con il bottino.\n\nSOPRAVVIVI AL COLLASSO\nControlla salute, lucidità e indicatore di collasso. Nemici, eventi nelle stanze e modificatori rendono ogni partita tesa. Decidi quando esplorare e quando fuggire.\n\nCOLLEZIONA E PROGREDISCI\nGuadagna esperienza con estrazioni riuscite, amplia la collezione di artefatti e scopri le storie delle missioni. Controlla punteggio, grado e codice della partita e condividi il riepilogo.\n\nGIOCA OFFLINE\nL'esperienza principale in solitaria non richiede account o connessione internet. Esplora le missioni giornaliere e torna per una nuova estrazione.",
+      "description": "Nightfall Protocol è un gioco horror di sopravvivenza per un giocatore, disponibile offline. Completa missioni di estrazione, evita pattuglie nemiche e recupera artefatti onirici prima che il Collasso della Realtà concluda la partita.\n\nESTRAZIONE NELL'INCUBO\nScegli una missione e completa gli obiettivi sotto pressione. Recupera ricordi, indaga su siti segreti, sigilla fratture e raggiungi l'uscita con il bottino.\n\nSOPRAVVIVI AL COLLASSO\nControlla salute, lucidità e indicatore di collasso. Nemici, eventi nelle stanze e modificatori rendono ogni partita tesa. Decidi quando esplorare e quando fuggire.\n\nCOLLEZIONA E PROGREDISCI\nGuadagna esperienza con estrazioni riuscite, amplia la collezione di artefatti e scopri le storie delle missioni. Controlla punteggio, grado e codice della partita e condividi il riepilogo.\n\nGIOCA OFFLINE\nL'esperienza principale in solitaria non richiede account o connessione internet. Esplora le missioni giornaliere e torna per una nuova estrazione.\n\nCAMPAGNA DEL SEGNALE\nGioca sei capitoli collegati: decifra ricordi, stabilizza artefatti, sigilla fratture, scorta echi, sopravvivi alla finestra del segnale e indaga sui terminali. Le missioni completate sbloccano il capitolo successivo.\n\nIl Premium Pass facoltativo si rinnova automaticamente ogni mese tramite Apple. Offre colori mensili per il personaggio e la sua scia, un bagliore di estrazione e dettagli aggiuntivi sugli artefatti. Non modifica potenza, nemici, probabilità di bottino o progressione. Acquisti e ripristino richiedono una connessione.",
       "release_notes": "Missioni offline, modificatori da incubo, artefatti, progressione dell'operatore e riepiloghi condivisibili.",
-      "terms_label": "Condizioni d'uso", "privacy_label": "Informativa sulla privacy",
+      "terms_label": "Condizioni d'uso",
+      "privacy_label": "Informativa sulla privacy",
       "captions": [
-        ["Horror di sopravvivenza offline", "Entra nell'incubo. Torna con il bottino."],
-        ["Missioni di estrazione", "Recupera ricordi. Sigilla fratture. Fuggi."],
-        ["Fuggi dal collasso", "La pressione aumenta a ogni secondo."],
-        ["Colleziona artefatti onirici", "Amplia la collezione e scopri le storie."],
-        ["Estrai. Guadagna. Ritorna.", "Controlla ricompense, punteggio e grado."],
-        ["Progressione dell'operatore", "Guadagna esperienza con estrazioni riuscite."],
-        ["Incubo giornaliero", "Un nuovo segnale di missione ogni giorno."],
-        ["Gioca nella tua lingua", "Scegli lingua e impostazioni audio."]
+        [
+          "Horror di sopravvivenza offline",
+          "Entra nell'incubo. Torna con il bottino."
+        ],
+        [
+          "Missioni di estrazione",
+          "Recupera ricordi. Sigilla fratture. Fuggi."
+        ],
+        [
+          "Fuggi dal collasso",
+          "La pressione aumenta a ogni secondo."
+        ],
+        [
+          "Colleziona artefatti onirici",
+          "Amplia la collezione e scopri le storie."
+        ],
+        [
+          "Estrai. Guadagna. Ritorna.",
+          "Controlla ricompense, punteggio e grado."
+        ],
+        [
+          "Progressione dell'operatore",
+          "Guadagna esperienza con estrazioni riuscite."
+        ],
+        [
+          "Incubo giornaliero",
+          "Un nuovo segnale di missione ogni giorno."
+        ],
+        [
+          "Regola i comandi",
+          "Imposta audio, musica, feedback aptico e promemoria."
+        ]
       ]
     },
     "ja": {
-      "language": "ja", "google_target": "ja",
+      "language": "ja",
+      "google_target": "ja",
       "subtitle": "オフラインで遊べるサバイバルホラー",
       "keywords": "脱出,悪夢,探索,ステルス,収集,ミッション,戦利品,ソロ",
       "promotional_text": "悪夢の領域でアーティファクトを回収し、現実が崩壊する前に脱出。オフラインのソロホラーでミッション修飾、ランク、プレイ記録を楽しもう。",
-      "description": "Nightfall Protocolは、オフラインで遊べるシングルプレイヤーのサバイバルホラーゲームです。不安定な悪夢の領域で回収ミッションを遂行し、敵の巡回を避け、現実崩壊が探索を終わらせる前に夢のアーティファクトを持ち帰りましょう。\n\n悪夢からの脱出\nミッションを選び、迫る危機の中で目標を達成。記憶を回収し、秘密施設を調査し、悪夢の裂け目を封じ、戦利品とともに脱出地点を目指します。\n\n現実崩壊を生き延びる\n体力、正気、崩壊メーターに注意。敵との遭遇、部屋のイベント、ミッション修飾が緊張感を生みます。探索を続けるか、脱出するかを判断しましょう。\n\n収集と成長\n脱出に成功して経験値を獲得し、アーティファクトを集め、ミッションの物語を発見。スコア、ランク、プレイコードを確認し、結果を共有できます。\n\nオフラインプレイ\n基本のソロゲームにはアカウントもインターネット接続も不要です。毎日の悪夢ミッションに挑み、次の回収に備えましょう。",
+      "description": "Nightfall Protocolは、オフラインで遊べるシングルプレイヤーのサバイバルホラーゲームです。不安定な悪夢の領域で回収ミッションを遂行し、敵の巡回を避け、現実崩壊が探索を終わらせる前に夢のアーティファクトを持ち帰りましょう。\n\n悪夢からの脱出\nミッションを選び、迫る危機の中で目標を達成。記憶を回収し、秘密施設を調査し、悪夢の裂け目を封じ、戦利品とともに脱出地点を目指します。\n\n現実崩壊を生き延びる\n体力、正気、崩壊メーターに注意。敵との遭遇、部屋のイベント、ミッション修飾が緊張感を生みます。探索を続けるか、脱出するかを判断しましょう。\n\n収集と成長\n脱出に成功して経験値を獲得し、アーティファクトを集め、ミッションの物語を発見。スコア、ランク、プレイコードを確認し、結果を共有できます。\n\nオフラインプレイ\n基本のソロゲームにはアカウントもインターネット接続も不要です。毎日の悪夢ミッションに挑み、次の回収に備えましょう。\n\nシグナルキャンペーン\nつながりのある6章をプレイ。記憶の解読、アーティファクトの安定化、裂け目の封鎖、エコーの護衛、信号時間内の生存、端末の調査に挑戦します。ミッションの成功で次の章が解放されます。\n\n任意のPremium PassはAppleを通じて毎月自動更新されます。有効期間中は月ごとのキャラクターと軌跡の配色、脱出時の光、アーティファクトの物語の追加表示を利用できます。能力、敵、戦利品の確率、進行には影響しません。購入と復元には通信接続が必要です。",
       "release_notes": "オフラインの回収ミッション、悪夢の修飾、アーティファクト収集、成長要素、共有できるプレイ記録。",
-      "terms_label": "利用規約", "privacy_label": "プライバシーポリシー",
+      "terms_label": "利用規約",
+      "privacy_label": "プライバシーポリシー",
       "captions": [
-        ["オフライン・サバイバルホラー", "悪夢に入り、戦利品を持ち帰ろう。"],
-        ["悪夢の回収ミッション", "記憶を回収。裂け目を封じて脱出。"],
-        ["現実崩壊から脱出", "一秒ごとに増していく緊張感。"],
-        ["夢のアーティファクトを収集", "コレクションを充実させ、物語を発見。"],
-        ["脱出して報酬を獲得", "報酬、スコア、ランクを確認。"],
-        ["オペレーターの成長", "脱出成功で経験値を獲得。"],
-        ["毎日の悪夢チャレンジ", "毎日届く新たなミッション信号。"],
-        ["自分の言語でプレイ", "言語とオーディオ設定を選ぼう。"]
+        [
+          "オフライン・サバイバルホラー",
+          "悪夢に入り、戦利品を持ち帰ろう。"
+        ],
+        [
+          "悪夢の回収ミッション",
+          "記憶を回収。裂け目を封じて脱出。"
+        ],
+        [
+          "現実崩壊から脱出",
+          "一秒ごとに増していく緊張感。"
+        ],
+        [
+          "夢のアーティファクトを収集",
+          "コレクションを充実させ、物語を発見。"
+        ],
+        [
+          "脱出して報酬を獲得",
+          "報酬、スコア、ランクを確認。"
+        ],
+        [
+          "オペレーターの成長",
+          "脱出成功で経験値を獲得。"
+        ],
+        [
+          "毎日の悪夢チャレンジ",
+          "毎日届く新たなミッション信号。"
+        ],
+        [
+          "ミッションの操作設定",
+          "音、音楽、触覚フィードバック、通知を調整。"
+        ]
       ]
     },
     "ko": {
-      "language": "ko", "google_target": "ko",
+      "language": "ko",
+      "google_target": "ko",
       "subtitle": "오프라인 서바이벌 호러",
       "keywords": "탈출,악몽,잠입,유물,수집,꿈,임무,전리품,싱글플레이",
       "promotional_text": "악몽 구역에서 유물을 회수하고 현실이 붕괴하기 전에 탈출하세요. 임무 변형, 등급, 플레이 요약을 제공하는 오프라인 싱글 호러 게임.",
-      "description": "Nightfall Protocol은 오프라인으로 즐기는 싱글플레이 서바이벌 호러 게임입니다. 불안정한 악몽 구역에서 회수 임무를 완수하고 적 순찰을 피하며, 현실 붕괴가 탐험을 끝내기 전에 꿈의 유물을 회수하세요.\n\n악몽 속 탈출 임무\n임무를 선택하고 압박 속에서 목표를 달성하세요. 기억을 회수하고, 비밀 시설을 조사하고, 악몽의 균열을 봉인하고, 전리품과 함께 탈출 지점에 도착하세요.\n\n현실 붕괴에서 살아남기\n체력, 정신력, 붕괴 게이지를 확인하세요. 적과의 조우, 방 이벤트, 임무 변형이 긴장감을 높입니다. 탐험을 계속할지 탈출할지 결정하세요.\n\n수집과 성장\n탈출 성공으로 경험치를 얻고 유물 컬렉션을 확장하며 임무의 이야기를 발견하세요. 점수, 등급, 플레이 코드를 확인하고 요약을 공유할 수 있습니다.\n\n오프라인 플레이\n핵심 싱글플레이에는 계정이나 인터넷 연결이 필요하지 않습니다. 매일 악몽 임무를 탐험하고 다음 회수에 도전하세요.",
+      "description": "Nightfall Protocol은 오프라인으로 즐기는 싱글플레이 서바이벌 호러 게임입니다. 불안정한 악몽 구역에서 회수 임무를 완수하고 적 순찰을 피하며, 현실 붕괴가 탐험을 끝내기 전에 꿈의 유물을 회수하세요.\n\n악몽 속 탈출 임무\n임무를 선택하고 압박 속에서 목표를 달성하세요. 기억을 회수하고, 비밀 시설을 조사하고, 악몽의 균열을 봉인하고, 전리품과 함께 탈출 지점에 도착하세요.\n\n현실 붕괴에서 살아남기\n체력, 정신력, 붕괴 게이지를 확인하세요. 적과의 조우, 방 이벤트, 임무 변형이 긴장감을 높입니다. 탐험을 계속할지 탈출할지 결정하세요.\n\n수집과 성장\n탈출 성공으로 경험치를 얻고 유물 컬렉션을 확장하며 임무의 이야기를 발견하세요. 점수, 등급, 플레이 코드를 확인하고 요약을 공유할 수 있습니다.\n\n오프라인 플레이\n핵심 싱글플레이에는 계정이나 인터넷 연결이 필요하지 않습니다. 매일 악몽 임무를 탐험하고 다음 회수에 도전하세요.\n\n신호 캠페인\n연결된 여섯 챕터에서 기억 해독, 유물 안정화, 균열 봉인, 메아리 호위, 신호 시간 동안 생존, 단말 조사에 도전하세요. 임무에 성공하면 다음 챕터가 열립니다.\n\n선택 사항인 Premium Pass는 Apple을 통해 매월 자동 갱신됩니다. 활성 기간에는 월별 캐릭터와 이동 흔적 색상, 탈출 광채, 확장된 유물 이야기를 제공합니다. 능력, 적, 전리품 확률, 진행에는 영향을 주지 않습니다. 구매와 복원에는 네트워크 연결이 필요합니다.",
       "release_notes": "오프라인 회수 임무, 악몽 변형, 유물 수집, 오퍼레이터 성장, 공유 가능한 플레이 요약.",
-      "terms_label": "이용 약관", "privacy_label": "개인정보 처리방침",
+      "terms_label": "이용 약관",
+      "privacy_label": "개인정보 처리방침",
       "captions": [
-        ["오프라인 서바이벌 호러", "악몽에 들어가 전리품을 회수하세요."],
-        ["악몽 속 회수 임무", "기억을 회수하고 균열을 봉인하세요."],
-        ["현실 붕괴에서 탈출", "매초 압박이 높아집니다."],
-        ["꿈의 유물 수집", "컬렉션을 확장하고 이야기를 발견하세요."],
-        ["탈출하고 보상 획득", "보상, 점수, 등급을 확인하세요."],
-        ["오퍼레이터 성장", "탈출에 성공해 경험치를 얻으세요."],
-        ["매일 악몽 챌린지", "매일 새로운 임무 신호가 찾아옵니다."],
-        ["내 언어로 플레이", "언어와 오디오 설정을 선택하세요."]
+        [
+          "오프라인 서바이벌 호러",
+          "악몽에 들어가 전리품을 회수하세요."
+        ],
+        [
+          "악몽 속 회수 임무",
+          "기억을 회수하고 균열을 봉인하세요."
+        ],
+        [
+          "현실 붕괴에서 탈출",
+          "매초 압박이 높아집니다."
+        ],
+        [
+          "꿈의 유물 수집",
+          "컬렉션을 확장하고 이야기를 발견하세요."
+        ],
+        [
+          "탈출하고 보상 획득",
+          "보상, 점수, 등급을 확인하세요."
+        ],
+        [
+          "오퍼레이터 성장",
+          "탈출에 성공해 경험치를 얻으세요."
+        ],
+        [
+          "매일 악몽 챌린지",
+          "매일 새로운 임무 신호가 찾아옵니다."
+        ],
+        [
+          "임무 설정 조정",
+          "소리, 음악, 햅틱과 알림을 설정하세요."
+        ]
       ]
     },
     "zh-Hans": {
-      "language": "zh-Hans", "google_target": "zh-CN",
+      "language": "zh-Hans",
+      "google_target": "zh-CN",
       "subtitle": "离线单人生存恐怖与噩梦撤离",
       "keywords": "逃脱,潜行,梦境,探索,收集,神器,任务,战利品,科幻",
       "promotional_text": "进入不稳定的噩梦区域，回收神器，在现实崩塌前撤离。离线单人恐怖体验，包含任务变体、评级和行动总结。",
-      "description": "Nightfall Protocol 是一款可离线游玩的单人生存恐怖游戏。进入不稳定的噩梦区域，完成回收任务，躲避敌人巡逻，并在现实崩塌结束行动之前带回梦境神器。\n\n噩梦撤离任务\n选择任务，在压力下完成目标。回收记忆，调查秘密设施，封印噩梦裂隙，并带着战利品抵达撤离点。\n\n在现实崩塌中求生\n关注生命值、理智和不断上升的崩塌进度。敌人遭遇、房间事件和任务变体带来紧张感。决定何时继续探索，何时撤离。\n\n收集与成长\n通过成功撤离获得经验，扩充神器收藏，发现任务故事。查看行动得分、评级和行动代码，然后分享总结。\n\n离线游玩\n核心单人玩法无需账户或互联网连接。探索每日噩梦任务，准备迎接下一次撤离行动。",
+      "description": "Nightfall Protocol 是一款可离线游玩的单人生存恐怖游戏。进入不稳定的噩梦区域，完成回收任务，躲避敌人巡逻，并在现实崩塌结束行动之前带回梦境神器。\n\n噩梦撤离任务\n选择任务，在压力下完成目标。回收记忆，调查秘密设施，封印噩梦裂隙，并带着战利品抵达撤离点。\n\n在现实崩塌中求生\n关注生命值、理智和不断上升的崩塌进度。敌人遭遇、房间事件和任务变体带来紧张感。决定何时继续探索，何时撤离。\n\n收集与成长\n通过成功撤离获得经验，扩充神器收藏，发现任务故事。查看行动得分、评级和行动代码，然后分享总结。\n\n离线游玩\n核心单人玩法无需账户或互联网连接。探索每日噩梦任务，准备迎接下一次撤离行动。\n\n信号战役\n体验六个相互关联的章节：解码记忆、稳定遗物、封闭裂隙、护送回声、在信号窗口内生存并调查终端。成功完成任务即可解锁下一章。\n\n可选的Premium Pass通过Apple按月自动续订。有效期间可获得每月角色与移动轨迹配色、撤离光效和扩展的遗物故事显示。它不改变能力、敌人、战利品概率或游戏进度。购买和恢复购买需要网络连接。",
       "release_notes": "离线单人撤离任务、噩梦变体、神器收藏、角色成长及可分享的行动总结。",
-      "terms_label": "使用条款", "privacy_label": "隐私政策",
+      "terms_label": "使用条款",
+      "privacy_label": "隐私政策",
       "captions": [
-        ["离线单人生存恐怖", "进入噩梦，带回你的战利品。"],
-        ["噩梦撤离任务", "回收记忆，封印裂隙，寻找出口。"],
-        ["逃离现实崩塌", "每一秒都让压力升级。"],
-        ["收集梦境神器", "扩充收藏，发现背后的故事。"],
-        ["撤离并获取奖励", "查看奖励、得分和评级。"],
-        ["角色成长", "成功撤离，获得经验。"],
-        ["每日噩梦挑战", "每天迎接新的任务信号。"],
-        ["用你的语言游玩", "选择语言和音频设置。"]
+        [
+          "离线单人生存恐怖",
+          "进入噩梦，带回你的战利品。"
+        ],
+        [
+          "噩梦撤离任务",
+          "回收记忆，封印裂隙，寻找出口。"
+        ],
+        [
+          "逃离现实崩塌",
+          "每一秒都让压力升级。"
+        ],
+        [
+          "收集梦境神器",
+          "扩充收藏，发现背后的故事。"
+        ],
+        [
+          "撤离并获取奖励",
+          "查看奖励、得分和评级。"
+        ],
+        [
+          "角色成长",
+          "成功撤离，获得经验。"
+        ],
+        [
+          "每日噩梦挑战",
+          "每天迎接新的任务信号。"
+        ],
+        [
+          "调整任务设置",
+          "设置音效、音乐、触觉反馈和提醒。"
+        ]
       ]
     },
     "ar-SA": {
-      "language": "ar", "google_target": "ar", "rtl": true,
+      "language": "ar",
+      "google_target": "ar",
+      "rtl": true,
       "subtitle": "رعب وبقاء دون إنترنت",
       "keywords": "كابوس,تسلل,هروب,حلم,مهمة,غنائم,آثار",
       "promotional_text": "ادخل مناطق الكوابيس واستعد الآثار واهرب قبل انهيار الواقع. رعب فردي دون إنترنت مع تعديلات للمهام ورتب وملخصات للجولات.",
-      "description": "Nightfall Protocol لعبة رعب وبقاء فردية تعمل دون إنترنت. أكمل مهام الاستخراج، وتجنب دوريات الأعداء، واستعد آثار الأحلام قبل أن ينهي انهيار الواقع جولتك.\n\nالاستخراج من الكابوس\nاختر مهمة وأنجز الأهداف تحت الضغط. استعد الذكريات، وحقق في المواقع السرية، وأغلق شقوق الكوابيس، واصل إلى المخرج مع غنائمك.\n\nالنجاة من الانهيار\nراقب صحتك واتزانك النفسي ومؤشر الانهيار المتصاعد. تزيد مواجهة الأعداء وأحداث الغرف وتعديلات المهام من التوتر. قرر متى تواصل الاستكشاف ومتى تهرب.\n\nالجمع والتقدم\nاكسب الخبرة من عمليات الاستخراج الناجحة، ووسع مجموعة الآثار، واكتشف قصص المهام. راجع نتيجتك ورتبتك ورمز الجولة وشارك الملخص.\n\nاللعب دون إنترنت\nلا يتطلب اللعب الفردي الأساسي حسابًا أو اتصالًا بالإنترنت. استكشف مهام الكوابيس اليومية وعد لجولة استخراج أخرى.",
+      "description": "Nightfall Protocol لعبة رعب وبقاء فردية تعمل دون إنترنت. أكمل مهام الاستخراج، وتجنب دوريات الأعداء، واستعد آثار الأحلام قبل أن ينهي انهيار الواقع جولتك.\n\nالاستخراج من الكابوس\nاختر مهمة وأنجز الأهداف تحت الضغط. استعد الذكريات، وحقق في المواقع السرية، وأغلق شقوق الكوابيس، واصل إلى المخرج مع غنائمك.\n\nالنجاة من الانهيار\nراقب صحتك واتزانك النفسي ومؤشر الانهيار المتصاعد. تزيد مواجهة الأعداء وأحداث الغرف وتعديلات المهام من التوتر. قرر متى تواصل الاستكشاف ومتى تهرب.\n\nالجمع والتقدم\nاكسب الخبرة من عمليات الاستخراج الناجحة، ووسع مجموعة الآثار، واكتشف قصص المهام. راجع نتيجتك ورتبتك ورمز الجولة وشارك الملخص.\n\nاللعب دون إنترنت\nلا يتطلب اللعب الفردي الأساسي حسابًا أو اتصالًا بالإنترنت. استكشف مهام الكوابيس اليومية وعد لجولة استخراج أخرى.\n\nحملة الإشارة\nالعب ستة فصول مترابطة: فك ذكريات، وثبّت القطع الأثرية، وأغلق الشقوق، ورافق الأصداء، وابقَ حيًا خلال نافذة الإشارة، وافحص المحطات. النجاح في المهمة يفتح الفصل التالي.\n\nيتجدد Premium Pass الاختياري تلقائيًا كل شهر عبر Apple. يوفر أثناء سريانه ألوانًا شهرية للشخصية ومسارها، وتوهجًا عند الاستخراج، وعرضًا موسعًا لقصص القطع الأثرية. لا يغير القوة أو الأعداء أو احتمالات الغنائم أو التقدم. تتطلب المشتريات واستعادتها اتصالًا بالشبكة.",
       "release_notes": "مهام استخراج فردية دون إنترنت، وتعديلات للكوابيس، وجمع آثار، وتقدم المشغل، وملخصات قابلة للمشاركة.",
-      "terms_label": "شروط الاستخدام", "privacy_label": "سياسة الخصوصية",
+      "terms_label": "شروط الاستخدام",
+      "privacy_label": "سياسة الخصوصية",
       "captions": [
-        ["رعب وبقاء دون إنترنت", "ادخل الكابوس وعد بغنائمك."],
-        ["مهام استخراج من الكوابيس", "استعد الذكريات وأغلق الشقوق واهرب."],
-        ["اهرب من انهيار الواقع", "يزداد الضغط مع كل ثانية."],
-        ["اجمع آثار الأحلام", "وسع مجموعتك واكتشف القصص."],
-        ["استخرج واكسب وعد", "راجع مكافآتك ونتيجتك ورتبتك."],
-        ["تقدم المشغل", "اكسب الخبرة عبر الاستخراج الناجح."],
-        ["تحدي الكابوس اليومي", "إشارة مهمة جديدة كل يوم."],
-        ["العب بلغتك", "اختر لغتك وإعدادات الصوت."]
+        [
+          "رعب وبقاء دون إنترنت",
+          "ادخل الكابوس وعد بغنائمك."
+        ],
+        [
+          "مهام استخراج من الكوابيس",
+          "استعد الذكريات وأغلق الشقوق واهرب."
+        ],
+        [
+          "اهرب من انهيار الواقع",
+          "يزداد الضغط مع كل ثانية."
+        ],
+        [
+          "اجمع آثار الأحلام",
+          "وسع مجموعتك واكتشف القصص."
+        ],
+        [
+          "استخرج واكسب وعد",
+          "راجع مكافآتك ونتيجتك ورتبتك."
+        ],
+        [
+          "تقدم المشغل",
+          "اكسب الخبرة عبر الاستخراج الناجح."
+        ],
+        [
+          "تحدي الكابوس اليومي",
+          "إشارة مهمة جديدة كل يوم."
+        ],
+        [
+          "اضبط إعدادات المهمة",
+          "اضبط الصوت والموسيقى والاهتزاز والتذكيرات."
+        ]
       ]
     },
     "hi": {
-      "language": "hi", "google_target": "hi",
+      "language": "hi",
+      "google_target": "hi",
       "subtitle": "ऑफ़लाइन सर्वाइवल हॉरर",
       "keywords": "बचाव,दुःस्वप्न,खोज,मिशन,सपना",
       "promotional_text": "दुःस्वप्न क्षेत्रों में जाएँ, कलाकृतियाँ खोजें और वास्तविकता ढहने से पहले निकलें। मिशन बदलाव, रैंक और खेल सारांश वाला ऑफ़लाइन एकल हॉरर गेम।",
-      "description": "Nightfall Protocol एक ऑफ़लाइन, एकल खिलाड़ी सर्वाइवल हॉरर गेम है। अस्थिर दुःस्वप्न क्षेत्रों में निकासी मिशन पूरे करें, दुश्मन की गश्त से बचें और वास्तविकता के ढहने से पहले स्वप्न कलाकृतियाँ लेकर लौटें।\n\nदुःस्वप्न से निकासी\nमिशन चुनें और दबाव में लक्ष्य पूरे करें। यादें वापस लाएँ, गुप्त ठिकानों की जाँच करें, दुःस्वप्न की दरारें बंद करें और लूट के साथ निकासी स्थल तक पहुँचें।\n\nढहती वास्तविकता में जीवित रहें\nस्वास्थ्य, मानसिक संतुलन और बढ़ते पतन मीटर पर नज़र रखें। दुश्मन, कमरों की घटनाएँ और मिशन बदलाव तनाव बढ़ाते हैं। तय करें कि कब खोज जारी रखनी है और कब निकलना है।\n\nसंग्रह और प्रगति\nसफल निकासी से अनुभव पाएँ, कलाकृतियों का संग्रह बढ़ाएँ और मिशन की कहानियाँ खोजें। स्कोर, रैंक और खेल कोड देखें, फिर अपना सारांश साझा करें।\n\nऑफ़लाइन खेलें\nमुख्य एकल खेल के लिए खाते या इंटरनेट की ज़रूरत नहीं है। रोज़ाना दुःस्वप्न मिशन खोजें और अगली निकासी के लिए लौटें।",
+      "description": "Nightfall Protocol एक ऑफ़लाइन, एकल खिलाड़ी सर्वाइवल हॉरर गेम है। अस्थिर दुःस्वप्न क्षेत्रों में निकासी मिशन पूरे करें, दुश्मन की गश्त से बचें और वास्तविकता के ढहने से पहले स्वप्न कलाकृतियाँ लेकर लौटें।\n\nदुःस्वप्न से निकासी\nमिशन चुनें और दबाव में लक्ष्य पूरे करें। यादें वापस लाएँ, गुप्त ठिकानों की जाँच करें, दुःस्वप्न की दरारें बंद करें और लूट के साथ निकासी स्थल तक पहुँचें।\n\nढहती वास्तविकता में जीवित रहें\nस्वास्थ्य, मानसिक संतुलन और बढ़ते पतन मीटर पर नज़र रखें। दुश्मन, कमरों की घटनाएँ और मिशन बदलाव तनाव बढ़ाते हैं। तय करें कि कब खोज जारी रखनी है और कब निकलना है।\n\nसंग्रह और प्रगति\nसफल निकासी से अनुभव पाएँ, कलाकृतियों का संग्रह बढ़ाएँ और मिशन की कहानियाँ खोजें। स्कोर, रैंक और खेल कोड देखें, फिर अपना सारांश साझा करें।\n\nऑफ़लाइन खेलें\nमुख्य एकल खेल के लिए खाते या इंटरनेट की ज़रूरत नहीं है। रोज़ाना दुःस्वप्न मिशन खोजें और अगली निकासी के लिए लौटें।\n\nसिग्नल अभियान\nछह जुड़े अध्याय खेलें: यादें डिकोड करें, कलाकृतियां स्थिर करें, दरारें बंद करें, गूंज को साथ ले जाएं, सिग्नल अवधि में जीवित रहें और टर्मिनलों की जांच करें। सफल मिशन अगले अध्याय को खोलते हैं।\n\nवैकल्पिक Premium Pass Apple के माध्यम से हर महीने अपने आप नवीनीकृत होता है। सक्रिय सदस्यता में मासिक पात्र और पथ के रंग, निकासी की चमक और कलाकृतियों की विस्तृत कहानी मिलती है। इससे शक्ति, दुश्मन, लूट की संभावना या प्रगति नहीं बदलती। खरीद और पुनर्स्थापना के लिए नेटवर्क कनेक्शन चाहिए।",
       "release_notes": "ऑफ़लाइन निकासी मिशन, दुःस्वप्न बदलाव, कलाकृति संग्रह, ऑपरेटर प्रगति और साझा करने योग्य खेल सारांश।",
-      "terms_label": "उपयोग की शर्तें", "privacy_label": "गोपनीयता नीति",
+      "terms_label": "उपयोग की शर्तें",
+      "privacy_label": "गोपनीयता नीति",
       "captions": [
-        ["ऑफ़लाइन सर्वाइवल हॉरर", "दुःस्वप्न में जाएँ। लूट लेकर लौटें।"],
-        ["दुःस्वप्न निकासी मिशन", "यादें खोजें। दरारें बंद करें। निकलें।"],
-        ["ढहती वास्तविकता से बचें", "हर सेकंड दबाव बढ़ता है।"],
-        ["स्वप्न कलाकृतियाँ इकट्ठी करें", "संग्रह बढ़ाएँ और कहानियाँ खोजें।"],
-        ["निकलें। कमाएँ। लौटें।", "पुरस्कार, स्कोर और रैंक देखें।"],
-        ["ऑपरेटर प्रगति", "सफल निकासी से अनुभव कमाएँ।"],
-        ["रोज़ाना दुःस्वप्न चुनौती", "हर दिन एक नया मिशन संकेत।"],
-        ["अपनी भाषा में खेलें", "भाषा और ऑडियो सेटिंग चुनें।"]
+        [
+          "ऑफ़लाइन सर्वाइवल हॉरर",
+          "दुःस्वप्न में जाएँ। लूट लेकर लौटें।"
+        ],
+        [
+          "दुःस्वप्न निकासी मिशन",
+          "यादें खोजें। दरारें बंद करें। निकलें।"
+        ],
+        [
+          "ढहती वास्तविकता से बचें",
+          "हर सेकंड दबाव बढ़ता है।"
+        ],
+        [
+          "स्वप्न कलाकृतियाँ इकट्ठी करें",
+          "संग्रह बढ़ाएँ और कहानियाँ खोजें।"
+        ],
+        [
+          "निकलें। कमाएँ। लौटें।",
+          "पुरस्कार, स्कोर और रैंक देखें।"
+        ],
+        [
+          "ऑपरेटर प्रगति",
+          "सफल निकासी से अनुभव कमाएँ।"
+        ],
+        [
+          "रोज़ाना दुःस्वप्न चुनौती",
+          "हर दिन एक नया मिशन संकेत।"
+        ],
+        [
+          "मिशन नियंत्रण समायोजित करें",
+          "ध्वनि, संगीत, हैप्टिक और रिमाइंडर सेट करें।"
+        ]
       ]
     }
   }

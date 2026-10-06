@@ -19,18 +19,10 @@ struct LocalizedString: Hashable {
 final class LanguageManager {
     static let fallbackLanguage = "en"
 
+    // Only expose complete in-app languages. Partial catalog translations remain
+    // development resources until their mission and interface coverage is complete.
     static let supportedLanguages: [LanguageOption] = [
-        LanguageOption(id: "en", nameKey: "language.en", localeIdentifier: "en", isRightToLeft: false),
-        LanguageOption(id: "es", nameKey: "language.es", localeIdentifier: "es", isRightToLeft: false),
-        LanguageOption(id: "fr", nameKey: "language.fr", localeIdentifier: "fr", isRightToLeft: false),
-        LanguageOption(id: "de", nameKey: "language.de", localeIdentifier: "de", isRightToLeft: false),
-        LanguageOption(id: "pt", nameKey: "language.pt", localeIdentifier: "pt", isRightToLeft: false),
-        LanguageOption(id: "it", nameKey: "language.it", localeIdentifier: "it", isRightToLeft: false),
-        LanguageOption(id: "ja", nameKey: "language.ja", localeIdentifier: "ja", isRightToLeft: false),
-        LanguageOption(id: "ko", nameKey: "language.ko", localeIdentifier: "ko", isRightToLeft: false),
-        LanguageOption(id: "zh-Hans", nameKey: "language.zhHans", localeIdentifier: "zh-Hans", isRightToLeft: false),
-        LanguageOption(id: "ar", nameKey: "language.ar", localeIdentifier: "ar", isRightToLeft: true),
-        LanguageOption(id: "hi", nameKey: "language.hi", localeIdentifier: "hi", isRightToLeft: false)
+        LanguageOption(id: "en", nameKey: "language.en", localeIdentifier: "en", isRightToLeft: false)
     ]
 
     var selectedLanguageCode: String {

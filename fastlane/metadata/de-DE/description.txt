@@ -12,5 +12,10 @@ Verdiene Erfahrung durch erfolgreiche Extraktionen, erweitere deine Artefaktsamm
 OFFLINE SPIELEN
 Das zentrale Solospiel benötigt weder Konto noch Internetverbindung. Erkunde tägliche Albtraummissionen und kehre für eine weitere Extraktion zurück.
 
+SIGNALKAMPAGNE
+Spiele sechs verbundene Kapitel: Erinnerungen entschlüsseln, Artefakte stabilisieren, Risse versiegeln, Echos eskortieren, das Signalfenster überleben und Terminals untersuchen. Erfolgreiche Missionen schalten das nächste Kapitel frei.
+
+Der optionale Premium Pass verlängert sich monatlich automatisch über Apple. Er bietet monatliche Farben für die Figur und ihre Spur, ein Extraktionsleuchten und erweiterte Artefaktgeschichten. Er verändert weder Stärke noch Gegner, Beutechancen oder Fortschritt. Kauf und Wiederherstellung benötigen eine Internetverbindung.
+
 Nutzungsbedingungen: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Datenschutzrichtlinie: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

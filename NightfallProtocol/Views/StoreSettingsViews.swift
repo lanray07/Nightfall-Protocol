@@ -126,6 +126,9 @@ struct SettingsView: View {
                     .accessibilityLabel(Text(LocalizedStringKey("settings.haptics")))
                     .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.hapticsEnabled))))
                     .accessibilityIdentifier("settings.haptics")
+                    .onChange(of: viewModel.hapticsEnabled) { _, enabled in
+                        services.haptics.enabled = enabled
+                    }
 
                     Toggle(isOn: $viewModel.notificationsEnabled) {
                         Label(LocalizedStringKey("settings.notifications"), systemImage: "bell.badge.fill")
@@ -134,7 +137,10 @@ struct SettingsView: View {
                     .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.notificationsEnabled))))
                     .accessibilityIdentifier("settings.notifications")
                     .onChange(of: viewModel.notificationsEnabled) { _, enabled in
-                        guard enabled else { return }
+                        guard enabled else {
+                            services.notifications.cancelDailyNightmareReminder()
+                            return
+                        }
                         Task {
                             await viewModel.enableNotifications(services: services, languageManager: languageManager)
                         }

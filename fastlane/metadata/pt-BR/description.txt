@@ -12,5 +12,10 @@ Ganhe experiência em extrações bem-sucedidas, amplie sua coleção de artefat
 JOGUE OFFLINE
 A experiência solo principal não exige conta nem conexão com a internet. Explore missões diárias de pesadelo e volte para outra extração.
 
+CAMPANHA DE SINAIS
+Jogue seis capítulos conectados: decifre memórias, estabilize artefatos, sele fendas, escolte ecos, sobreviva à janela de sinal e investigue terminais. Missões concluídas desbloqueiam o próximo capítulo.
+
+O Premium Pass opcional é renovado automaticamente a cada mês pela Apple. Oferece cores mensais para o personagem e seu rastro, brilho na extração e mais detalhes sobre os artefatos. Não altera poder, inimigos, chances de saque ou progressão. Compras e restauração exigem conexão.
+
 Termos de Uso: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Política de Privacidade: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

@@ -12,5 +12,10 @@ Gagnez de l'expérience lors d'extractions réussies, enrichissez votre collecti
 JOUEZ HORS LIGNE
 Le jeu solo principal ne nécessite ni compte ni connexion internet. Explorez les missions de cauchemar quotidiennes et revenez pour une nouvelle extraction.
 
+CAMPAGNE DU SIGNAL
+Jouez six chapitres liés : décodez des souvenirs, stabilisez des artefacts, scellez des failles, escortez des échos, survivez à la fenêtre du signal et examinez les terminaux. Réussir une mission débloque le chapitre suivant.
+
+Le Premium Pass facultatif se renouvelle automatiquement chaque mois via Apple. Il propose une palette mensuelle, une lueur d’extraction et un affichage enrichi de l’histoire des artefacts. Il ne modifie pas la puissance, les ennemis, les chances de butin ni la progression. Les achats et leur restauration nécessitent une connexion.
+
 Conditions d'utilisation: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Politique de confidentialité: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

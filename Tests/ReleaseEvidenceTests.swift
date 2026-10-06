@@ -41,6 +41,13 @@ final class ReleaseEvidenceTests: XCTestCase {
         app.buttons["Extract"].tap()
         XCTAssertTrue(app.buttons["Return to Hub"].waitForExistence(timeout: 15))
         capture("mission-extracted-real-result", app: app)
+        app.buttons["Return to Hub"].tap()
+        XCTAssertTrue(app.buttons["Signal Campaign"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["Co-op Placeholder"].exists)
+        XCTAssertFalse(app.buttons["Endless"].exists)
+        app.buttons["Signal Campaign"].tap()
+        XCTAssertTrue(app.staticTexts["01 / The Broken Transmission"].waitForExistence(timeout: 10))
+        capture("campaign-first-chapter-real-selection", app: app)
     }
 
     func testLegalLinksOpenTheirDestinations() {

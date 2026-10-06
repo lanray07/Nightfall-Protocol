@@ -12,5 +12,10 @@ Nightfall Protocol은 오프라인으로 즐기는 싱글플레이 서바이벌 
 오프라인 플레이
 핵심 싱글플레이에는 계정이나 인터넷 연결이 필요하지 않습니다. 매일 악몽 임무를 탐험하고 다음 회수에 도전하세요.
 
+신호 캠페인
+연결된 여섯 챕터에서 기억 해독, 유물 안정화, 균열 봉인, 메아리 호위, 신호 시간 동안 생존, 단말 조사에 도전하세요. 임무에 성공하면 다음 챕터가 열립니다.
+
+선택 사항인 Premium Pass는 Apple을 통해 매월 자동 갱신됩니다. 활성 기간에는 월별 캐릭터와 이동 흔적 색상, 탈출 광채, 확장된 유물 이야기를 제공합니다. 능력, 적, 전리품 확률, 진행에는 영향을 주지 않습니다. 구매와 복원에는 네트워크 연결이 필요합니다.
+
 이용 약관: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 개인정보 처리방침: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

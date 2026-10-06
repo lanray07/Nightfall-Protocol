@@ -5,8 +5,15 @@ import AVFoundation
 @MainActor
 @Observable
 final class AudioManager {
-    var soundEnabled = true
-    var musicEnabled = true
+    var soundEnabled = UserDefaults.standard.object(forKey: "nightfall.sound") as? Bool ?? true {
+        didSet {
+            UserDefaults.standard.set(soundEnabled, forKey: "nightfall.sound")
+            if !soundEnabled { effect?.stop() }
+        }
+    }
+    var musicEnabled = UserDefaults.standard.object(forKey: "nightfall.music") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(musicEnabled, forKey: "nightfall.music") }
+    }
     private var effect: AVAudioPlayer?
     private var ambience: AVAudioPlayer?
 

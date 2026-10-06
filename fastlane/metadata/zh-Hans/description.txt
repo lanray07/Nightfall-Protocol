@@ -12,5 +12,10 @@ Nightfall Protocol 是一款可离线游玩的单人生存恐怖游戏。进入�
 离线游玩
 核心单人玩法无需账户或互联网连接。探索每日噩梦任务，准备迎接下一次撤离行动。
 
+信号战役
+体验六个相互关联的章节：解码记忆、稳定遗物、封闭裂隙、护送回声、在信号窗口内生存并调查终端。成功完成任务即可解锁下一章。
+
+可选的Premium Pass通过Apple按月自动续订。有效期间可获得每月角色与移动轨迹配色、撤离光效和扩展的遗物故事显示。它不改变能力、敌人、战利品概率或游戏进度。购买和恢复购买需要网络连接。
+
 使用条款: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 隐私政策: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
