@@ -1,10 +1,10 @@
 # Nightfall Protocol — factual review response
 
-This response describes the revised source and the account information inspected on October 6, 2026. Native verification and the final build number must be recorded before this response is sent. Ownership/provenance answers intentionally state the limits of the available records rather than assert facts that source inspection cannot establish.
+This response describes iOS 1.0 build 175 and the account information inspected on October 6, 2026. The account holder confirmed that the product is theirs. The revised gameplay/model/legal checks and the focused purchase/restoration/expiry checks passed on both iPhone and iPad simulators.
 
 Hello App Review Team,
 
-We have made substantive changes to Nightfall Protocol following the rejection of submission da1d6268-85c6-4f57-ad4c-ad38726eab88. The revised game replaces generic objective completion with mission-specific interactions, implements gameplay-affecting nightmare conditions, adds a six-chapter campaign with saved unlocking, and removes unfinished co-op, endless, loadout, and graphics-quality entries. Below are our answers to your nine questions.
+We have made substantive changes to Nightfall Protocol following the rejection of submission da1d6268-85c6-4f57-ad4c-ad38726eab88. The replacement is iOS version 1.0, build 175. The revised game replaces generic objective completion with mission-specific interactions, implements gameplay-affecting nightmare conditions, adds a six-chapter campaign with saved unlocking, and removes unfinished co-op, endless, loadout, and graphics-quality entries. Below are our answers to your nine questions.
 
 ## 1. What the app does and the primary problem it solves
 
@@ -30,9 +30,9 @@ We do not claim that no other horror or extraction game exists. The contribution
 
 We have no documented external beta feedback to report from before the October 1 submission. The inspected TestFlight page shows builds uploaded but no tester group or recorded feedback. We therefore cannot provide examples attributed to external beta testers.
 
-The documented developer testing before this response includes simulator builds, local StoreKit purchase/restoration/expiry checks on iPhone and iPad, and verified legal-link navigation. Those are developer tests, not a claim of external beta participation or physical-device sandbox testing. Following this rejection, we added executable tests for all six mission-rule paths, interruption and invalid actions, plus app-model tests covering premature extraction, loss of loot on failure, campaign unlocking, and daily mission content selection. A touch-driven simulator test exercises recovery, decoding, and extraction using the actual game controls. Results for the revised build are supplied separately with the submission.
+The documented developer testing before this response includes simulator builds, local StoreKit purchase/restoration/expiry checks on iPhone and iPad, and verified legal-link navigation. Those are developer tests, not a claim of external beta participation or physical-device sandbox testing. Following this rejection, we added executable tests for all six mission-rule paths, interruption and invalid actions, plus app-model tests covering premature extraction, loss of loot on failure, campaign selection from saved chapter state, and daily mission content selection. A touch-driven simulator test exercises recovery, decoding, and extraction using the actual game controls. Mission-rule checks passed on Windows and macOS. The revised app-model, touch-control gameplay and legal-link checks passed on both device simulators; a focused local StoreKit rerun also passed purchase, restoration and expiry on both. The attached genuine iPad captures show the completed memory mission and the first campaign chapter.
 
-The changes made in response to this review include eliminating loot-based objective completion, removing the late-collapse extraction bypass, replacing descriptive-only modifiers with functional conditions, implementing campaign unlocking, replacing nonfunctional audio methods with playable sounds, and removing controls that implied unimplemented features. These changes are review-driven and developer-validated; they are not presented as beta-user feedback.
+The changes made in response to this review include eliminating loot-based objective completion, removing the late-collapse extraction bypass, replacing descriptive-only modifiers with functional conditions, implementing campaign unlocking, replacing nonfunctional audio methods with playable sounds, and removing controls that implied unimplemented features. Inspection of release captures also exposed a scene-sizing error that could place mission stations outside the visible arena; we corrected remapping to use the dimensions at which the world was actually built. These changes are review-driven and developer-validated; they are not presented as beta-user feedback.
 
 ## 5. Standalone product or related suite
 
@@ -48,7 +48,7 @@ Nightfall Protocol's functionality is its complete game loop, not an additional 
 
 The visible shipping project references its own application sources and Apple's platform frameworks. Its gameplay components include NightfallGameScene, GameplayViewModel, MissionRules, mission generators, its game models, and its localized mission/campaign content. These respectively render and operate the world, manage collapse and results, enforce mission progression, choose mission content, save game data, and present the game's narrative.
 
-We compared exact hashes of Nightfall Protocol's Swift source files against 1,656 Swift source files in the other available local project folders and found no identical files. This supports the narrower statement that no exact source-file reuse was found in that inspected corpus; it does not establish that no partially shared code or shared assets exist across every binary on the account. We have not identified a significant shared proprietary gameplay module in the inspected projects. Common use of Apple frameworks is disclosed below. A full account-wide binary and asset provenance attestation is not available from these source records alone.
+We compared exact hashes of Nightfall Protocol's Swift source files against 1,656 Swift source files in the other available local project folders and found no identical files. We also compared its shipping raster assets against 4,976 images in the available project folders and found no identical assets. These checks cover exact files in the inspected local corpus; they do not establish the absence of partial reuse across every binary on the account. No significant shared proprietary gameplay module was identified in the inspected projects. Common use of Apple frameworks is disclosed below.
 
 ## 8. Third-party code, SDKs, or content libraries
 
@@ -58,9 +58,7 @@ The mission-state rules, extraction gating, collapse behavior, escort entity, ca
 
 ## 9. Content provider and submitting account
 
-The submitting App Store Connect account is Olanrewaju Bankole, and the app's copyright field attributes the product to O. Bankole. The app is submitted under that same developer account. The inspected source and release records do not identify a separate commissioning client, partner, template vendor, or other third-party content provider.
-
-These account and project facts do not independently establish the legal provenance of every asset or whether a third party was involved historically. We do not rely on the use of native Swift code as proof of compliance with guideline 4.2.6. If further content-provider evidence is required, the account holder must supply that factual attestation; it cannot be established solely from the implementation changes.
+Nightfall Protocol is my product, and I am its content provider. It is submitted directly under my developer account, Olanrewaju Bankole, and the copyright field credits O. Bankole. It is not being submitted by a template or app-generation service on behalf of a separate client. The inspected project contains its own native gameplay implementation and identifies no separate commissioning client or third-party content provider. The implemented mission systems and campaign described above are included in the revised binary.
 
 Thank you,
 Olanrewaju Bankole

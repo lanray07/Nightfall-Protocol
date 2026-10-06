@@ -1,0 +1,26 @@
+Hello App Review Team,
+
+We have substantially revised Nightfall Protocol following submission da1d6268-85c6-4f57-ad4c-ad38726eab88. The replacement is iOS 1.0 (175). The attached document contains detailed answers to all nine questions.
+
+1. The app is a touch-controlled single-player horror extraction game. Players complete mission-specific tasks, evade enemies, collect optional loot, and escape before collapse. The revised rules cover memory decoding, slowed artifact transport and stabilization, interrupted rift sealing under enemy surges, escorting a following echo, timed survival, and two-terminal investigation. Loot pickups cannot complete mission tasks or bypass extraction requirements.
+
+2. It targets players seeking brief, individual sessions of atmospheric horror, evasion, and risk-versus-reward play on iPhone or iPad. Core gameplay and local progression are available offline without sign-in.
+
+3. The contribution is the interaction between those noncombat tasks and worsening collapse, moving extraction signals, different enemy behaviors, and loss of carried loot on failure. Six functional nightmare conditions affect visibility, pursuit, trails, false exits, extraction relocation, or collapse speed. A six-chapter campaign connects missions and saves chapter unlocking after success.
+
+4. We have no documented external beta feedback before the October 1 submission and do not claim it. Developer checks include simulator builds, local StoreKit purchase/restoration/expiry testing, and legal links on iPhone and iPad. Mission-rule checks passed; revised app-model and touch-control gameplay tests passed on both simulators. Genuine mission and campaign captures are attached. The detailed response distinguishes developer tests and review-driven changes from beta feedback.
+
+5. Nightfall Protocol functions as a standalone game. Scrap Squad: Merge & Survive, another game on the account, centers on robot squads, fusion, weapons, waves, and bosses. Nightfall centers on noncombat extraction, station tasks, escorting, collapse, and its own campaign. The other account products do not provide this gameplay. This resubmission is iOS only.
+
+6. This is a complete separate game loop and progression system. Adding it to Scrap Squad would require a distinct extraction engine, mission rules, campaign, presentation, and persistence model; it is not an additional cosmetic pack or combat level set.
+
+7. The project references its own game sources and Apple frameworks. Exact comparisons against 1,656 other local Swift files and 4,976 project images found no identical source files or shipping raster assets. These checks cover the inspected local corpus, not partial reuse across every account binary. No shared proprietary gameplay module was identified.
+
+8. The Xcode project declares no external Swift packages or nonstandard game SDK. It uses standard Apple frameworks. No shared third-party app codebase or content library was identified in the inspected project; source inspection cannot independently certify historical authorship of every fragment or asset.
+
+9. Nightfall Protocol is my product, and I am its content provider. It is submitted directly under my developer account, Olanrewaju Bankole, with copyright credited to O. Bankole. It is not a template-service submission on behalf of a separate client. The inspected project identifies no separate commissioning client or content provider.
+
+Unfinished co-op/endless entries and nonfunctional loadout and graphics-quality controls have been removed. Audio and haptic settings now work and persist. The app exposes its complete English interface, and the revised listing describes the campaign and optional cosmetic-only monthly subscription accurately.
+
+Thank you,
+Olanrewaju Bankole
