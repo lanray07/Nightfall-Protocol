@@ -61,7 +61,10 @@ def capture(listing, codes, devices, output, derived):
     available = [runtime for runtime in runtimes if runtime.get("isAvailable") and ".iOS-" in runtime["identifier"]]
     if not available:
         raise RuntimeError("Install an iOS simulator runtime in Xcode")
-    runtime = max(available, key=lambda item: tuple(int(part) for part in item["version"].split(".")))
+    # Use the same runtime as the release UI checks when installed. Newer
+    # runner runtimes can spend several minutes in initial data migration.
+    preferred = [item for item in available if item["version"] == "26.1"]
+    runtime = max(preferred or available, key=lambda item: tuple(int(part) for part in item["version"].split(".")))
     run("xcodebuild", "-project", str(ROOT / "NightfallProtocol.xcodeproj"), "-scheme", "NightfallProtocol",
         "-configuration", "Debug", "-sdk", "iphonesimulator", "-destination", "generic/platform=iOS Simulator",
         "-derivedDataPath", str(derived), "CODE_SIGNING_ALLOWED=NO", "build", timeout=900)
@@ -77,7 +80,7 @@ def capture(listing, codes, devices, output, derived):
                         device_type["identifier"], runtime["identifier"])
         try:
             run("xcrun", "simctl", "boot", simulator)
-            run("xcrun", "simctl", "bootstatus", simulator, "-b", timeout=300)
+            run("xcrun", "simctl", "bootstatus", simulator, "-b", timeout=600)
             run("xcrun", "simctl", "ui", simulator, "appearance", "dark")
             run("xcrun", "simctl", "status_bar", simulator, "override", "--time", "9:41", "--batteryState", "charged", "--batteryLevel", "100")
             run("xcrun", "simctl", "install", simulator, str(app))
