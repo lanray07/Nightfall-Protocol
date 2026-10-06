@@ -23,8 +23,10 @@ These are developer simulator/local StoreKit checks. They are not external beta 
 
 ## Review materials
 
-`APP_REVIEW_RESPONSE.md` answers all nine questions. The App Store Connect reply also includes genuine iPad captures of mission completion and campaign selection. The existing verified legal-link recording is preserved.
+`APP_REVIEW_RESPONSE.md` answers all nine questions. The App Store Connect reply also includes genuine iPad captures of mission completion and campaign selection. The verified legal-link recording was uploaded from the passing iPad legal-link checks in run [37477845880](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37477845880). The nine-question response and its three attachments were sent in App Store Connect on October 6, 2026.
 
 Exact-file comparison reports cover 1,656 other local Swift files and 4,976 project raster images. No identical source files or shipping raster assets were found. Those checks do not certify historical authorship, licensing, partial reuse, or every account binary. The account holder confirmed that Nightfall Protocol is their product.
 
-The revised listing uploaded successfully in [37475906367](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475906367). Build 175 was signed and uploaded successfully in [37475802702](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475802702). The corrected screenshot capture is [37475827790](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475827790).
+The revised listing uploaded successfully in [37475906367](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475906367). Build 175 was signed and uploaded successfully in [37475802702](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37475802702). Cold simulator screenshot capture was canceled after a migration delay. The store gallery uses ten unmodified PNG captures from the passing gameplay and legal-link tests in run 37473383260, with original timestamps and SHA-256 checksums recorded by the screenshot packager. Screenshot upload initially completed but reordering encountered the Ready for Review state; the submission was reopened before retrying.
+
+The gallery upload and ordering completed successfully in [37478061764](https://github.com/lanray07/Nightfall-Protocol/actions/runs/37478061764). App Store Connect confirmed build 175 was processed as VALID before selection.
