@@ -29,7 +29,7 @@ final class NightfallGameScene: SKScene {
     private var channelRing: SKShapeNode?
 
     private var arena: CGRect {
-        CGRect(x: 24, y: 210, width: max(120, size.width - 48), height: max(160, size.height - 500))
+        CGRect(x: 24, y: 210, width: max(120, size.width - 48), height: max(160, size.height - 550))
     }
 
     private func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {

@@ -19,7 +19,7 @@ final class ReleaseEvidenceTests: XCTestCase {
         func move(_ x: CGFloat, _ y: CGFloat) {
             let width = arena.frame.width, height = arena.frame.height
             let pointX = 24 + max(120, width - 48) * x
-            let pointY = height - (210 + max(160, height - 500) * y)
+            let pointY = height - (210 + max(160, height - 550) * y)
             arena.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: pointX, dy: pointY)).tap()
             // Actual operator movement, not a test teleport.
             Thread.sleep(forTimeInterval: 6)
@@ -41,6 +41,7 @@ final class ReleaseEvidenceTests: XCTestCase {
         app.buttons["Extract"].tap()
         XCTAssertTrue(app.buttons["Return to Hub"].waitForExistence(timeout: 15))
         capture("mission-extracted-real-result", app: app)
+        for _ in 0..<3 where !app.buttons["Return to Hub"].isHittable { app.swipeUp() }
         app.buttons["Return to Hub"].tap()
         XCTAssertTrue(app.buttons["Signal Campaign"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.buttons["Co-op Placeholder"].exists)
