@@ -3,6 +3,7 @@ import SwiftUI
 import Foundation
 
 struct AppRootView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) private var modelContext
     @Environment(LanguageManager.self) private var languageManager
     @Environment(AppServices.self) private var services
@@ -53,6 +54,13 @@ struct AppRootView: View {
         }
         .task {
             await viewModel.bootstrap(context: modelContext, languageManager: languageManager, services: services)
+            services.store.startMonitoring(context: modelContext)
+            await services.store.refreshAccess(context: modelContext)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await services.store.refreshAccess(context: modelContext) }
+            }
         }
         .alert(Text(LocalizedStringKey(viewModel.errorKey ?? "state.error")), isPresented: errorBinding) {
             Button(LocalizedStringKey("action.close")) {

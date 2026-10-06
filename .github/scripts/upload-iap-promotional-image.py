@@ -28,6 +28,14 @@ def main() -> int:
     jwt = subprocess.check_output(["bash", ".github/scripts/app-store-connect-jwt.sh"], text=True).strip()
     client = AppStoreConnectClient(jwt)
 
+    subscription = find_subscription(client, app_id, product_id)
+    if subscription:
+        if image_path is not None:
+            raise RuntimeError("Subscription promotional uploads are not supported by this removal tool.")
+        remove_subscription_images(client, subscription["id"])
+        print(f"Removed subscription promotional images for {product_id}; review screenshot preserved.")
+        return 0
+
     iap = find_iap(client, app_id, product_id)
     replace_existing_images(client, iap["id"])
 
@@ -100,6 +108,33 @@ def list_iaps(client: AppStoreConnectClient, app_id: str) -> list[str]:
         if product_id:
             product_ids.append(product_id)
     return product_ids
+
+
+def find_subscription(client: AppStoreConnectClient, app_id: str, product_id: str) -> dict | None:
+    groups = client.request("GET", f"/v1/apps/{app_id}/subscriptionGroups?limit=200")
+    for group in groups.get("data", []):
+        items = client.request("GET", f"/v1/subscriptionGroups/{group['id']}/subscriptions?limit=200")
+        for item in items.get("data", []):
+            if item.get("attributes", {}).get("productId") == product_id:
+                return item
+    return None
+
+
+def remove_subscription_images(client: AppStoreConnectClient, subscription_id: str) -> None:
+    images = client.request("GET", f"/v1/subscriptions/{subscription_id}/images?limit=200")
+    for item in images.get("data", []):
+        client.request("DELETE", f"/v1/subscriptionImages/{item['id']}", expected=(204,))
+        print(f"Deleted subscription promotional image {item['id']}.")
+
+    # Metadata versions have their own promotion images, separate from review screenshots.
+    versions = client.request("GET", f"/v1/subscriptions/{subscription_id}/versions?limit=200")
+    for version in versions.get("data", []):
+        if version.get("attributes", {}).get("state") not in ("PREPARE_FOR_SUBMISSION", "REJECTED", "DEVELOPER_REJECTED"):
+            continue
+        images = client.request("GET", f"/v1/subscriptionVersions/{version['id']}/images?limit=200")
+        for item in images.get("data", []):
+            client.request("DELETE", f"/v2/subscriptionImages/{item['id']}", expected=(204,))
+            print(f"Deleted version promotional image {item['id']}.")
 
 
 def replace_existing_images(client: AppStoreConnectClient, iap_id: str) -> None:

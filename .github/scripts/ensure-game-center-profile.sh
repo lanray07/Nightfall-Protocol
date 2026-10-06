@@ -115,7 +115,7 @@ print(items[0]["id"])')"
       compatible_certificate_types="MAC_APP_DISTRIBUTION"
       ;;
     *)
-      compatible_certificate_types="IOS_DISTRIBUTION"
+      compatible_certificate_types="DISTRIBUTION,IOS_DISTRIBUTION"
       ;;
   esac
 
@@ -144,6 +144,7 @@ PY
 
   while IFS=$'\t' read -r certificate_id certificate_path certificate_type; do
     [[ -n "$certificate_id" ]] || continue
+    openssl x509 -inform DER -in "$certificate_path" -checkend 86400 -noout >/dev/null 2>&1 || continue
     if [[ -z "$first_certificate_id" ]]; then
       first_certificate_id="$certificate_id"
       first_certificate_path="$certificate_path"
@@ -160,14 +161,14 @@ PY
     fi
   done < "${certificate_work_dir}/candidates.tsv"
 
-  selected_certificate_id="${matching_certificate_id:-$first_certificate_id}"
-  selected_certificate_path="${matching_certificate_path:-$first_certificate_path}"
+  selected_certificate_id="$matching_certificate_id"
+  selected_certificate_path="$matching_certificate_path"
 
   if [[ -z "$matching_certificate_id" && -n "$first_certificate_id" ]]; then
-    echo "No public-key match was found in App Store Connect; using existing ${compatible_certificate_types} certificate ${first_certificate_id} for the profile."
+    echo "Existing certificates do not match the installed private key; requesting a matching certificate."
   fi
 
-  if [[ -z "$matching_certificate_id" && -z "$first_certificate_id" && -s "$certificate_private_key_path" ]]; then
+  if [[ -z "$matching_certificate_id" && -s "$certificate_public_key_path" ]]; then
     create_certificate_type="${compatible_certificate_types%%,*}"
     openssl req \
       -new \
@@ -205,12 +206,12 @@ print(payload["data"]["attributes"].get("certificateContent", ""))' | base64 --d
   fi
 
   if [[ -z "$selected_certificate_id" ]]; then
-    echo "No distribution certificates were available to create a provisioning profile." >&2
+    echo "No valid distribution certificate matches the installed private key. Check BUILD_CERTIFICATE_BASE64 and P12_PASSWORD." >&2
     exit 1
   fi
 
   if [[ -n "${KEYCHAIN_PATH:-}" && -f "$selected_certificate_path" ]]; then
-    security import "$selected_certificate_path" -A -t cert -k "$KEYCHAIN_PATH" >/dev/null 2>&1 || true
+    security import "$selected_certificate_path" -A -t cert -k "$KEYCHAIN_PATH" >/dev/null
   fi
 
   selected_certificate_name=""
@@ -226,6 +227,10 @@ print(payload["data"]["attributes"].get("certificateContent", ""))' | base64 --d
     elif [[ -n "$selected_certificate_name" ]]; then
       echo "MACCATALYST_SIGNING_CERT_NAME=${selected_certificate_name}" >> "$GITHUB_ENV"
     fi
+  fi
+
+  if [[ -n "${GITHUB_ENV:-}" && "$profile_type" == IOS_APP_STORE && -n "$selected_certificate_sha1" ]]; then
+    echo "IOS_SIGNING_CERT_NAME=${selected_certificate_sha1}" >> "$GITHUB_ENV"
   fi
 
   certificates_data="[{\"type\":\"certificates\",\"id\":\"${selected_certificate_id}\"}]"

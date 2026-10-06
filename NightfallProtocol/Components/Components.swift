@@ -405,7 +405,7 @@ struct StoreItemCard: View {
             Text(LocalizedStringKey(item.descriptionKey))
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.72))
-                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
 
             if let renewalInfoKey = item.renewalInfoKey {
                 Text(LocalizedStringKey(renewalInfoKey))

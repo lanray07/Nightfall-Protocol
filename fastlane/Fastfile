@@ -202,7 +202,8 @@ platform :ios do
       sdk: "iphoneos",
       profile_env: "PROFILE_SPECIFIER",
       default_profile: "NightfallProtocol_App_Store",
-      artifact_name: "NightfallProtocol-iOS.ipa"
+      artifact_name: "NightfallProtocol-iOS.ipa",
+      signing_certificate_env: "IOS_SIGNING_CERT_NAME"
     )
   end
 

@@ -41,6 +41,7 @@ struct GameplayContainerView: View {
         .onAppear {
             scene.configure(
                 mission: viewModel.mission,
+                premiumEnabled: services.store.hasPremiumAccess,
                 onEvent: { event in
                     Task { @MainActor in
                         services.haptics.impact(.light)
@@ -55,6 +56,9 @@ struct GameplayContainerView: View {
         }
         .onDisappear {
             viewModel.stop()
+        }
+        .onChange(of: services.store.hasPremiumAccess) { _, enabled in
+            scene.setPremiumEnabled(enabled)
         }
         .onChange(of: viewModel.eventCounter) {
             if let event = viewModel.currentRoomEvent {

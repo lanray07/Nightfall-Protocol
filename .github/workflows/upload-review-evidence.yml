@@ -1,0 +1,60 @@
+name: Upload iOS Review Evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      evidence_run:
+        description: Release Evidence workflow run ID
+        required: true
+        type: string
+      device:
+        description: Device capture
+        type: choice
+        options: [iPhone, iPad]
+        default: iPhone
+      asset_type:
+        description: Review assets to upload
+        type: choice
+        options: [screenshot, recording, both]
+        default: both
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Download genuine Xcode evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVIDENCE_RUN: ${{ inputs.evidence_run }}
+          DEVICE: ${{ inputs.device }}
+        run: gh run download "$EVIDENCE_RUN" --repo "$GITHUB_REPOSITORY" --name "release-evidence-$DEVICE" --dir build/review-evidence
+      - name: Upload review-only assets
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          ASSET_TYPE: ${{ inputs.asset_type }}
+        run: |
+          if ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
+          mkdir -p "$RUNNER_TEMP/private_keys"
+          export ASC_KEY_PATH="$RUNNER_TEMP/private_keys/ReviewEvidence.p8"
+          echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$ASC_KEY_PATH"
+          chmod 600 "$ASC_KEY_PATH"
+          trap 'rm -f "$ASC_KEY_PATH"' EXIT
+          python3 .github/scripts/upload-review-evidence.py \
+            --folder build/review-evidence \
+            --version-id 1330f26e-a016-479a-835c-2599777d223d \
+            --subscription-id 6772630925 --assets "$ASSET_TYPE"
