@@ -27,9 +27,17 @@ final class NightfallGameScene: SKScene {
     private var runFinished = false
     private var darknessMask: SKShapeNode?
     private var channelRing: SKShapeNode?
+    private var mapDecor: [SKNode] = []
 
     private var arena: CGRect {
-        CGRect(x: 24, y: 210, width: max(120, size.width - 48), height: max(160, size.height - 550))
+        arena(for: size)
+    }
+
+    private func arena(for dimensions: CGSize) -> CGRect {
+        if dimensions.width > dimensions.height {
+            return CGRect(x: dimensions.width * 0.36, y: 45, width: dimensions.width * 0.34, height: max(120, dimensions.height - 90))
+        }
+        return CGRect(x: 24, y: 210, width: max(120, dimensions.width - 48), height: max(160, dimensions.height - 550))
     }
 
     private func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
@@ -82,8 +90,27 @@ final class NightfallGameScene: SKScene {
     }
 
     override func didChangeSize(_ oldSize: CGSize) {
-        // Resizing must not reset collected loot or mission progression.
-        if player.parent == nil { buildWorld() }
+        guard player.parent != nil else { buildWorld(); return }
+        let previous = arena(for: oldSize)
+        let next = arena
+        func remap(_ location: CGPoint) -> CGPoint {
+            let x = (location.x - previous.minX) / previous.width
+            let y = (location.y - previous.minY) / previous.height
+            return CGPoint(x: next.minX + x * next.width, y: next.minY + y * next.height)
+        }
+        // Preserve mission progress, loot and enemy state while keeping targets reachable.
+        for node in [player, extractionZone] + artifactNodes + stations + falseExits {
+            node.position = remap(node.position)
+        }
+        if let rescuedEcho { rescuedEcho.position = remap(rescuedEcho.position) }
+        for agent in enemyAgents {
+            agent.node.position = remap(agent.node.position)
+            agent.patrolPoints = agent.patrolPoints.map(remap)
+        }
+        targetPosition = targetPosition.map(remap)
+        playerTrail = playerTrail.map(remap)
+        staticOverlay.path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
+        rebuildMapDecor()
     }
 
     func setPremiumEnabled(_ enabled: Bool) {
@@ -205,8 +232,8 @@ final class NightfallGameScene: SKScene {
         exitRelocationThreshold = 0.35
         backgroundColor = SKColor(red: 0.015, green: 0.018, blue: 0.03, alpha: 1)
 
-        drawGrid()
-        drawRooms()
+        mapDecor = []
+        rebuildMapDecor()
         buildPlayer()
         buildArtifacts()
         buildExtractionZone()
@@ -246,6 +273,14 @@ final class NightfallGameScene: SKScene {
         }
 
         addChild(grid)
+    }
+
+    private func rebuildMapDecor() {
+        mapDecor.forEach { $0.removeFromParent() }
+        let existing = children
+        drawGrid()
+        drawRooms()
+        mapDecor = children.filter { !existing.contains($0) }
     }
 
     private func drawRooms() {
@@ -649,7 +684,7 @@ final class NightfallGameScene: SKScene {
 private final class EnemyAgent {
     let type: EnemyType
     let node: SKShapeNode
-    let patrolPoints: [CGPoint]
+    var patrolPoints: [CGPoint]
     var patrolIndex = 0
     var surgeUntil: TimeInterval = 0
 

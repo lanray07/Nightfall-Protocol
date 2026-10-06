@@ -33,13 +33,30 @@ struct GameplayContainerView: View {
                 .accessibilityLabel(Text(LocalizedStringKey("gameplay.map")))
                 .accessibilityIdentifier("mission-arena")
 
-            VStack(spacing: 12) {
-                topHUD
-                Spacer()
-                eventBanner
-                controls
+            GeometryReader { geometry in
+                if geometry.size.width > geometry.size.height {
+                    HStack(alignment: .top, spacing: 12) {
+                        ScrollView { topHUD }
+                            .frame(width: geometry.size.width * 0.33)
+                        Spacer()
+                        VStack(spacing: 12) {
+                            Spacer()
+                            eventBanner
+                            controls
+                        }
+                        .frame(width: geometry.size.width * 0.28)
+                    }
+                    .padding(14)
+                } else {
+                    VStack(spacing: 12) {
+                        topHUD
+                        Spacer()
+                        eventBanner
+                        controls
+                    }
+                    .padding(14)
+                }
             }
-            .padding(14)
         }
         .navigationBarBackButtonHidden()
         .onAppear {

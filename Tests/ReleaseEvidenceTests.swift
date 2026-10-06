@@ -32,6 +32,13 @@ final class ReleaseEvidenceTests: XCTestCase {
         let decodedTask = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "station 2")).firstMatch
         XCTAssertTrue(decodedTask.waitForExistence(timeout: 5))
         capture("memory-recovered-next-task", app: app)
+        UIDevice.current.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 2)
+        XCTAssertTrue(decodedTask.exists)
+        capture("mission-progress-preserved-landscape", app: app)
+        UIDevice.current.orientation = .portrait
+        Thread.sleep(forTimeInterval: 2)
+        XCTAssertTrue(decodedTask.exists)
         move(0.75, 0.3)
         app.buttons["Interact"].tap()
         let completed = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "Mission complete")).firstMatch
