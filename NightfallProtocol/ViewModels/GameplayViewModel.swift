@@ -17,6 +17,7 @@ final class GameplayViewModel: ObservableObject {
     @Published var runScore = 0
     @Published var momentumMultiplier = 1
     @Published var scorePulseKey: String?
+    @Published var instructionKey: String
 
     let mission: MissionPlan
 
@@ -29,6 +30,7 @@ final class GameplayViewModel: ObservableObject {
     init(mission: MissionPlan) {
         self.mission = mission
         objectives = mission.objectives
+        instructionKey = MissionRules(kind: MissionRules.Kind(rawValue: mission.objectiveType.rawValue)!).instructionKey
     }
 
     var collapsePercent: Int {
@@ -65,6 +67,7 @@ final class GameplayViewModel: ObservableObject {
         timerTask = Task { [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
+                guard !Task.isCancelled else { return }
                 await MainActor.run {
                     self?.tick()
                 }
@@ -81,13 +84,16 @@ final class GameplayViewModel: ObservableObject {
         guard result == nil else { return }
 
         switch event {
+        case .missionProgress(let count):
+            while completedObjectiveCount < count && !allObjectivesComplete {
+                if completeNextObjective() { addObjectiveScore() }
+            }
+        case .missionInstruction(let key):
+            instructionKey = key
         case .lootFound(let reward):
             inventory.append(reward)
             addScore(90 * momentumMultiplier + rarityBonus(for: reward.rarity))
             scorePulseKey = "gameplay.pulse.loot"
-            if completeNextObjective() {
-                addObjectiveScore()
-            }
         case .objectiveCompleted:
             if completeNextObjective() {
                 addObjectiveScore()
@@ -118,19 +124,10 @@ final class GameplayViewModel: ObservableObject {
 
     func requestExtraction() {
         guard result == nil else { return }
-        extractionReady = true
-
-        if allObjectivesComplete || collapseLevel > 0.72 {
-            finish(success: allObjectivesComplete || collapseLevel < 0.95)
+        if allObjectivesComplete {
+            finish(success: true)
         } else {
-            currentRoomEvent = NightmareEvent(
-                id: "falseExit",
-                titleKey: "event.falseExit.title",
-                descriptionKey: "event.falseExit.description",
-                intensity: 0.5
-            )
-            eventCounter += 1
-            sanity = max(0, sanity - 0.08)
+            instructionKey = "mission.play.locked"
         }
     }
 
@@ -138,7 +135,8 @@ final class GameplayViewModel: ObservableObject {
         guard result == nil else { return }
 
         tickCount += 1
-        collapseLevel = min(1, collapseLevel + 0.013 * mission.difficulty.collapseMultiplier)
+        let condition = NightmareCondition(titleKey: mission.modifierTitleKey)
+        collapseLevel = min(1, collapseLevel + 0.006 * mission.difficulty.collapseMultiplier * condition.collapseRate)
 
         if tickCount % 9 == 0 || Double.random(in: 0 ... 1) < collapseLevel * 0.08 {
             currentRoomEvent = roomEventGenerator.randomEvent(collapseLevel: collapseLevel)

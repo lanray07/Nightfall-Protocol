@@ -4,6 +4,7 @@ import SwiftUI
 
 struct GameplayContainerView: View {
     @Environment(AppServices.self) private var services
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel: GameplayViewModel
     @State private var scene: NightfallGameScene
     @State private var deliveredResult = false
@@ -56,6 +57,16 @@ struct GameplayContainerView: View {
         }
         .onDisappear {
             viewModel.stop()
+            scene.isPaused = true
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active && viewModel.result == nil {
+                scene.isPaused = false
+                viewModel.start()
+            } else {
+                scene.isPaused = true
+                viewModel.stop()
+            }
         }
         .onChange(of: services.store.hasPremiumAccess) { _, enabled in
             scene.setPremiumEnabled(enabled)
@@ -79,6 +90,7 @@ struct GameplayContainerView: View {
         .onReceive(viewModel.$result.compactMap { $0 }) { summary in
             guard !deliveredResult else { return }
             deliveredResult = true
+            scene.finishRun()
             if summary.success {
                 services.haptics.success()
             } else {
@@ -110,6 +122,12 @@ struct GameplayContainerView: View {
             CollapseMeter(progress: viewModel.collapseLevel)
             SanityBar(health: viewModel.health, sanity: viewModel.sanity)
             runStatus
+
+            Text(LocalizedStringKey(viewModel.instructionKey))
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.yellow)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier("mission-instruction")
 
             VStack(alignment: .leading, spacing: 8) {
                 Label {
@@ -227,7 +245,7 @@ struct GameplayContainerView: View {
                 }
 
                 LocalizedButton(titleKey: "action.extract", systemImage: "figure.run", prominent: viewModel.extractionReady) {
-                    scene.performInteraction()
+                    scene.performExtraction()
                 }
             }
         }

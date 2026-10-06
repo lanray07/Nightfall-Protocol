@@ -33,6 +33,13 @@ jobs:
           xcode-select -p
           xcodebuild -version
 
+      - name: Check mission rules and localization tooling
+        run: |
+          mkdir -p build/checks
+          swiftc NightfallProtocol/GameEngine/MissionRules.swift Tests/MissionRulesTests.swift -o build/checks/mission-rules-tests
+          build/checks/mission-rules-tests
+          python3 -m unittest discover -s scripts/tests -v
+
       - name: Resolve packages
         run: |
           xcodebuild \
@@ -101,6 +108,7 @@ jobs:
   testflight-upload:
     name: Archive and upload iOS to TestFlight
     runs-on: macos-26
+    needs: simulator-build
     if: (github.event_name == 'workflow_dispatch' && inputs.upload_to_testflight == true) || startsWith(github.ref, 'refs/tags/appstore-')
     env:
       APP_IDENTIFIER: com.nightfallprotocol.prototype

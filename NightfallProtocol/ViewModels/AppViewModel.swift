@@ -67,6 +67,10 @@ final class AppViewModel {
         context.insert(session)
 
         if summary.success {
+            if let chapter = mission.campaignChapter {
+                let unlocked = UserDefaults.standard.integer(forKey: "nightfall.campaign.completed")
+                UserDefaults.standard.set(max(unlocked, chapter + 1), forKey: "nightfall.campaign.completed")
+            }
             profile?.xp += summary.xpAwarded
             while let xp = profile?.xp, xp >= (profile?.level ?? 1) * 250 {
                 profile?.xp -= (profile?.level ?? 1) * 250
@@ -91,6 +95,7 @@ final class AppViewModel {
     func resetProgress(context: ModelContext, services: AppServices, languageManager: LanguageManager) async {
         do {
             try services.saveLoad.resetProgress(context: context)
+            UserDefaults.standard.removeObject(forKey: "nightfall.campaign.completed")
             isLoading = true
             path = NavigationPath()
             await bootstrap(context: context, languageManager: languageManager, services: services)

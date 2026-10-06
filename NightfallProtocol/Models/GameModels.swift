@@ -238,6 +238,7 @@ struct ObjectiveState: Identifiable, Hashable, Codable {
 }
 
 struct MissionPlan: Identifiable, Hashable, Codable {
+    var campaignChapter: Int? = nil
     var id: UUID
     var titleKey: String
     var descriptionKey: String
@@ -386,6 +387,8 @@ struct EnemySpawnDefinition: Identifiable, Hashable {
 }
 
 enum GameplaySceneEvent {
+    case missionProgress(Int)
+    case missionInstruction(String)
     case lootFound(LootReward)
     case objectiveCompleted
     case enemyContact(EnemyType)

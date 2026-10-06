@@ -2802,24 +2802,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Story Protocol Missions"
+            "value": "Signal Campaign"
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Misiones de protocolo narrativo"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Missions du protocole narratif"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Story-Protokollmissionen"
           }
         }
@@ -2830,24 +2830,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lights fail faster and panic pulses pay extra score."
+            "value": "Only the area around your operator is visible. The visible radius shrinks as collapse rises."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Las luces fallan antes y los pulsos de panico dan mas puntos."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Les lumieres cedent plus vite et les impulsions rapportent plus."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Lichter fallen schneller aus und Panikimpulse geben mehr Punkte."
           }
         }
@@ -2886,24 +2886,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The Echo remembers more of your route. Clean movement builds momentum."
+            "value": "An Echo is present at every difficulty and follows a more recent part of your movement trail."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "El Eco recuerda mas de tu ruta. El movimiento limpio crea impulso."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "L Echo retient plus de ton trajet. Un mouvement net cree de l elan."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Das Echo merkt sich mehr deiner Route. Saubere Bewegung baut Momentum auf."
           }
         }
@@ -2942,24 +2942,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Extraction routes distort, but artifact chains are worth more."
+            "value": "The cyan exit relocates at shorter collapse intervals. Watch its signal before committing to an escape route."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Las rutas de extraccion se distorsionan, pero las cadenas de artefactos valen mas."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Les routes d extraction se tordent, mais les chaines d artefacts valent plus."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Extraktionsrouten verzerren sich, aber Artefaktketten zaehlen mehr."
           }
         }
@@ -2998,24 +2998,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The Hollow surges earlier. Survive contact-free for a higher rank."
+            "value": "A Hollow is present at every difficulty and begins pursuing at 20% collapse."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "El Hueco aparece antes. Sobrevive sin contacto para subir rango."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Le Vide surgit plus tot. Survis sans contact pour un meilleur rang."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Der Hollow jagt frueher. Kontaktfrei ueberleben bringt hoeheren Rang."
           }
         }
@@ -3054,24 +3054,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "False exits multiply, but collapse drama boosts the final recap."
+            "value": "Two red false exits can trigger an anomaly. Only the cyan ring permits extraction."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Las salidas falsas se multiplican, pero el colapso mejora el resumen final."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Les fausses sorties se multiplient, mais le drame du collapse booste le recap."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Falsche Ausgaenge nehmen zu, doch Kollapsdrama staerkt den Abschlussbericht."
           }
         }
@@ -3110,24 +3110,24 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reality accelerates from the first second. Only sharp extractions trend."
+            "value": "Collapse advances 35% faster from the first second. Complete tasks and extract efficiently."
           }
         },
         "es": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "La realidad acelera desde el primer segundo. Solo las extracciones precisas destacan."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "La realite accelere des la premiere seconde. Seules les extractions nettes percent."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "Die Realitaet beschleunigt sofort. Nur praezise Extraktionen fallen auf."
           }
         }
@@ -4048,28 +4048,84 @@
       }
     },
     "settings.value.on": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "On"}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        }
+      }
     },
     "settings.value.off": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Off"}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        }
+      }
     },
     "settings.privacy.hint": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Opens the Privacy Policy."}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the Privacy Policy."
+          }
+        }
+      }
     },
     "settings.terms.hint": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Opens the Terms of Use."}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens the Terms of Use."
+          }
+        }
+      }
     },
     "settings.reset.hint": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Asks for confirmation before removing local progress."}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asks for confirmation before removing local progress."
+          }
+        }
+      }
     },
     "store.premiumPass.renewalInfo": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "1-month subscription. Renews automatically until canceled in your Apple account settings."}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1-month subscription. Renews automatically until canceled in your Apple account settings."
+          }
+        }
+      }
     },
     "store.premiumPass.purchase.accessibility": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Purchase Premium Pass monthly subscription"}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase Premium Pass monthly subscription"
+          }
+        }
+      }
     },
     "store.premiumPass.owned.accessibility": {
-      "localizations": {"en": {"stringUnit": {"state": "translated", "value": "Premium Pass subscription active"}}}
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Premium Pass subscription active"
+          }
+        }
+      }
     },
     "settings.graphics": {
       "localizations": {
@@ -4827,6 +4883,406 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stealth"
+          }
+        }
+      }
+    },
+    "mission.play.extract": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mission complete. Follow the cyan signal and Extract nearby."
+          }
+        }
+      }
+    },
+    "mission.play.locked": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraction locked: finish both mission tasks first."
+          }
+        }
+      }
+    },
+    "mission.play.approach": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move beside a numbered signal station, then tap Interact."
+          }
+        }
+      }
+    },
+    "mission.play.findExit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move beside the cyan extraction ring, then tap Extract."
+          }
+        }
+      }
+    },
+    "mission.play.recoverMemoryFragment.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collect the memory at station 1. Move by touching the map."
+          }
+        }
+      }
+    },
+    "mission.play.recoverMemoryFragment.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact at station 2 and stay nearby for 3 seconds to decode."
+          }
+        }
+      }
+    },
+    "mission.play.extractDreamArtifact.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover the unstable case at station 1."
+          }
+        }
+      }
+    },
+    "mission.play.extractDreamArtifact.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact at station 2; remain nearby for 5 seconds to secure the case."
+          }
+        }
+      }
+    },
+    "mission.play.sealNightmareRift.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate the grounding relay at station 1."
+          }
+        }
+      }
+    },
+    "mission.play.sealNightmareRift.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact at station 2; channel for 8 seconds. Moving away or being hit interrupts sealing."
+          }
+        }
+      }
+    },
+    "mission.play.rescueLostEcho.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan station 1 to awaken the mint-colored echo."
+          }
+        }
+      }
+    },
+    "mission.play.rescueLostEcho.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escort the mint echo to the cyan exit. Stay close or it stops following."
+          }
+        }
+      }
+    },
+    "mission.play.surviveUntilExtraction.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survive for 30 seconds while evading enemies."
+          }
+        }
+      }
+    },
+    "mission.play.surviveUntilExtraction.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interact at station 1 to activate the extraction beacon."
+          }
+        }
+      }
+    },
+    "mission.play.investigateBlackSite.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan both station 1 and station 2. Loot does not complete this task."
+          }
+        }
+      }
+    },
+    "mission.play.investigateBlackSite.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover the evidence at station 3, then find extraction."
+          }
+        }
+      }
+    },
+    "campaign.chapter.0.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "01 / The Broken Transmission"
+          }
+        }
+      }
+    },
+    "campaign.chapter.0.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A memory survived the first collapse. Recover its signal and decode it at the archive terminal. It contains the coordinates of a missing operator."
+          }
+        }
+      }
+    },
+    "campaign.chapter.1.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "02 / A Case Without a Name"
+          }
+        }
+      }
+    },
+    "campaign.chapter.1.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The recovered coordinates lead to an unstable artifact. Secure it before extraction; its signal points to a breach beneath the ward."
+          }
+        }
+      }
+    },
+    "campaign.chapter.2.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "03 / The Breach Beneath"
+          }
+        }
+      }
+    },
+    "campaign.chapter.2.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ground the relay and hold the seal through the rift pulse. An interrupted seal must be restarted. Closing the breach may wake whoever is trapped beyond it."
+          }
+        }
+      }
+    },
+    "campaign.chapter.3.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "04 / The Operator Who Stayed"
+          }
+        }
+      }
+    },
+    "campaign.chapter.3.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An echo answers with your missing operator’s callsign. Awaken it and guide it to extraction. Move too quickly and it loses the signal."
+          }
+        }
+      }
+    },
+    "campaign.chapter.4.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "05 / Thirty Seconds of Silence"
+          }
+        }
+      }
+    },
+    "campaign.chapter.4.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The rescued echo needs a stable carrier. Survive the signal window, activate the beacon, and leave before collapse consumes the transmission."
+          }
+        }
+      }
+    },
+    "campaign.chapter.5.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "06 / The Cold Archive"
+          }
+        }
+      }
+    },
+    "campaign.chapter.5.briefing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The final record is split across two terminals. Scan both, recover the evidence, and escape the archive. The record reveals that the rescue signal originated inside the Protocol."
+          }
+        }
+      }
+    },
+    "mission.task.recoverMemoryFragment.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover memory signal"
+          }
+        }
+      }
+    },
+    "mission.task.recoverMemoryFragment.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decode at archive terminal"
+          }
+        }
+      }
+    },
+    "mission.task.extractDreamArtifact.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover unstable case"
+          }
+        }
+      }
+    },
+    "mission.task.extractDreamArtifact.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure case for extraction"
+          }
+        }
+      }
+    },
+    "mission.task.sealNightmareRift.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate grounding relay"
+          }
+        }
+      }
+    },
+    "mission.task.sealNightmareRift.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seal the nightmare rift"
+          }
+        }
+      }
+    },
+    "mission.task.rescueLostEcho.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Awaken lost echo"
+          }
+        }
+      }
+    },
+    "mission.task.rescueLostEcho.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escort echo to extraction"
+          }
+        }
+      }
+    },
+    "mission.task.surviveUntilExtraction.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Survive signal window"
+          }
+        }
+      }
+    },
+    "mission.task.surviveUntilExtraction.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activate extraction beacon"
+          }
+        }
+      }
+    },
+    "mission.task.investigateBlackSite.0": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan both archive terminals"
+          }
+        }
+      }
+    },
+    "mission.task.investigateBlackSite.1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recover final evidence"
           }
         }
       }

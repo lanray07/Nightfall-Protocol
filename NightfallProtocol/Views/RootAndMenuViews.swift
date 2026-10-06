@@ -431,9 +431,6 @@ struct MainHubView: View {
 
                     hubActions
 
-                    SectionHeader(titleKey: "title.loadout", symbol: "backpack.fill")
-                    loadoutGrid
-
                     SectionHeader(titleKey: "title.daily", symbol: "moon.stars.fill")
                     DailyChallengeCard {
                         onMissionSelect(.daily)
@@ -458,12 +455,6 @@ struct MainHubView: View {
         VStack(spacing: 12) {
             LocalizedButton(titleKey: "mode.solo", systemImage: "person.fill", prominent: true) {
                 onMissionSelect(.solo)
-            }
-            LocalizedButton(titleKey: "mode.coop", systemImage: "person.2.fill") {
-                onMissionSelect(.coop)
-            }
-            LocalizedButton(titleKey: "mode.endless", systemImage: "infinity") {
-                onMissionSelect(.endless)
             }
             LocalizedButton(titleKey: "mode.story", systemImage: "book.closed.fill") {
                 onMissionSelect(.story)

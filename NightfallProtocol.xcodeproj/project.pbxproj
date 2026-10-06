@@ -26,6 +26,7 @@
 		C10000000000000000000017 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* Assets.xcassets */; };
 		C10000000000000000000018 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* Localizable.xcstrings */; };
 		C10000000000000000000019 /* NightfallProtocol.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* NightfallProtocol.storekit */; };
+		C20000000000000000000001 /* MissionRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* MissionRules.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		B10000000000000000000022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B10000000000000000000023 /* NightfallProtocol.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NightfallProtocol.entitlements; sourceTree = "<group>"; };
 		B10000000000000000000024 /* MacCatalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacCatalyst.entitlements; sourceTree = "<group>"; };
+		B20000000000000000000001 /* MissionRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionRules.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000007 /* ProceduralGenerators.swift */,
+				B20000000000000000000001 /* MissionRules.swift */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				C10000000000000000000005 /* AudioManager.swift in Sources */,
 				C10000000000000000000006 /* StoreService.swift in Sources */,
 				C10000000000000000000007 /* ProceduralGenerators.swift in Sources */,
+				C20000000000000000000001 /* MissionRules.swift in Sources */,
 				C10000000000000000000008 /* NightfallGameScene.swift in Sources */,
 				C10000000000000000000009 /* AppViewModel.swift in Sources */,
 				C10000000000000000000010 /* FeatureViewModels.swift in Sources */,

@@ -31,9 +31,6 @@ struct MissionLoreGenerator {
         "extraction.failure.message"
     ]
 
-    let internalPromptPlaceholder =
-        "You are Nightfall Protocol, a cinematic horror mission generator. Create short, unsettling, atmospheric mission briefings, artifact lore, nightmare events, and enemy warnings. Keep text suitable for a teen audience. Avoid graphic gore, hate, sexual content, or real-world extremist themes."
-
     func briefing(seed: Int) -> String {
         briefingKeys[abs(seed) % briefingKeys.count]
     }
@@ -59,52 +56,23 @@ struct ObjectiveGenerator {
     private let modifierGenerator = NightmareModifierGenerator()
 
     func generateObjectiveStates(for type: ObjectiveType) -> [ObjectiveState] {
-        switch type {
-        case .recoverMemoryFragment:
-            return [
-                ObjectiveState(titleKey: "objective.recoverMemory.title", detailKey: "objective.recoverMemory.detail"),
-                ObjectiveState(titleKey: "objective.reachExtraction.title", detailKey: "objective.reachExtraction.detail")
-            ]
-        case .extractDreamArtifact:
-            return [
-                ObjectiveState(titleKey: "objective.collectArtifact.title", detailKey: "objective.collectArtifact.detail"),
-                ObjectiveState(titleKey: "objective.secureCase.title", detailKey: "objective.secureCase.detail"),
-                ObjectiveState(titleKey: "objective.reachExtraction.title", detailKey: "objective.reachExtraction.detail")
-            ]
-        case .sealNightmareRift:
-            return [
-                ObjectiveState(titleKey: "objective.stabilizeRift.title", detailKey: "objective.stabilizeRift.detail"),
-                ObjectiveState(titleKey: "objective.survivePulse.title", detailKey: "objective.survivePulse.detail")
-            ]
-        case .rescueLostEcho:
-            return [
-                ObjectiveState(titleKey: "objective.scanEcho.title", detailKey: "objective.scanEcho.detail"),
-                ObjectiveState(titleKey: "objective.rescueEcho.title", detailKey: "objective.rescueEcho.detail")
-            ]
-        case .surviveUntilExtraction:
-            return [
-                ObjectiveState(titleKey: "objective.survive.title", detailKey: "objective.survive.detail"),
-                ObjectiveState(titleKey: "objective.reachExtraction.title", detailKey: "objective.reachExtraction.detail")
-            ]
-        case .investigateBlackSite:
-            return [
-                ObjectiveState(titleKey: "objective.investigateBlackSite.title", detailKey: "objective.investigateBlackSite.detail"),
-                ObjectiveState(titleKey: "objective.recoverMemory.title", detailKey: "objective.recoverMemory.detail")
-            ]
+        (0..<2).map { index in
+            ObjectiveState(titleKey: "mission.task.\(type.rawValue).\(index)",
+                           detailKey: "mission.play.\(type.rawValue).\(index)")
         }
     }
 
     func generateMissions(for mode: GameMode) -> [MissionPlan] {
         let difficulties: [Difficulty] = mode == .daily ? [.unknown, .high, .medium] : Difficulty.allCases
-        let types = ObjectiveType.allCases.shuffled()
+        let types = mode == .solo ? ObjectiveType.allCases.shuffled() : ObjectiveType.allCases
         let nameGenerator = NightmareNameGenerator()
         let loreGenerator = MissionLoreGenerator()
 
-        return types.enumerated().map { index, type in
+        let plans = types.enumerated().map { index, type in
             let seed = missionSeed(for: mode, index: index)
             let difficulty = difficulties[index % difficulties.count]
             let modifier = modifierGenerator.modifier(seed: seed)
-            return MissionPlan(
+            var plan = MissionPlan(
                 titleKey: type.titleKey,
                 descriptionKey: type.descriptionKey,
                 nightmareNameKey: nameGenerator.generate(seed: seed),
@@ -118,10 +86,23 @@ struct ObjectiveGenerator {
                 objectives: generateObjectiveStates(for: type),
                 seed: seed
             )
+            if mode == .story {
+                plan.campaignChapter = index
+                plan.titleKey = "campaign.chapter.\(index).title"
+                plan.briefingKey = "campaign.chapter.\(index).briefing"
+                plan.difficulty = [Difficulty.low, .medium, .medium, .high, .high, .extreme][index]
+            }
+            return plan
         }
+        if mode == .story {
+            let unlocked = UserDefaults.standard.integer(forKey: "nightfall.campaign.completed")
+            return Array(plans.prefix(min(plans.count, max(1, unlocked + 1))))
+        }
+        return plans
     }
 
     private func missionSeed(for mode: GameMode, index: Int) -> Int {
+        if mode == .story { return 710 + index * 137 }
         if mode == .daily {
             let daySeed = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? Int(Date().timeIntervalSince1970 / 86_400)
             return daySeed * 97 + index * 137
