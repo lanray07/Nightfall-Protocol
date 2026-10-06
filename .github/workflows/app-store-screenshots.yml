@@ -1,0 +1,53 @@
+name: App Store Screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      locales:
+        description: "Comma-separated locales; translated app strings are required (en-GB,es-ES,fr-FR,de-DE,pt-BR,it,ja,ko,zh-Hans,ar-SA,hi)"
+        type: string
+        default: "en-GB"
+      translate:
+        description: "Fill missing app translations using GOOGLE_TRANSLATE_API_KEY before capture"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Translate selected languages
+        if: inputs.translate
+        env:
+          GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+          CAPTURE_LOCALES: ${{ inputs.locales }}
+        run: python scripts/localize.py --translate --locales "$CAPTURE_LOCALES"
+      - name: Validate store copy
+        run: python scripts/localize.py --check
+      - name: Capture actual app screens
+        env:
+          CAPTURE_LOCALES: ${{ inputs.locales }}
+        run: python scripts/capture_screenshots.py --locales "$CAPTURE_LOCALES"
+      - name: Export screenshot sets
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshots
+          path: fastlane/screenshots/
+          if-no-files-found: error
+      - name: Export translated copy
+        if: inputs.translate
+        uses: actions/upload-artifact@v4
+        with:
+          name: localized-app-and-store-copy
+          path: |
+            NightfallProtocol/Resources/Localizable.xcstrings
+            fastlane/localization/
+            fastlane/metadata/

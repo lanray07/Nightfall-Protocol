@@ -24,3 +24,6 @@ xcuserdata/
 .env
 .env.*
 SigningAssets/
+fastlane/screenshots/
+__pycache__/
+*.pyc

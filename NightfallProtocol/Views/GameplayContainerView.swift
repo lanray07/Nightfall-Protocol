@@ -1,8 +1,10 @@
+import Foundation
 import SpriteKit
 import SwiftUI
 
 struct GameplayContainerView: View {
     @Environment(AppServices.self) private var services
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel: GameplayViewModel
     @State private var scene: NightfallGameScene
     @State private var deliveredResult = false
@@ -11,6 +13,13 @@ struct GameplayContainerView: View {
 
     init(mission: MissionPlan, onFinish: @escaping (ExtractionSummary) -> Void) {
         let model = GameplayViewModel(mission: mission)
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.environment["NF_SCREENSHOT_SCENE"] == "collapse" {
+            model.collapseLevel = 0.78
+            model.health = 0.82
+            model.sanity = 0.63
+        }
+        #endif
         _viewModel = StateObject(wrappedValue: model)
         _scene = State(initialValue: NightfallGameScene(size: CGSize(width: 900, height: 700)))
         self.onFinish = onFinish
@@ -20,17 +29,38 @@ struct GameplayContainerView: View {
         ZStack {
             SpriteView(scene: scene, options: [.allowsTransparency])
                 .ignoresSafeArea()
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(LocalizedStringKey("gameplay.map")))
+                .accessibilityIdentifier("mission-arena")
 
-            VStack(spacing: 12) {
-                topHUD
-                Spacer()
-                eventBanner
-                controls
+            GeometryReader { geometry in
+                if geometry.size.width > geometry.size.height {
+                    HStack(alignment: .top, spacing: 12) {
+                        ScrollView { topHUD }
+                            .frame(width: geometry.size.width * 0.33)
+                        Spacer()
+                        VStack(spacing: 12) {
+                            Spacer()
+                            eventBanner
+                            controls
+                        }
+                        .frame(width: geometry.size.width * 0.28)
+                    }
+                    .padding(14)
+                } else {
+                    VStack(spacing: 12) {
+                        topHUD
+                        Spacer()
+                        eventBanner
+                        controls
+                    }
+                    .padding(14)
+                }
             }
-            .padding(14)
         }
         .navigationBarBackButtonHidden()
         .onAppear {
+            services.audio.setMusicEnabled(services.audio.musicEnabled)
             scene.configure(
                 mission: viewModel.mission,
                 premiumEnabled: services.store.hasPremiumAccess,
@@ -48,6 +78,19 @@ struct GameplayContainerView: View {
         }
         .onDisappear {
             viewModel.stop()
+            scene.isPaused = true
+            services.audio.suspend()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active && viewModel.result == nil {
+                scene.isPaused = false
+                viewModel.start()
+                services.audio.setMusicEnabled(services.audio.musicEnabled)
+            } else {
+                scene.isPaused = true
+                viewModel.stop()
+                services.audio.suspend()
+            }
         }
         .onChange(of: services.store.hasPremiumAccess) { _, enabled in
             scene.setPremiumEnabled(enabled)
@@ -71,6 +114,7 @@ struct GameplayContainerView: View {
         .onReceive(viewModel.$result.compactMap { $0 }) { summary in
             guard !deliveredResult else { return }
             deliveredResult = true
+            scene.finishRun()
             if summary.success {
                 services.haptics.success()
             } else {
@@ -102,6 +146,12 @@ struct GameplayContainerView: View {
             CollapseMeter(progress: viewModel.collapseLevel)
             SanityBar(health: viewModel.health, sanity: viewModel.sanity)
             runStatus
+
+            Text(LocalizedStringKey(viewModel.instructionKey))
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.yellow)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier("mission-instruction")
 
             VStack(alignment: .leading, spacing: 8) {
                 Label {
@@ -215,11 +265,12 @@ struct GameplayContainerView: View {
 
             HStack(spacing: 12) {
                 LocalizedButton(titleKey: "action.interact", systemImage: "hand.tap.fill", prominent: true) {
+                    services.audio.playInterfacePulse()
                     scene.performInteraction()
                 }
 
                 LocalizedButton(titleKey: "action.extract", systemImage: "figure.run", prominent: viewModel.extractionReady) {
-                    scene.performInteraction()
+                    scene.performExtraction()
                 }
             }
         }

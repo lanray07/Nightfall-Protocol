@@ -104,6 +104,8 @@ struct SettingsView: View {
                         Label(LocalizedStringKey("settings.sound"), systemImage: "speaker.wave.2.fill")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.sound")))
+                    .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.soundEnabled))))
+                    .accessibilityIdentifier("settings.sound")
                     .onChange(of: viewModel.soundEnabled) { _, enabled in
                         services.audio.soundEnabled = enabled
                     }
@@ -112,6 +114,8 @@ struct SettingsView: View {
                         Label(LocalizedStringKey("settings.music"), systemImage: "music.note")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.music")))
+                    .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.musicEnabled))))
+                    .accessibilityIdentifier("settings.music")
                     .onChange(of: viewModel.musicEnabled) { _, enabled in
                         services.audio.setMusicEnabled(enabled)
                     }
@@ -120,27 +124,28 @@ struct SettingsView: View {
                         Label(LocalizedStringKey("settings.haptics"), systemImage: "iphone.radiowaves.left.and.right")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.haptics")))
+                    .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.hapticsEnabled))))
+                    .accessibilityIdentifier("settings.haptics")
+                    .onChange(of: viewModel.hapticsEnabled) { _, enabled in
+                        services.haptics.enabled = enabled
+                    }
 
                     Toggle(isOn: $viewModel.notificationsEnabled) {
                         Label(LocalizedStringKey("settings.notifications"), systemImage: "bell.badge.fill")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.notifications")))
+                    .accessibilityValue(Text(LocalizedStringKey(settingValueKey(viewModel.notificationsEnabled))))
+                    .accessibilityIdentifier("settings.notifications")
                     .onChange(of: viewModel.notificationsEnabled) { _, enabled in
-                        guard enabled else { return }
+                        guard enabled else {
+                            services.notifications.cancelDailyNightmareReminder()
+                            return
+                        }
                         Task {
                             await viewModel.enableNotifications(services: services, languageManager: languageManager)
                         }
                     }
 
-                    Picker(selection: $viewModel.graphicsQuality) {
-                        ForEach(GraphicsQuality.allCases) { quality in
-                            Text(LocalizedStringKey(quality.titleKey))
-                                .tag(quality)
-                        }
-                    } label: {
-                        Label(LocalizedStringKey("settings.graphics"), systemImage: "display")
-                    }
-                    .accessibilityLabel(Text(LocalizedStringKey("settings.graphics")))
                 }
 
                 Section {
@@ -148,11 +153,15 @@ struct SettingsView: View {
                         Label(LocalizedStringKey("settings.privacy"), systemImage: "hand.raised.fill")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.privacy")))
+                    .accessibilityHint(Text(LocalizedStringKey("settings.privacy.hint")))
+                    .accessibilityIdentifier("settings.privacy")
 
                     Link(destination: NightfallLegalLinks.termsOfUse) {
                         Label(LocalizedStringKey("settings.terms"), systemImage: "doc.text.fill")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.terms")))
+                    .accessibilityHint(Text(LocalizedStringKey("settings.terms.hint")))
+                    .accessibilityIdentifier("settings.terms")
 
                     Button(role: .destructive) {
                         viewModel.showingResetAlert = true
@@ -160,12 +169,17 @@ struct SettingsView: View {
                         Label(LocalizedStringKey("settings.reset"), systemImage: "trash.fill")
                     }
                     .accessibilityLabel(Text(LocalizedStringKey("settings.reset")))
+                    .accessibilityHint(Text(LocalizedStringKey("settings.reset.hint")))
+                    .accessibilityIdentifier("settings.reset")
                 }
             }
             #if !os(tvOS)
             .scrollContentBackground(.hidden)
             #endif
             .foregroundStyle(.white)
+            .labelStyle(.titleAndIcon)
+            .tint(.cyan)
+            .preferredColorScheme(.dark)
         }
         .navigationTitle(Text(LocalizedStringKey("title.settings")))
         .alert(Text(LocalizedStringKey("settings.reset.title")), isPresented: $viewModel.showingResetAlert) {
@@ -198,6 +212,10 @@ struct SettingsView: View {
             set: { if !$0 { viewModel.messageKey = nil } }
         )
     }
+
+    private func settingValueKey(_ isEnabled: Bool) -> String {
+        isEnabled ? "settings.value.on" : "settings.value.off"
+    }
 }
 
 private struct StoreLegalNotice: View {
@@ -215,6 +233,7 @@ private struct StoreLegalNotice: View {
                         .minimumScaleFactor(0.78)
                 }
                 .accessibilityLabel(Text(LocalizedStringKey("privacy.title")))
+                .accessibilityHint(Text(LocalizedStringKey("settings.privacy.hint")))
 
                 Link(destination: NightfallLegalLinks.termsOfUse) {
                     Label(LocalizedStringKey("terms.title"), systemImage: "doc.text.fill")
@@ -222,6 +241,7 @@ private struct StoreLegalNotice: View {
                         .minimumScaleFactor(0.78)
                 }
                 .accessibilityLabel(Text(LocalizedStringKey("terms.title")))
+                .accessibilityHint(Text(LocalizedStringKey("settings.terms.hint")))
             }
             .font(.caption.weight(.semibold))
         }

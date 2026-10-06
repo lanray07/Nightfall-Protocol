@@ -1,0 +1,5 @@
+{
+  "scope": "Exact shipping raster-asset hashes against available local project images below 20 MB; excludes dependencies/builds. Does not establish licensing or independent authorship.",
+  "other_images_compared": 4976,
+  "identical_assets": []
+}

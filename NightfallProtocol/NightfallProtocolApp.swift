@@ -1,3 +1,4 @@
+import Foundation
 import SwiftData
 import SwiftUI
 
@@ -16,7 +17,11 @@ struct NightfallProtocolApp: App {
             CosmeticItem.self,
             PurchaseState.self
         ])
-        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        var inMemory = false
+        #if DEBUG && targetEnvironment(simulator)
+        inMemory = ProcessInfo.processInfo.environment["NF_SCREENSHOT_SCENE"] != nil
+        #endif
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
 
         do {
             return try ModelContainer(for: schema, configurations: [configuration])

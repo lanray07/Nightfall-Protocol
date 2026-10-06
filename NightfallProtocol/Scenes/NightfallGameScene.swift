@@ -1,6 +1,7 @@
 import Foundation
 import QuartzCore
 import SpriteKit
+import UIKit
 
 @MainActor
 final class NightfallGameScene: SKScene {
@@ -16,6 +17,33 @@ final class NightfallGameScene: SKScene {
     }
 
     private var mission: MissionPlan?
+    private var rules = MissionRules(kind: .recoverMemoryFragment)
+    private var condition: NightmareCondition = .blackout
+    private var stations: [SKShapeNode] = []
+    private var rescuedEcho: SKShapeNode?
+    private var falseExits: [SKShapeNode] = []
+    private var lastProgress = -1
+    private var lastInstruction = ""
+    private var runFinished = false
+    private var darknessMask: SKShapeNode?
+    private var channelRing: SKShapeNode?
+    private var mapDecor: [SKNode] = []
+    private var worldSize: CGSize?
+
+    private var arena: CGRect {
+        arena(for: size)
+    }
+
+    private func arena(for dimensions: CGSize) -> CGRect {
+        if dimensions.width > dimensions.height {
+            return CGRect(x: dimensions.width * 0.36, y: 45, width: dimensions.width * 0.34, height: max(120, dimensions.height - 90))
+        }
+        return CGRect(x: 24, y: 210, width: max(120, dimensions.width - 48), height: max(160, dimensions.height - 550))
+    }
+
+    private func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
+        CGPoint(x: arena.minX + arena.width * x, y: arena.minY + arena.height * y)
+    }
     private let player = SKShapeNode(circleOfRadius: 17)
     private let extractionZone = SKShapeNode(circleOfRadius: 42)
     private let staticOverlay = SKShapeNode(rect: .zero)
@@ -47,6 +75,11 @@ final class NightfallGameScene: SKScene {
         collapseProvider: @escaping @MainActor () -> Double
     ) {
         self.mission = mission
+        self.rules = MissionRules(kind: MissionRules.Kind(rawValue: mission.objectiveType.rawValue)!)
+        self.condition = NightmareCondition(titleKey: mission.modifierTitleKey)
+        runFinished = false
+        lastProgress = -1
+        lastInstruction = ""
         self.premiumEnabled = premiumEnabled
         self.onEvent = onEvent
         self.collapseProvider = collapseProvider
@@ -54,11 +87,35 @@ final class NightfallGameScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        buildWorld()
+        if player.parent == nil { buildWorld() }
     }
 
     override func didChangeSize(_ oldSize: CGSize) {
-        buildWorld()
+        guard player.parent != nil else { buildWorld(); return }
+        // configure/didMove may already have built the world at the new size.
+        // Remap from the dimensions actually used by the world, not the callback's old size.
+        guard let worldSize, worldSize != size else { return }
+        let previous = arena(for: worldSize)
+        let next = arena
+        func remap(_ location: CGPoint) -> CGPoint {
+            let x = (location.x - previous.minX) / previous.width
+            let y = (location.y - previous.minY) / previous.height
+            return CGPoint(x: next.minX + x * next.width, y: next.minY + y * next.height)
+        }
+        // Preserve mission progress, loot and enemy state while keeping targets reachable.
+        for node in [player, extractionZone] + artifactNodes + stations + falseExits {
+            node.position = remap(node.position)
+        }
+        if let rescuedEcho { rescuedEcho.position = remap(rescuedEcho.position) }
+        for agent in enemyAgents {
+            agent.node.position = remap(agent.node.position)
+            agent.patrolPoints = agent.patrolPoints.map(remap)
+        }
+        targetPosition = targetPosition.map(remap)
+        playerTrail = playerTrail.map(remap)
+        staticOverlay.path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
+        rebuildMapDecor()
+        self.worldSize = size
     }
 
     func setPremiumEnabled(_ enabled: Bool) {
@@ -67,7 +124,16 @@ final class NightfallGameScene: SKScene {
     }
 
     func performInteraction() {
-        guard player.parent != nil else { return }
+        guard player.parent != nil, !runFinished else { return }
+
+        if let index = stations.indices.first(where: { stations[$0].position.distance(to: player.position) < 48 }) {
+            rules.interact(station: index)
+            if rules.kind == .sealNightmareRift && rules.activated {
+                enemyAgents.forEach { $0.surgeUntil = CACurrentMediaTime() + 8 }
+            }
+            publishMissionProgress()
+            return
+        }
 
         if let artifact = artifactNodes.first(where: { $0.position.distance(to: player.position) < 58 }) {
             artifact.removeFromParent()
@@ -81,8 +147,25 @@ final class NightfallGameScene: SKScene {
             return
         }
 
-        let event = RoomEventGenerator().randomEvent(collapseLevel: collapseProvider?() ?? 0.2)
-        onEvent?(.roomEvent(event))
+        onEvent?(.missionInstruction("mission.play.approach"))
+    }
+
+    func performExtraction() {
+        guard !runFinished else { return }
+        if falseExits.contains(where: { $0.position.distance(to: player.position) < 54 }) {
+            onEvent?(.roomEvent(NightmareEvent(id: "falseExit", titleKey: "event.falseExit.title", descriptionKey: "event.falseExit.description", intensity: 0.5)))
+            return
+        }
+        guard extractionZone.position.distance(to: player.position) < 58 else {
+            onEvent?(.missionInstruction("mission.play.findExit"))
+            return
+        }
+        onEvent?(.extractionRequested)
+    }
+
+    func finishRun() {
+        runFinished = true
+        isPaused = true
     }
 
     func applyNightmareEvent(_ event: NightmareEvent) {
@@ -113,7 +196,7 @@ final class NightfallGameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        guard player.parent != nil else { return }
+        guard player.parent != nil, !runFinished else { return }
 
         let deltaTime = min(max(currentTime - lastUpdateTime, 0), 1 / 20)
         lastUpdateTime = currentTime
@@ -132,6 +215,7 @@ final class NightfallGameScene: SKScene {
             mote.run(.sequence([.group([.fadeOut(withDuration: 0.55), .scale(to: 0.1, duration: 0.55)]), .removeFromParent()]))
         }
         moveEnemies(deltaTime: deltaTime, currentTime: currentTime)
+        updateMission(deltaTime: deltaTime)
         updateCollapseVisuals(currentTime: currentTime)
         trackPlayerPath()
     }
@@ -142,19 +226,27 @@ final class NightfallGameScene: SKScene {
         removeAllChildren()
         artifactNodes = []
         enemyAgents = []
+        stations = []
+        falseExits = []
+        rescuedEcho = nil
+        darknessMask = nil
+        channelRing = nil
         playerTrail = []
         lastUpdateTime = 0
         lastCosmeticTrailTime = 0
         exitRelocationThreshold = 0.35
         backgroundColor = SKColor(red: 0.015, green: 0.018, blue: 0.03, alpha: 1)
 
-        drawGrid()
-        drawRooms()
+        mapDecor = []
+        rebuildMapDecor()
         buildPlayer()
         buildArtifacts()
         buildExtractionZone()
         buildEnemies(for: mission.difficulty)
+        buildMissionStations()
         buildOverlay()
+        worldSize = size
+        publishMissionProgress()
     }
 
     private func drawGrid() {
@@ -189,39 +281,83 @@ final class NightfallGameScene: SKScene {
         addChild(grid)
     }
 
-    private func drawRooms() {
-        let roomRects = [
-            CGRect(x: size.width * 0.08, y: size.height * 0.12, width: size.width * 0.3, height: size.height * 0.25),
-            CGRect(x: size.width * 0.5, y: size.height * 0.15, width: size.width * 0.34, height: size.height * 0.22),
-            CGRect(x: size.width * 0.16, y: size.height * 0.58, width: size.width * 0.3, height: size.height * 0.25),
-            CGRect(x: size.width * 0.58, y: size.height * 0.54, width: size.width * 0.28, height: size.height * 0.3)
-        ]
+    private func rebuildMapDecor() {
+        mapDecor.forEach { $0.removeFromParent() }
+        let existing = children
+        drawGrid()
+        drawRooms()
+        mapDecor = children.filter { !existing.contains($0) }
+    }
 
-        for rect in roomRects {
-            let room = SKShapeNode(rect: rect, cornerRadius: 8)
-            room.fillColor = SKColor(red: 0.03, green: 0.045, blue: 0.075, alpha: 0.78)
-            room.strokeColor = SKColor(red: 0.35, green: 0.58, blue: 0.82, alpha: 0.28)
+    private func drawRooms() {
+        let panels = [CGRect(x: 0.04, y: 0.08, width: 0.35, height: 0.3),
+                      CGRect(x: 0.52, y: 0.06, width: 0.4, height: 0.35),
+                      CGRect(x: 0.08, y: 0.58, width: 0.35, height: 0.34),
+                      CGRect(x: 0.58, y: 0.56, width: 0.34, height: 0.36)]
+        let theme = abs((mission?.seed ?? 0) % 3)
+        let colors: [SKColor] = [.systemCyan, .systemPurple, .systemOrange]
+        for (index, panel) in panels.enumerated() {
+            let origin = point(panel.minX, panel.minY)
+            let rect = CGRect(x: origin.x, y: origin.y, width: panel.width * arena.width, height: panel.height * arena.height)
+            let room = SKShapeNode(rect: rect, cornerRadius: 5)
+            room.fillColor = colors[theme].withAlphaComponent(0.055)
+            room.strokeColor = colors[theme].withAlphaComponent(0.32)
             room.lineWidth = 2
             addChild(room)
+            // Floor markings and machinery belong to this game's signal-map visual style.
+            for line in 0..<4 {
+                let mark = SKShapeNode(rectOf: CGSize(width: rect.width * 0.7, height: 2))
+                mark.position = CGPoint(x: rect.midX, y: rect.minY + 10 + CGFloat(line) * 8)
+                mark.fillColor = colors[theme].withAlphaComponent(0.18)
+                mark.strokeColor = .clear
+                addChild(mark)
+            }
+            let machinery = SKShapeNode(rectOf: CGSize(width: 22, height: 32), cornerRadius: 3)
+            machinery.position = CGPoint(x: rect.maxX - 20, y: rect.maxY - 25)
+            machinery.fillColor = .black
+            machinery.strokeColor = colors[theme].withAlphaComponent(0.5)
+            addChild(machinery)
+            let light = SKShapeNode(circleOfRadius: 3)
+            light.position = CGPoint(x: 0, y: 8)
+            light.fillColor = index.isMultiple(of: 2) ? .systemRed : .systemMint
+            light.strokeColor = .clear
+            light.glowWidth = 4
+            machinery.addChild(light)
         }
+        let perimeter = SKShapeNode(rect: arena, cornerRadius: 6)
+        perimeter.strokeColor = colors[theme].withAlphaComponent(0.7)
+        perimeter.lineWidth = 2
+        perimeter.fillColor = .clear
+        addChild(perimeter)
     }
 
     private func buildPlayer() {
-        player.position = CGPoint(x: size.width * 0.16, y: size.height * 0.18)
+        player.removeAllChildren()
+        player.position = point(0.16, 0.18)
         player.fillColor = premiumEnabled ? Self.monthlyCosmeticColor : SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
         player.strokeColor = .white
         player.lineWidth = 2
         player.glowWidth = 5
         player.zPosition = 1
         player.name = "player"
+        let visor = SKShapeNode(rectOf: CGSize(width: 24, height: 6), cornerRadius: 2)
+        visor.position.y = 5
+        visor.fillColor = .black
+        visor.strokeColor = .systemCyan
+        player.addChild(visor)
+        let pack = SKShapeNode(rectOf: CGSize(width: 18, height: 9), cornerRadius: 2)
+        pack.position.y = -15
+        pack.fillColor = .darkGray
+        pack.strokeColor = .white.withAlphaComponent(0.5)
+        player.addChild(pack)
         addChild(player)
     }
 
     private func buildArtifacts() {
         let positions = [
-            CGPoint(x: size.width * 0.35, y: size.height * 0.72),
-            CGPoint(x: size.width * 0.72, y: size.height * 0.72),
-            CGPoint(x: size.width * 0.67, y: size.height * 0.28)
+            point(0.35, 0.72),
+            point(0.72, 0.72),
+            point(0.67, 0.28)
         ]
 
         for position in positions {
@@ -237,8 +373,105 @@ final class NightfallGameScene: SKScene {
         }
     }
 
+    private func buildMissionStations() {
+        let layouts: [[CGPoint]] = [
+            [point(0.2, 0.7), point(0.75, 0.3), point(0.8, 0.7)],
+            [point(0.7, 0.65), point(0.2, 0.4), point(0.75, 0.25)],
+            [point(0.2, 0.5), point(0.7, 0.7), point(0.7, 0.25)]
+        ]
+        let positions = layouts[abs((mission?.seed ?? 0) % layouts.count)]
+        for (index, position) in positions.enumerated() {
+            let station = SKShapeNode(rectOf: CGSize(width: 38, height: 38), cornerRadius: 7)
+            station.position = position
+            station.fillColor = SKColor(red: 0.02, green: 0.1, blue: 0.13, alpha: 1)
+            station.strokeColor = [.systemCyan, .systemOrange, .systemPurple][index]
+            station.lineWidth = 3
+            station.glowWidth = 3
+            station.zPosition = 5
+            let label = SKLabelNode(fontNamed: "Menlo-Bold")
+            label.text = String(index + 1)
+            label.fontSize = 18
+            label.verticalAlignmentMode = .center
+            station.addChild(label)
+            addChild(station)
+            stations.append(station)
+        }
+        let ring = SKShapeNode(circleOfRadius: 28)
+        ring.strokeColor = .systemYellow
+        ring.lineWidth = 3
+        ring.zPosition = 6
+        ring.isHidden = true
+        addChild(ring)
+        channelRing = ring
+
+        if rules.kind == .rescueLostEcho {
+            let echo = SKShapeNode(ellipseOf: CGSize(width: 20, height: 30))
+            echo.fillColor = .systemMint
+            echo.strokeColor = .white
+            echo.glowWidth = 8
+            echo.position = positions[0]
+            echo.zPosition = 6
+            addChild(echo)
+            rescuedEcho = echo
+        }
+        if condition == .redSignal {
+            for position in [point(0.1, 0.85), point(0.8, 0.15)] {
+                let decoy = SKShapeNode(circleOfRadius: 30)
+                decoy.position = position
+                decoy.strokeColor = .systemRed
+                decoy.lineWidth = 3
+                decoy.glowWidth = 8
+                addChild(decoy)
+                falseExits.append(decoy)
+            }
+        }
+    }
+
+    private func updateMission(deltaTime: TimeInterval) {
+        if let echo = rescuedEcho, rules.completed == 1 {
+            let distance = echo.position.distance(to: player.position)
+            // The echo waits if the operator runs too far away.
+            if distance > 22 && distance < 150 {
+                let step = min(CGFloat(deltaTime) * 105, distance - 22)
+                echo.position.x += (player.position.x - echo.position.x) / distance * step
+                echo.position.y += (player.position.y - echo.position.y) / distance * step
+            }
+        }
+        rules.tick(seconds: deltaTime,
+                   atChannelStation: stations.count > 1 && stations[1].position.distance(to: player.position) < 48,
+                   echoAtExit: rescuedEcho.map { $0.position.distance(to: extractionZone.position) < 58 } ?? false)
+        if let ring = channelRing, stations.count > 1 {
+            ring.position = stations[1].position
+            ring.isHidden = !rules.activated
+            ring.setScale(1 + CGFloat(rules.channel) * 0.035)
+        }
+        for (index, station) in stations.enumerated() {
+            let active: Bool
+            switch rules.kind {
+            case .investigateBlackSite:
+                active = rules.completed == 0 ? index < 2 && !rules.scanned.contains(index) : index == 2
+            case .surviveUntilExtraction: active = rules.completed == 1 && index == 0
+            case .rescueLostEcho: active = rules.completed == 0 && index == 0
+            default: active = index == rules.completed
+            }
+            station.alpha = active && !rules.ready ? 1 : 0.25
+        }
+        publishMissionProgress()
+    }
+
+    private func publishMissionProgress() {
+        if lastProgress != rules.completed {
+            lastProgress = rules.completed
+            onEvent?(.missionProgress(rules.completed))
+        }
+        if lastInstruction != rules.instructionKey {
+            lastInstruction = rules.instructionKey
+            onEvent?(.missionInstruction(rules.instructionKey))
+        }
+    }
+
     private func buildExtractionZone() {
-        extractionZone.position = CGPoint(x: size.width * 0.86, y: size.height * 0.82)
+        extractionZone.position = point(0.86, 0.82)
         extractionZone.fillColor = SKColor(red: 0.05, green: 0.5, blue: 0.8, alpha: 0.18)
         extractionZone.strokeColor = SKColor(red: 0.3, green: 0.85, blue: 1, alpha: 0.95)
         extractionZone.lineWidth = 3
@@ -248,22 +481,37 @@ final class NightfallGameScene: SKScene {
 
     private func buildEnemies(for difficulty: Difficulty) {
         let director = EnemySpawnDirector()
-        let spawns = director.spawns(for: difficulty)
+        var spawns = director.spawns(for: difficulty)
+        if condition == .hunted && !spawns.contains(where: { $0.type == .hollow }) {
+            spawns.append(EnemySpawnDefinition(type: .hollow, normalizedStart: CGPoint(x: 0.8, y: 0.6), patrolBias: 0.3))
+        }
+        if condition == .echoTrail && !spawns.contains(where: { $0.type == .echo }) {
+            spawns.append(EnemySpawnDefinition(type: .echo, normalizedStart: CGPoint(x: 0.6, y: 0.7), patrolBias: 0.3))
+        }
 
         for spawn in spawns {
             let node = SKShapeNode(circleOfRadius: spawn.type == .sleeper ? 14 : 18)
-            node.position = CGPoint(x: size.width * spawn.normalizedStart.x, y: size.height * spawn.normalizedStart.y)
+            node.position = point(spawn.normalizedStart.x, spawn.normalizedStart.y)
             node.fillColor = color(for: spawn.type)
             node.strokeColor = .white.withAlphaComponent(spawn.type == .sleeper ? 0.2 : 0.55)
             node.lineWidth = 1
             node.alpha = spawn.type == .sleeper ? 0.28 : 0.9
             node.glowWidth = spawn.type == .hollow ? 8 : 4
+            let eye = SKShapeNode(rectOf: CGSize(width: 20, height: 4), cornerRadius: 1)
+            eye.fillColor = .white
+            eye.strokeColor = .clear
+            node.addChild(eye)
+            if spawn.type == .hollow {
+                node.yScale = 1.4
+            } else if spawn.type == .echo {
+                node.xScale = 0.7
+            }
             addChild(node)
 
             let patrol = [
                 node.position,
-                CGPoint(x: max(40, min(size.width - 40, node.position.x + size.width * spawn.patrolBias)), y: node.position.y),
-                CGPoint(x: node.position.x, y: max(40, min(size.height - 40, node.position.y - size.height * spawn.patrolBias)))
+                CGPoint(x: max(arena.minX, min(arena.maxX, node.position.x + arena.width * spawn.patrolBias)), y: node.position.y),
+                CGPoint(x: node.position.x, y: max(arena.minY, min(arena.maxY, node.position.y - arena.height * spawn.patrolBias)))
             ]
             enemyAgents.append(EnemyAgent(type: spawn.type, node: node, patrolPoints: patrol))
         }
@@ -275,6 +523,14 @@ final class NightfallGameScene: SKScene {
         staticOverlay.strokeColor = .clear
         staticOverlay.zPosition = 100
         addChild(staticOverlay)
+        if condition == .blackout {
+            let mask = SKShapeNode()
+            mask.fillColor = .black.withAlphaComponent(0.86)
+            mask.strokeColor = .clear
+            mask.zPosition = 99
+            addChild(mask)
+            darknessMask = mask
+        }
     }
 
     private func color(for enemy: EnemyType) -> SKColor {
@@ -299,12 +555,13 @@ final class NightfallGameScene: SKScene {
         let distance = hypot(vector.dx, vector.dy)
         guard distance > 4 else { return }
 
-        let speed: CGFloat = 178
+        let carryingCase = rules.kind == .extractDreamArtifact && rules.completed == 1
+        let speed: CGFloat = carryingCase ? 125 : 178
         let step = min(CGFloat(deltaTime) * speed, distance)
         player.position.x += vector.dx / distance * step
         player.position.y += vector.dy / distance * step
-        player.position.x = max(20, min(size.width - 20, player.position.x))
-        player.position.y = max(20, min(size.height - 20, player.position.y))
+        player.position.x = max(arena.minX, min(arena.maxX, player.position.x))
+        player.position.y = max(arena.minY, min(arena.maxY, player.position.y))
     }
 
     private func moveEnemies(deltaTime: TimeInterval, currentTime: TimeInterval) {
@@ -316,9 +573,9 @@ final class NightfallGameScene: SKScene {
             let speed = agent.type.baseSpeed * speedBoost * surgeBoost
 
             let destination: CGPoint
-            if agent.type == .echo, let echoTarget = playerTrail.dropLast(25).last {
+            if agent.type == .echo, let echoTarget = playerTrail.dropLast(condition.echoDelay).last {
                 destination = echoTarget
-            } else if agent.type == .hollow, collapse > 0.58 {
+            } else if agent.type == .hollow, collapse > condition.pursuitThreshold {
                 destination = player.position
             } else {
                 destination = agent.currentPatrolPoint
@@ -349,6 +606,7 @@ final class NightfallGameScene: SKScene {
         }
 
         if distance < 28, currentTime - lastEnemyContactTime > 1.1 {
+            rules.interrupt()
             lastEnemyContactTime = currentTime
             pulse(node: agent.node, color: .systemRed)
             onEvent?(.enemyContact(agent.type))
@@ -359,13 +617,21 @@ final class NightfallGameScene: SKScene {
         let collapse = collapseProvider?() ?? 0
 
         if collapse > exitRelocationThreshold {
-            exitRelocationThreshold += 0.24
+            exitRelocationThreshold += condition.exitInterval
             relocateExit()
         }
 
         let flicker = abs(sin(currentTime * (5 + collapse * 15))) * collapse
         staticOverlay.fillColor = SKColor(red: 0.12 + collapse * 0.35, green: 0.02, blue: 0.04, alpha: 0.04 + flicker * 0.18)
         extractionZone.alpha = 0.55 + abs(sin(currentTime * 3.2)) * 0.45
+        if let mask = darknessMask {
+            let path = CGMutablePath()
+            path.addRect(arena)
+            let radius: CGFloat = 95 - CGFloat(collapse) * 30
+            // Reverse the aperture winding to cut a hole in the outer path.
+            path.addPath(UIBezierPath(ovalIn: CGRect(x: player.position.x - radius, y: player.position.y - radius, width: radius * 2, height: radius * 2)).reversing().cgPath)
+            mask.path = path
+        }
     }
 
     private func trackPlayerPath() {
@@ -378,10 +644,10 @@ final class NightfallGameScene: SKScene {
 
     private func relocateExit() {
         let positions = [
-            CGPoint(x: size.width * 0.84, y: size.height * 0.16),
-            CGPoint(x: size.width * 0.12, y: size.height * 0.82),
-            CGPoint(x: size.width * 0.82, y: size.height * 0.78),
-            CGPoint(x: size.width * 0.52, y: size.height * 0.12)
+            point(0.84, 0.16),
+            point(0.12, 0.82),
+            point(0.82, 0.78),
+            point(0.52, 0.12)
         ]
 
         let next = positions.randomElement() ?? positions[0]
@@ -424,7 +690,7 @@ final class NightfallGameScene: SKScene {
 private final class EnemyAgent {
     let type: EnemyType
     let node: SKShapeNode
-    let patrolPoints: [CGPoint]
+    var patrolPoints: [CGPoint]
     var patrolIndex = 0
     var surgeUntil: TimeInterval = 0
 

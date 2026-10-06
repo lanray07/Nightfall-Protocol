@@ -1,14 +1,22 @@
-Nightfall Protocol is an offline playable game. No account or sign-in is required. The Store offers one auto-renewing monthly subscription: Premium Pass, product ID com.nightfallprotocol.subscription.premium.monthly. It uses live StoreKit, not mock purchases. Starter Cosmetic Pack, Nightmare Skin Pack, and the old non-consumable Premium Pass are not offered by this binary.
+Nightfall Protocol is an offline, single-player extraction horror game. No account or sign-in is required. This revision addresses the 4.3 rejection with substantive gameplay changes.
 
-From the title screen, open Store, tap the Premium Pass purchase button, and complete the sandbox purchase. Active access changes the player color and movement trail to the monthly palette, adds an animated glow to successful extractions, and displays artifact lore in the Collection. These benefits do not change health, enemy speed, loot odds, progression, or missions. Restore Purchases rechecks verified StoreKit entitlements; expired or revoked subscriptions do not retain premium access.
+Reviewer path: Title > Continue > Signal Campaign > 01 / The Broken Transmission. Touch the map to move the operator. Approach numbered station 1 and tap Interact to recover the memory. Approach station 2, tap Interact, and remain nearby for three seconds to decode it. Follow the cyan ring and tap Extract beside it. Successful campaign missions unlock the next chapter; failure does not. Solo mission selection offers all six mission types.
 
-Privacy Policy and Terms of Use links are available in Settings and Store. The purchase screen displays the StoreKit-localized price and monthly renewal disclosures.
+Mission types enforce different actions: memory decoding; slowed transport and five-second artifact stabilization; eight-second rift sealing with enemy surges and interruption; escorting a following echo; a thirty-second survival window with beacon activation; and two-terminal investigation followed by evidence recovery. Optional loot does not advance mission tasks. Incomplete missions cannot bypass extraction requirements at high collapse.
 
-The Settings controls and legal links now include explicit visible and accessibility labels. Promotional in-app purchase images have been removed because the products are not being promoted on the App Store.
+Conditions change play: blackout restricts visibility, Glass Maze relocates the exit more often, Hunted introduces an early-pursuing Hollow, Red Signal adds red false exits, Echo Trail follows a more recent player trail, and Zero Hour accelerates collapse. The campaign contains six connected briefings with saved unlocking. Unfinished co-op/endless, loadout displays and graphics-quality controls have been removed. Only the complete English interface is exposed in the language selector. Audio and haptic preferences affect playback/feedback and persist.
 
-The App Review attachment Nightfall-Protocol-verified-legal-links.mp4 is a genuine iPad simulator recording. It shows Settings, opening the Privacy Policy and its loaded GitHub page, returning to Settings, and opening the loaded standard Apple EULA. The recording contains no simulated app or website screens. StoreKit purchase, restore, and expiry checks also passed in Xcode's local StoreKit testing environment on iPhone and iPad; these are local tests, not a claim of physical-device sandbox testing.
+The Store offers one auto-renewing monthly subscription: Premium Pass, com.nightfallprotocol.subscription.premium.monthly. It uses live StoreKit. Starter Cosmetic Pack, Nightmare Skin Pack and the old non-consumable Premium Pass are not offered. The monthly subscription and group are included in this submission.
 
-Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
+From the title screen open Store, tap the Premium Pass purchase button, and complete the sandbox purchase. Active access changes player/trail color to the monthly palette, adds an extraction glow and displays artifact lore in Collection. It does not change gameplay power, enemies, loot odds or progression. Restore Purchases rechecks verified entitlements; expiry/revocation removes premium access.
 
-The game includes psychological horror and fear themes, but no gore, chat, ads, user-generated content, real-money gambling, loot boxes, or web browsing.
+Privacy Policy and Terms of Use links are available in Settings and Store. The purchase screen displays the StoreKit-localized price and renewal disclosures. Promotional IAP images have been removed because these products are not being promoted.
+
+The existing attachment Nightfall-Protocol-verified-legal-links.mp4 is a genuine iPad simulator recording showing Settings, the loaded Privacy Policy, returning to Settings, and the loaded standard Apple EULA. Purchase, restoration and expiry checks passed in Xcode local StoreKit testing on iPhone and iPad; this is not a claim of physical-device sandbox testing.
+
+Terms: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
+
+Psychological horror and fear themes, but no gore, chat, ads, user-generated content, gambling, loot boxes or web browsing.
+
+The nine-question response, detailed PDF and genuine gameplay captures were sent in the correspondence for submission da1d6268-85c6-4f57-ad4c-ad38726eab88 on October 6, 2026.

@@ -9,7 +9,21 @@ struct AppRootView: View {
     @Environment(AppServices.self) private var services
     @State private var viewModel = AppViewModel()
 
+    @ViewBuilder
     var body: some View {
+        #if DEBUG && targetEnvironment(simulator)
+        if let scene = ProcessInfo.processInfo.environment["NF_SCREENSHOT_SCENE"] {
+            ScreenshotCaptureView(sceneName: scene)
+        } else {
+            appContent
+        }
+        #else
+        appContent
+        #endif
+    }
+
+    @ViewBuilder
+    private var appContent: some View {
         @Bindable var viewModel = viewModel
 
         NavigationStack(path: $viewModel.path) {
@@ -42,6 +56,16 @@ struct AppRootView: View {
             await viewModel.bootstrap(context: modelContext, languageManager: languageManager, services: services)
             services.store.startMonitoring(context: modelContext)
             await services.store.refreshAccess(context: modelContext)
+            #if DEBUG && targetEnvironment(simulator)
+            if ProcessInfo.processInfo.environment["NF_GAMEPLAY_TEST"] == "memory" {
+                var mission = ObjectiveGenerator().generateMissions(for: .solo).first { $0.objectiveType == .recoverMemoryFragment }!
+                mission.seed = 42
+                mission.difficulty = .low
+                mission.modifierTitleKey = "modifier.glassMaze.title"
+                mission.modifierDescriptionKey = "modifier.glassMaze.description"
+                viewModel.path.append(AppRoute.gameplay(mission))
+            }
+            #endif
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
@@ -110,6 +134,134 @@ struct AppRootView: View {
         }
     }
 }
+
+#if DEBUG && targetEnvironment(simulator)
+@MainActor
+private struct ScreenshotCaptureView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(LanguageManager.self) private var languageManager
+    @Environment(AppServices.self) private var services
+    @State private var profile: PlayerProfile?
+    @State private var inventory: [InventoryItem] = []
+    @State private var artifacts: [Artifact] = []
+    @State private var summary: ExtractionSummary?
+    @State private var ready = false
+    @State private var errorMessage: String?
+
+    let sceneName: String
+    private let captureEnvironment = ProcessInfo.processInfo.environment
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(verbatim: "Nightfall Protocol")
+                        .font(.title3.bold())
+                        .foregroundStyle(.cyan)
+                    Text(captureEnvironment["NF_SCREENSHOT_HEADLINE"] ?? "Nightfall Protocol")
+                        .font(.system(size: 32, weight: .bold))
+                        .foregroundStyle(.white)
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.85)
+                    Text(captureEnvironment["NF_SCREENSHOT_SUBTITLE"] ?? "")
+                        .font(.body)
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(24)
+                .background(Color(red: 0.04, green: 0.04, blue: 0.055))
+
+                if let errorMessage {
+                    Text(errorMessage)
+                } else if ready {
+                    capturedScreen
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .background(Color.black)
+        }
+        .preferredColorScheme(.dark)
+        .task {
+            do {
+                languageManager.selectLanguage(id: captureEnvironment["NF_SCREENSHOT_LANGUAGE"] ?? "en")
+                profile = try services.bootstrap.bootstrap(context: modelContext, languageManager: languageManager)
+                inventory = try modelContext.fetch(FetchDescriptor<InventoryItem>())
+                artifacts = try modelContext.fetch(FetchDescriptor<Artifact>())
+                summary = makeSummary()
+                ready = true
+                try await Task.sleep(for: .milliseconds(500))
+                try writeCaptureStatus("ready")
+            } catch {
+                errorMessage = error.localizedDescription
+                try? writeCaptureStatus("error")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var capturedScreen: some View {
+        switch sceneName {
+        case "gameplay", "collapse":
+            GameplayContainerView(mission: captureMission, onFinish: { _ in })
+        case "missions":
+            MissionSelectView(mode: .solo, onSelectMission: { _ in })
+        case "daily":
+            MissionSelectView(mode: .daily, onSelectMission: { _ in })
+        case "artifacts":
+            ArtifactCollectionView(artifacts: artifacts)
+        case "recap":
+            if let summary {
+                ExtractionResultView(summary: summary, onReturnHub: {})
+            }
+        case "hub":
+            MainHubView(profile: profile, inventory: inventory, artifacts: artifacts,
+                        onMissionSelect: { _ in }, onStore: {}, onArtifacts: {}, onSettings: {})
+        case "settings":
+            SettingsView(onLanguageChanged: { _ in }, onReset: {})
+        default:
+            Text("Unknown screenshot scene: \(sceneName)")
+        }
+    }
+
+    private var captureMission: MissionPlan {
+        let type = ObjectiveType.extractDreamArtifact
+        let modifier = NightmareModifierGenerator().modifier(seed: 42)
+        return MissionPlan(
+            titleKey: type.titleKey, descriptionKey: type.descriptionKey,
+            nightmareNameKey: NightmareNameGenerator().generate(seed: 42),
+            briefingKey: MissionLoreGenerator().briefing(seed: 42),
+            modifierTitleKey: modifier.titleKey, modifierDescriptionKey: modifier.descriptionKey,
+            modifierScoreBonus: modifier.scoreBonus, difficulty: .medium, objectiveType: type,
+            rewardXP: 180, objectives: ObjectiveGenerator().generateObjectiveStates(for: type), seed: 42
+        )
+    }
+
+    private func makeSummary() -> ExtractionSummary? {
+        let model = GameplayViewModel(mission: captureMission)
+        for _ in captureMission.objectives {
+            model.handle(.objectiveCompleted)
+        }
+        model.collapseLevel = 0.82
+        model.handle(.lootFound(LootReward(nameKey: "loot.dreamFragment.name",
+                                         descriptionKey: "loot.dreamFragment.description",
+                                         itemType: .dreamFragment, rarity: .rare, quantity: 3)))
+        model.requestExtraction()
+        return model.result
+    }
+
+    private func writeCaptureStatus(_ status: String) throws {
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let data = try JSONSerialization.data(withJSONObject: ["scene": sceneName, "status": status,
+                                                               "language": languageManager.selectedLanguageCode])
+        try data.write(to: directory.appendingPathComponent("screenshot-ready.json"), options: .atomic)
+    }
+}
+#endif
 
 struct TitleScreenView: View {
     let profile: PlayerProfile?
@@ -289,9 +441,6 @@ struct MainHubView: View {
 
                     hubActions
 
-                    SectionHeader(titleKey: "title.loadout", symbol: "backpack.fill")
-                    loadoutGrid
-
                     SectionHeader(titleKey: "title.daily", symbol: "moon.stars.fill")
                     DailyChallengeCard {
                         onMissionSelect(.daily)
@@ -316,12 +465,6 @@ struct MainHubView: View {
         VStack(spacing: 12) {
             LocalizedButton(titleKey: "mode.solo", systemImage: "person.fill", prominent: true) {
                 onMissionSelect(.solo)
-            }
-            LocalizedButton(titleKey: "mode.coop", systemImage: "person.2.fill") {
-                onMissionSelect(.coop)
-            }
-            LocalizedButton(titleKey: "mode.endless", systemImage: "infinity") {
-                onMissionSelect(.endless)
             }
             LocalizedButton(titleKey: "mode.story", systemImage: "book.closed.fill") {
                 onMissionSelect(.story)

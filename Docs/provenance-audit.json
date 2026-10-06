@@ -1,0 +1,5 @@
+{
+  "scope": "Exact Swift source-file hashes in available local projects; excludes build products and dependencies. Does not prove independent authorship or inspect remote-only apps.",
+  "other_swift_files_compared": 1656,
+  "identical_files": []
+}

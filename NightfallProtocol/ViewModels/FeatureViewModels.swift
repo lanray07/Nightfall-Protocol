@@ -51,9 +51,9 @@ final class StoreViewModel {
 @MainActor
 @Observable
 final class SettingsViewModel {
-    var soundEnabled = true
-    var musicEnabled = true
-    var hapticsEnabled = true
+    var soundEnabled = UserDefaults.standard.object(forKey: "nightfall.sound") as? Bool ?? true
+    var musicEnabled = UserDefaults.standard.object(forKey: "nightfall.music") as? Bool ?? true
+    var hapticsEnabled = UserDefaults.standard.object(forKey: "nightfall.haptics") as? Bool ?? true
     var notificationsEnabled = false
     var graphicsQuality: GraphicsQuality = .high
     var showingResetAlert = false

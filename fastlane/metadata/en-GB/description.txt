@@ -1,10 +1,21 @@
-Enter the dream. Escape the nightmare.
+Nightfall Protocol is an offline, single-player survival horror game set inside unstable nightmare zones. Complete extraction missions, avoid enemy patrols and recover dream artifacts before Reality Collapse ends your run.
 
-Nightfall Protocol is a solo psychological extraction horror game. Enter unstable nightmare zones, complete randomized objectives, collect artifacts, avoid patrolling entities, and extract before the Reality Collapse meter reaches zero.
+NIGHTMARE EXTRACTION
+Choose a mission, enter the zone and complete objectives under pressure. Recover memories, investigate black sites, seal nightmare rifts and reach extraction with your loot.
 
-Manage health and sanity as collapse events intensify. Decide whether to risk another artifact or head for extraction. Successful runs earn XP and keep collected loot; failed runs lose temporary loot while preserving long-term progression. Base missions and the extraction loop are playable offline.
+SURVIVE REALITY COLLAPSE
+Watch your health, sanity and the rising collapse meter. Enemy encounters, room events and mission modifiers keep each run tense. Decide when to keep exploring and when to escape.
 
-An optional Premium Pass auto-renews monthly through Apple. While active, it provides a monthly rotating player and trail palette, an extraction glow, and an expanded artifact lore display. It does not affect gameplay power, enemies, loot odds, or progression. Purchases and restoration require a network connection.
+COLLECT AND PROGRESS
+Earn operator XP from successful runs, build your artifact collection and discover mission lore. Review your extraction score, rank and run code, then share your recap.
+
+PLAY OFFLINE
+Core solo gameplay works without an account or internet connection. Explore daily nightmare missions and return for another extraction run.
+
+SIGNAL CAMPAIGN
+Play six connected chapters with separate mission rules: decode memories, stabilize carried artifacts, seal rifts under enemy pressure, escort lost echoes, survive a signal window and investigate two terminals. Successful missions unlock the next chapter.
+
+An optional Premium Pass auto-renews monthly through Apple. Active access provides a monthly player and trail palette, extraction glow and expanded artifact lore display. It does not change gameplay power, enemies, loot odds or progression. Purchases and restoration require a network connection.
 
 Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy Policy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md

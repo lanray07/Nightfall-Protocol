@@ -72,9 +72,12 @@ final class StoreService {
                 titleKey: "store.premiumPass.title",
                 descriptionKey: "store.premiumPass.description",
                 priceKey: "store.premiumPass.price",
+                renewalInfoKey: "store.premiumPass.renewalInfo",
                 displayPrice: displayPrice(for: Self.premiumPassID),
                 category: .pass,
-                owned: purchasedProductIDs.contains(Self.premiumPassID)
+                owned: purchasedProductIDs.contains(Self.premiumPassID),
+                purchaseAccessibilityLabelKey: "store.premiumPass.purchase.accessibility",
+                ownedAccessibilityLabelKey: "store.premiumPass.owned.accessibility"
             )
         ]
         .filter { availableProductIDs.contains($0.productID) }

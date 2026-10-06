@@ -238,6 +238,7 @@ struct ObjectiveState: Identifiable, Hashable, Codable {
 }
 
 struct MissionPlan: Identifiable, Hashable, Codable {
+    var campaignChapter: Int? = nil
     var id: UUID
     var titleKey: String
     var descriptionKey: String
@@ -357,9 +358,12 @@ struct StoreCatalogItem: Identifiable, Hashable {
     var titleKey: String
     var descriptionKey: String
     var priceKey: String
+    var renewalInfoKey: String?
     var displayPrice: String?
     var category: StoreCategory
     var owned: Bool
+    var purchaseAccessibilityLabelKey: String?
+    var ownedAccessibilityLabelKey: String?
 }
 
 struct LoadoutItem: Identifiable, Hashable {
@@ -383,6 +387,8 @@ struct EnemySpawnDefinition: Identifiable, Hashable {
 }
 
 enum GameplaySceneEvent {
+    case missionProgress(Int)
+    case missionInstruction(String)
     case lootFound(LootReward)
     case objectiveCompleted
     case enemyContact(EnemyType)

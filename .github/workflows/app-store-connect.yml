@@ -5,6 +5,19 @@ on:
     tags:
       - metadata-*
   workflow_dispatch:
+    inputs:
+      screenshot_run_id:
+        description: "Optional completed App Store Screenshots workflow run ID; leave blank for metadata only"
+        type: string
+        default: ""
+      verified_evidence_run_id:
+        description: "Optional release evidence run with passing gameplay/legal checks on iPhone and iPad"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   upload-metadata:
@@ -24,19 +37,62 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate localized metadata
+        run: python scripts/localize.py --check
+
+      - name: Validate screenshot input choice
+        env:
+          CAPTURE_RUN: ${{ inputs.screenshot_run_id }}
+          EVIDENCE_RUN: ${{ inputs.verified_evidence_run_id }}
+        run: |
+          if [ -n "$CAPTURE_RUN" ] && [ -n "$EVIDENCE_RUN" ]; then
+            echo "Choose one screenshot source, not both."
+            exit 1
+          fi
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler-cache: true
 
-      - name: Prepare screenshot folders
-        shell: bash
+      - name: Download captured screenshots
+        if: github.event_name == 'workflow_dispatch' && inputs.screenshot_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: app-store-screenshots
+          path: build/raw-store-screenshots
+          run-id: ${{ inputs.screenshot_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Select and validate upload screenshots
+        if: github.event_name == 'workflow_dispatch' && inputs.screenshot_run_id != ''
         run: |
-          rm -rf fastlane/screenshots
-          mkdir -p fastlane/screenshots/en-GB
-          cp AppStoreAssets/iPhone-6.5/*.png fastlane/screenshots/en-GB/
-          cp AppStoreAssets/iPad-13/*.png fastlane/screenshots/en-GB/
+          python scripts/curate_screenshots.py --input build/raw-store-screenshots --output fastlane/screenshots
+          python scripts/validate_screenshots.py --store-ready
+          echo "UPLOAD_SCREENSHOTS=1" >> "$GITHUB_ENV"
+
+      - name: Download verified release captures
+        if: github.event_name == 'workflow_dispatch' && inputs.verified_evidence_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-evidence-*
+          path: build/verified-evidence
+          run-id: ${{ inputs.verified_evidence_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Package unmodified verified screenshots
+        if: github.event_name == 'workflow_dispatch' && inputs.verified_evidence_run_id != ''
+        env:
+          EVIDENCE_RUN: ${{ inputs.verified_evidence_run_id }}
+        run: |
+          python scripts/prepare_verified_screenshots.py --input build/verified-evidence --output fastlane/screenshots --source-run "$EVIDENCE_RUN"
+          echo "UPLOAD_SCREENSHOTS=1" >> "$GITHUB_ENV"
 
       - name: Upload metadata and screenshots
         run: bundle exec fastlane ios metadata

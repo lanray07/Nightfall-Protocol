@@ -172,6 +172,10 @@ final class NotificationService {
         }
     }
 
+    func cancelDailyNightmareReminder() {
+        center.removePendingNotificationRequests(withIdentifiers: ["daily-nightmare"])
+    }
+
     func scheduleDailyNightmareReminder(
         localization: LocalizationService,
         languageCode: String
@@ -204,7 +208,11 @@ enum NightfallHapticStyle {
 
 @MainActor
 final class HapticsService {
+    var enabled = UserDefaults.standard.object(forKey: "nightfall.haptics") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(enabled, forKey: "nightfall.haptics") }
+    }
     func impact(_ style: NightfallHapticStyle = .medium) {
+        guard enabled else { return }
         #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
         switch style {
@@ -223,6 +231,7 @@ final class HapticsService {
     }
 
     func warning() {
+        guard enabled else { return }
         #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
@@ -231,6 +240,7 @@ final class HapticsService {
     }
 
     func success() {
+        guard enabled else { return }
         #if canImport(UIKit) && !os(visionOS) && !os(tvOS)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()

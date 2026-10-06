@@ -1,0 +1,35 @@
+{
+  "app": {},
+  "listing": {
+    "es-ES": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "fr-FR": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "de-DE": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "pt-BR": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "it": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "ja": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "ko": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "zh-Hans": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "ar-SA": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    },
+    "hi": {
+      "source": "2f79e35196f3c5cd1b8167667acc8c0d32583869b8d36858c39a7931a848a65e"
+    }
+  }
+}
