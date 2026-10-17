@@ -387,6 +387,8 @@ struct EnemySpawnDefinition: Identifiable, Hashable {
 }
 
 enum GameplaySceneEvent {
+    case expeditionStarted
+    case receiverChanged(FieldReceiver)
     case missionProgress(Int)
     case missionInstruction(String)
     case lootFound(LootReward)

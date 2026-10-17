@@ -3,6 +3,27 @@ import Foundation
 @main
 struct MissionRulesTests {
     static func main() {
+        var receiver = FieldReceiver()
+        assert(receiver.sound())
+        assert(receiver.transmissions == 1 && !receiver.canSound)
+        assert(!receiver.sound(), "Cannot repeatedly broadcast without recharging")
+        receiver.tick(seconds: 4)
+        assert(receiver.revealRemaining == 0 && receiver.traceRemaining == 3,
+               "Enemies still investigate after the useful reveal has ended")
+        receiver.toggleSilent()
+        assert(receiver.movementScale < 1 && receiver.detectionScale < 1)
+        assert(!receiver.canBeHeard(distance: 70, detectionRadius: 100))
+        assert(receiver.canBeHeard(distance: 30, detectionRadius: 100))
+        receiver.tick(seconds: 10)
+        assert(receiver.charge == 1 && receiver.traceRemaining == 0)
+        assert(!receiver.sound(), "Silent mode must not emit a transmission")
+        receiver.toggleSilent()
+        assert(receiver.canBeHeard(distance: 70, detectionRadius: 100))
+        assert(receiver.sound() && receiver.transmissions == 2)
+        let unchanged = receiver
+        receiver.tick(seconds: -2)
+        receiver.tick(seconds: .infinity)
+        assert(receiver == unchanged)
         var memory = MissionRules(kind: .recoverMemoryFragment)
         memory.interact(station: 1)
         assert(memory.completed == 0, "Decoding before recovery must not advance")

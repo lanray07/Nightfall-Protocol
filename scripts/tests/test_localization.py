@@ -130,17 +130,16 @@ class LocalizationTests(unittest.TestCase):
             manifest_path = root / "capture-manifest.json"
             manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
             validate_screenshots(listing, root)
-            with self.assertRaisesRegex(ValueError, "Placeholder"):
-                validate_screenshots(listing, root, store_ready=True)
+            validate_screenshots(listing, root, store_ready=True)
             with self.assertRaisesRegex(ValueError, "fresh"):
                 curate(listing, root, root / "selected")
             with tempfile.TemporaryDirectory() as output_directory:
                 selected = Path(output_directory) / "selected"
                 curate(listing, root, selected)
                 validate_screenshots(listing, selected, store_ready=True)
-                self.assertEqual(len(list(selected.rglob("*.png"))), 14)
+                self.assertEqual(len(list(selected.rglob("*.png"))), 16)
                 self.assertEqual(len(list(root.rglob("*.png"))), 16)
-                self.assertNotIn("06-operator-progression", read_json(selected / "capture-manifest.json")["scenes"])
+                self.assertIn("06-operator-progression", read_json(selected / "capture-manifest.json")["scenes"])
                 with self.assertRaisesRegex(ValueError, "fresh"):
                     curate(listing, root, selected)
             (root / paths[0]).unlink()

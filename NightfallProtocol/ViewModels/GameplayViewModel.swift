@@ -18,6 +18,8 @@ final class GameplayViewModel: ObservableObject {
     @Published var momentumMultiplier = 1
     @Published var scorePulseKey: String?
     @Published var instructionKey: String
+    @Published var receiver = FieldReceiver()
+    @Published var hasDeparted = false
 
     let mission: MissionPlan
 
@@ -84,6 +86,11 @@ final class GameplayViewModel: ObservableObject {
         guard result == nil else { return }
 
         switch event {
+        case .expeditionStarted:
+            hasDeparted = true
+            start()
+        case .receiverChanged(let receiver):
+            self.receiver = receiver
         case .missionProgress(let count):
             while completedObjectiveCount < count && !allObjectivesComplete {
                 if completeNextObjective() { addObjectiveScore() }

@@ -275,11 +275,12 @@ struct TitleScreenView: View {
         GeometryReader { proxy in
             ScrollView {
                 VStack(spacing: 26) {
-                    Spacer(minLength: proxy.size.height * 0.08)
+                    Spacer(minLength: 16)
+                    FieldReceiverMasthead().frame(maxWidth: 420)
 
                     VStack(spacing: 10) {
                         Text(LocalizedStringKey("app.title"))
-                            .font(.system(size: 42, weight: .black, design: .rounded))
+                            .font(.system(size: 38, weight: .bold, design: .serif))
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.center)
                             .lineLimit(2)
@@ -440,6 +441,14 @@ struct MainHubView: View {
                     }
 
                     hubActions
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("receiver.fieldGuide").font(.system(.headline, design: .serif))
+                        Text("receiver.guideBody").font(.subheadline)
+                            .foregroundStyle(FieldPalette.paper.opacity(0.8))
+                        ReceiverIllustration().frame(height: 100)
+                    }
+                    .nightfallPanel()
 
                     SectionHeader(titleKey: "title.daily", symbol: "moon.stars.fill")
                     DailyChallengeCard {

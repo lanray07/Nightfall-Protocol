@@ -1,3 +1,6 @@
+LE RÉCEPTEUR DE TERRAIN
+Le sondage révèle les entités lointaines pendant quatre secondes, mais elles examinent le point de transmission pendant sept secondes. Éloignez-vous du signal et passez au déplacement silencieux, plus lent, pour réduire la portée de détection. Les marques creuses indiquent une ancienne position entendue, sans suivi en direct. Le récepteur se recharge en quatorze secondes. Une bobine fracturée originale, des contours sismiques et des chambres de réception balisées donnent son identité à chaque expédition.
+
 Nightfall Protocol est un jeu d'horreur et de survie solo jouable hors ligne. Accomplissez des missions d'extraction, évitez les patrouilles ennemies et récupérez des artefacts oniriques avant que l'Effondrement de la Réalité mette fin à votre partie.
 
 EXTRACTION DANS LE CAUCHEMAR

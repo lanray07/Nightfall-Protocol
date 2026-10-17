@@ -81,3 +81,38 @@ enum NightmareCondition: String, CaseIterable {
     var pursuitThreshold: Double { self == .hunted ? 0.2 : 0.58 }
     var echoDelay: Int { self == .echoTrail ? 10 : 25 }
 }
+
+/// A sounding buys information, but leaves a transmission for entities to investigate.
+/// Time is advanced by the scene, so pausing never recharges or expires a transmission.
+struct FieldReceiver: Equatable {
+    private(set) var charge: Double = 1
+    private(set) var revealRemaining: Double = 0
+    private(set) var traceRemaining: Double = 0
+    private(set) var isSilent = false
+    private(set) var transmissions = 0
+
+    var canSound: Bool { charge >= 1 && !isSilent }
+    var movementScale: Double { isSilent ? 0.6 : 1 }
+    var detectionScale: Double { isSilent ? 0.55 : 1 }
+    func canBeHeard(distance: Double, detectionRadius: Double) -> Bool {
+        distance < detectionRadius * detectionScale
+    }
+
+    @discardableResult mutating func sound() -> Bool {
+        guard canSound else { return false }
+        charge = 0
+        revealRemaining = 4
+        traceRemaining = 7
+        transmissions += 1
+        return true
+    }
+
+    mutating func toggleSilent() { isSilent.toggle() }
+
+    mutating func tick(seconds: Double) {
+        guard seconds.isFinite, seconds > 0 else { return }
+        charge = min(1, charge + seconds / 14)
+        revealRemaining = max(0, revealRemaining - seconds)
+        traceRemaining = max(0, traceRemaining - seconds)
+    }
+}

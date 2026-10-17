@@ -1,3 +1,6 @@
+DER FELDEMPFÄNGER
+Die Ortung zeigt entfernte Wesen vier Sekunden lang, doch sie untersuchen den Sendepunkt sieben Sekunden lang. Verlasse das Signal und bewege dich langsamer und lautlos, um die Erkennungsreichweite zu verkleinern. Hohle Markierungen zeigen frühere gehörte Positionen, keine Live-Ortung. Der Empfänger lädt sich in vierzehn Sekunden auf. Eine eigens gestaltete gebrochene Spule, seismische Konturen und beschriftete Empfangskammern prägen jede Expedition.
+
 Nightfall Protocol ist ein offline spielbares Survival-Horrorspiel für Einzelspieler. Erfülle Extraktionsmissionen, meide feindliche Patrouillen und sichere Traumartefakte, bevor der Realitätskollaps deinen Lauf beendet.
 
 EXTRAKTION IM ALBTRAUM

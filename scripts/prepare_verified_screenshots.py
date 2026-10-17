@@ -11,8 +11,11 @@ from validate_screenshots import validate_screenshots
 CAPTURES = {
     "01-offline-survival-horror": "mission-start-real-gameplay",
     "02-nightmare-extraction-missions": "campaign-first-chapter-real-selection",
-    "03-escape-reality-collapse": "memory-decoded-real-gameplay",
+    "03-escape-reality-collapse": "receiver-sounding-real-gameplay",
+    "04-collect-dream-artifacts": "receiver-silent-real-gameplay",
     "05-extraction-rewards-and-ranks": "mission-extracted-real-result",
+    "06-operator-progression": "field-receiver-guide-real-hub",
+    "07-daily-nightmare-challenge": "field-receiver-title",
     "08-play-in-your-language": "legal-links-from-settings",
 }
 

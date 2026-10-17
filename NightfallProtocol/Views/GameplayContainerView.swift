@@ -26,38 +26,30 @@ struct GameplayContainerView: View {
     }
 
     var body: some View {
-        ZStack {
-            SpriteView(scene: scene, options: [.allowsTransparency])
-                .ignoresSafeArea()
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text(LocalizedStringKey("gameplay.map")))
-                .accessibilityIdentifier("mission-arena")
-
-            GeometryReader { geometry in
-                if geometry.size.width > geometry.size.height {
-                    HStack(alignment: .top, spacing: 12) {
-                        ScrollView { topHUD }
-                            .frame(width: geometry.size.width * 0.33)
-                        Spacer()
-                        VStack(spacing: 12) {
-                            Spacer()
-                            eventBanner
-                            controls
-                        }
-                        .frame(width: geometry.size.width * 0.28)
+        GeometryReader { geometry in
+            if geometry.size.width > geometry.size.height {
+                HStack(alignment: .top, spacing: 12) {
+                    ScrollView { topHUD }.frame(width: geometry.size.width * 0.27)
+                    missionMap
+                    ScrollView {
+                        VStack(spacing: 10) { controls; eventBanner }
                     }
-                    .padding(14)
-                } else {
-                    VStack(spacing: 12) {
-                        topHUD
-                        Spacer()
-                        eventBanner
-                        controls
+                    .frame(width: geometry.size.width * 0.27)
+                }
+            } else {
+                VStack(spacing: 10) {
+                    ScrollView { topHUD }
+                        .frame(height: min(215, geometry.size.height * 0.28))
+                    missionMap
+                    ScrollView {
+                        VStack(spacing: 10) { controls; eventBanner }
                     }
-                    .padding(14)
+                    .frame(height: min(245, geometry.size.height * 0.32))
                 }
             }
         }
+        .padding(12)
+        .background(FieldPalette.ink)
         .navigationBarBackButtonHidden()
         .onAppear {
             services.audio.setMusicEnabled(services.audio.musicEnabled)
@@ -66,7 +58,7 @@ struct GameplayContainerView: View {
                 premiumEnabled: services.store.hasPremiumAccess,
                 onEvent: { event in
                     Task { @MainActor in
-                        services.haptics.impact(.light)
+                        if case .receiverChanged = event {} else { services.haptics.impact(.light) }
                         viewModel.handle(event)
                     }
                 },
@@ -74,7 +66,6 @@ struct GameplayContainerView: View {
                     viewModel.collapseLevel
                 }
             )
-            viewModel.start()
         }
         .onDisappear {
             viewModel.stop()
@@ -84,7 +75,7 @@ struct GameplayContainerView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active && viewModel.result == nil {
                 scene.isPaused = false
-                viewModel.start()
+                if viewModel.hasDeparted { viewModel.start() }
                 services.audio.setMusicEnabled(services.audio.musicEnabled)
             } else {
                 scene.isPaused = true
@@ -124,6 +115,14 @@ struct GameplayContainerView: View {
         }
     }
 
+    private var missionMap: some View {
+        SpriteView(scene: scene, options: [.allowsTransparency])
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(LocalizedStringKey("gameplay.map")))
+            .accessibilityIdentifier("mission-arena")
+    }
+
     private var topHUD: some View {
         VStack(spacing: 12) {
             HStack(alignment: .top, spacing: 12) {
@@ -145,35 +144,12 @@ struct GameplayContainerView: View {
 
             CollapseMeter(progress: viewModel.collapseLevel)
             SanityBar(health: viewModel.health, sanity: viewModel.sanity)
-            runStatus
-
             Text(LocalizedStringKey(viewModel.instructionKey))
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.yellow)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibilityIdentifier("mission-instruction")
 
-            VStack(alignment: .leading, spacing: 8) {
-                Label {
-                    Text(LocalizedStringKey("title.objectives"))
-                } icon: {
-                    Image(systemName: "checklist")
-                }
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.white.opacity(0.82))
-
-                ForEach(viewModel.objectives) { objective in
-                    HStack(spacing: 8) {
-                        Image(systemName: objective.isCompleted ? "checkmark.circle.fill" : "circle")
-                            .foregroundStyle(objective.isCompleted ? .green : .white.opacity(0.5))
-
-                        Text(LocalizedStringKey(objective.titleKey))
-                            .font(.caption)
-                            .foregroundStyle(.white.opacity(objective.isCompleted ? 0.62 : 0.9))
-                            .lineLimit(2)
-                    }
-                }
-            }
         }
         .nightfallPanel()
     }
@@ -253,15 +229,19 @@ struct GameplayContainerView: View {
     }
 
     private var controls: some View {
-        VStack(spacing: 12) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(0 ..< 5, id: \.self) { index in
-                        InventorySlot(reward: viewModel.inventory.indices.contains(index) ? viewModel.inventory[index] : nil)
-                    }
-                }
-                .padding(.horizontal, 2)
+        VStack(spacing: 8) {
+            HStack {
+                LocalizedValueText("gameplay.score.format", viewModel.runScore)
+                Spacer()
+                Text("title.inventory")
+                LocalizedValueText("inventory.quantity.format", viewModel.inventory.reduce(0) { $0 + $1.quantity })
             }
+            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+            .foregroundStyle(FieldPalette.paper.opacity(0.8))
+            ReceiverConsole(receiver: viewModel.receiver, hasDeparted: viewModel.hasDeparted, onSound: {
+                services.audio.playInterfacePulse()
+                scene.soundReceiver()
+            }, onSilent: { scene.toggleSilentMovement() })
 
             HStack(spacing: 12) {
                 LocalizedButton(titleKey: "action.interact", systemImage: "hand.tap.fill", prominent: true) {
@@ -275,5 +255,49 @@ struct GameplayContainerView: View {
             }
         }
         .nightfallPanel()
+    }
+}
+
+private struct ReceiverConsole: View {
+    let receiver: FieldReceiver
+    let hasDeparted: Bool
+    let onSound: () -> Void
+    let onSilent: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("receiver.serial").tracking(2)
+                Spacer()
+                Text(LocalizedStringKey(receiver.traceRemaining > 0 ? "receiver.traced" : "receiver.clear"))
+                    .foregroundStyle(receiver.traceRemaining > 0 ? Color.orange : FieldPalette.signal)
+                    .accessibilityIdentifier("receiver-status")
+            }
+            .font(.system(size: 10, weight: .bold, design: .monospaced))
+            ProgressView(value: receiver.charge)
+                .tint(FieldPalette.signal)
+                .accessibilityLabel(Text("receiver.charge"))
+            HStack(spacing: 12) {
+                Button(action: onSound) {
+                    Label("receiver.sound", systemImage: "dot.radiowaves.left.and.right")
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                }
+                .disabled(!receiver.canSound)
+                .accessibilityIdentifier("receiver-sound")
+                Button(action: onSilent) {
+                    Label(LocalizedStringKey(receiver.isSilent ? "receiver.silentOn" : "receiver.silentOff"), systemImage: "speaker.slash")
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                }
+                .accessibilityIdentifier("receiver-silent")
+            }
+            .font(.system(size: 12, weight: .bold, design: .monospaced))
+            .buttonStyle(.bordered)
+            .tint(FieldPalette.signal)
+            Text(LocalizedStringKey(!hasDeparted ? "receiver.departureHint" : (receiver.isSilent ? "receiver.silentHint" : "receiver.hint")))
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundStyle(.white.opacity(0.75))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .foregroundStyle(FieldPalette.paper)
     }
 }
