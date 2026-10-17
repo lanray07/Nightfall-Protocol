@@ -228,7 +228,8 @@ final class NightfallGameScene: SKScene {
             return
         }
         guard extractionZone.position.distance(to: player.position) < 58 else {
-            onEvent?(.missionInstruction("mission.play.findExit"))
+            // Keep the active task visible when extraction is attempted too early.
+            onEvent?(.missionInstruction(rules.ready ? "mission.play.findExit" : rules.instructionKey))
             return
         }
         onEvent?(.extractionRequested)
