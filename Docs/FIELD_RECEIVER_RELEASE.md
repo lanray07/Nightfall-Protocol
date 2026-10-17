@@ -25,3 +25,9 @@ Title → Continue → Signal Campaign → first chapter. Turn Silent on: Soundi
 The first gameplay run on the earlier build-187 source failed after the operator took damage while initial controls were being inspected and during stationary test waits. The shipped revision starts the clock and entities only after the first movement or sounding; the real UI route uses silent movement and travel-time waits. No test-only invulnerability, teleporting, forced task completion or forced extraction was added. Premature extraction preserves the active task instruction.
 
 The orientation request is exercised during preparation. Portrait captures alone do not establish a landscape UI pass.
+
+## Resubmission outcome
+
+On October 17, 2026 at 08:02 London time, App Store Connect confirmed **Waiting for Review** for iOS 1.0 (190), Premium Pass Monthly and the Nightfall Premium Protocol subscription group, in submission `a7e91f53-164f-489b-926a-863a9129272f`. The existing review correspondence contains the new nine-answer reply, `Nightfall-Field-Receiver-190.pdf`, and two genuine build-190 gameplay captures (Messages 4).
+
+[Metadata run 39011928225](https://github.com/lanray07/Nightfall-Protocol/actions/runs/39011928225) successfully uploaded the localized descriptions and all sixteen unmodified iPhone/iPad gallery captures from the final passing evidence run. [Review video run 39011777550](https://github.com/lanray07/Nightfall-Protocol/actions/runs/39011777550) confirmed COMPLETE delivery of the legal-link recording through the App Store Connect API; the version page's attachment chooser did not display a filename. Submission confirmation was verified directly in the App Store Connect UI. Waiting for Review is not approval.
