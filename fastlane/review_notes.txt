@@ -18,3 +18,5 @@ Terms: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy: https://github.com/lanray07/Nightfall-Protocol/blob/main/PRIVACY.md
 
 The detailed nine-question response and previous evidence are in this submission's correspondence. New captures and results accompany the replacement build. Developer simulator/local StoreKit checks are distinguished from external beta feedback; no external beta feedback is claimed.
+
+PRODUCT PAGE UPDATE: This resubmission keeps build 190 and adds original receiver header/search artwork. The prior submission a7e91f53-164f-489b-926a-863a9129272f contains the full nine-answer reply, report and genuine gameplay evidence posted October 17 at 08:02 London time. The report is also attached here. The app, subscription and group are submitted together.
