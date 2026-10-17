@@ -115,6 +115,9 @@ final class NightfallGameScene: SKScene {
         }
         targetPosition = targetPosition.map(remap)
         playerTrail = playerTrail.map(remap)
+        for node in children where node.name == "receiver-observation" || node.name == "receiver-wave" || node.name == "receiver-footstep" {
+            node.position = remap(node.position)
+        }
         transmissionPoint = transmissionPoint.map(remap)
         if let transmissionPoint { traceMarker?.position = transmissionPoint }
         staticOverlay.path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
@@ -149,6 +152,7 @@ final class NightfallGameScene: SKScene {
         addChild(marker)
         traceMarker = marker
         let wave = SKShapeNode(circleOfRadius: 20)
+        wave.name = "receiver-wave"
         wave.position = player.position
         wave.strokeColor = .systemMint
         wave.lineWidth = 2
@@ -158,6 +162,7 @@ final class NightfallGameScene: SKScene {
         // Last heard positions remain as hollow marks, not live enemy tracking.
         for agent in enemyAgents {
             let echo = SKShapeNode(circleOfRadius: 21)
+            echo.name = "receiver-observation"
             echo.position = agent.node.position
             echo.strokeColor = .systemOrange.withAlphaComponent(0.6)
             echo.lineWidth = 1
@@ -270,6 +275,7 @@ final class NightfallGameScene: SKScene {
            let targetPosition, targetPosition.distance(to: player.position) > 5 {
             lastTraceTime = currentTime
             let trace = SKShapeNode(circleOfRadius: 1.6)
+            trace.name = "receiver-footstep"
             trace.position = player.position
             trace.fillColor = .systemMint.withAlphaComponent(0.5)
             trace.strokeColor = .clear

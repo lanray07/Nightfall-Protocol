@@ -231,6 +231,14 @@ struct GameplayContainerView: View {
 
     private var controls: some View {
         VStack(spacing: 8) {
+            HStack {
+                LocalizedValueText("gameplay.score.format", viewModel.runScore)
+                Spacer()
+                Text("title.inventory")
+                LocalizedValueText("inventory.quantity.format", viewModel.inventory.reduce(0) { $0 + $1.quantity })
+            }
+            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+            .foregroundStyle(FieldPalette.paper.opacity(0.8))
             ReceiverConsole(receiver: viewModel.receiver, onSound: {
                 services.audio.playInterfacePulse()
                 scene.soundReceiver()
