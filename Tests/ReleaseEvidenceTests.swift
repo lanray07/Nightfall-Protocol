@@ -59,9 +59,11 @@ final class ReleaseEvidenceTests: XCTestCase {
         app.buttons["Interact"].tap()
         let completed = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "Mission complete")).firstMatch
         XCTAssertTrue(completed.waitForExistence(timeout: 15))
+        silent.tap()
         XCTAssertTrue(sound.isEnabled, "Receiver recharges while the operator completes the mission")
         XCTAssertTrue(app.staticTexts["receiver-status"].label.contains("CLEAR"))
         capture("memory-decoded-real-gameplay", app: app)
+        silent.tap()
         move(0.86, 0.82)
         app.buttons["Extract"].tap()
         XCTAssertTrue(app.buttons["Return to Hub"].waitForExistence(timeout: 15))
