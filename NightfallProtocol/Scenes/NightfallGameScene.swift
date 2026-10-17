@@ -34,6 +34,7 @@ final class NightfallGameScene: SKScene {
     private var traceMarker: SKNode?
     private var lastReceiverReadout = ""
     private var lastTraceTime: TimeInterval = 0
+    private var hasDeparted = false
 
     private var arena: CGRect {
         arena(for: size)
@@ -132,6 +133,7 @@ final class NightfallGameScene: SKScene {
 
     func soundReceiver() {
         guard !runFinished, !isPaused, receiver.sound() else { return }
+        beginExpedition()
         transmissionPoint = player.position
         traceMarker?.removeFromParent()
         let marker = SKNode()
@@ -177,6 +179,12 @@ final class NightfallGameScene: SKScene {
         guard !runFinished else { return }
         receiver.toggleSilent()
         publishReceiver()
+    }
+
+    private func beginExpedition() {
+        guard !hasDeparted else { return }
+        hasDeparted = true
+        onEvent?(.expeditionStarted)
     }
 
     private func publishReceiver() {
@@ -265,7 +273,7 @@ final class NightfallGameScene: SKScene {
         lastUpdateTime = currentTime
 
         movePlayer(deltaTime: deltaTime)
-        receiver.tick(seconds: deltaTime)
+        if hasDeparted { receiver.tick(seconds: deltaTime) }
         publishReceiver()
         if receiver.traceRemaining == 0 { traceMarker?.removeFromParent(); traceMarker = nil }
         for node in artifactNodes + enemyAgents.map(\.node) {
@@ -294,8 +302,8 @@ final class NightfallGameScene: SKScene {
             addChild(mote)
             mote.run(.sequence([.group([.fadeOut(withDuration: 0.55), .scale(to: 0.1, duration: 0.55)]), .removeFromParent()]))
         }
-        moveEnemies(deltaTime: deltaTime, currentTime: currentTime)
-        updateMission(deltaTime: deltaTime)
+        if hasDeparted { moveEnemies(deltaTime: deltaTime, currentTime: currentTime) }
+        updateMission(deltaTime: hasDeparted ? deltaTime : 0)
         updateCollapseVisuals(currentTime: currentTime)
         trackPlayerPath()
     }
@@ -319,6 +327,8 @@ final class NightfallGameScene: SKScene {
         traceMarker = nil
         lastReceiverReadout = ""
         lastTraceTime = 0
+        hasDeparted = false
+        targetPosition = nil
         exitRelocationThreshold = 0.35
         backgroundColor = SKColor(red: 0.015, green: 0.018, blue: 0.03, alpha: 1)
 
@@ -678,7 +688,10 @@ final class NightfallGameScene: SKScene {
 
     private func updateTarget(from touches: Set<UITouch>) {
         guard let touch = touches.first else { return }
-        targetPosition = touch.location(in: self)
+        beginExpedition()
+        let location = touch.location(in: self)
+        targetPosition = CGPoint(x: max(arena.minX, min(arena.maxX, location.x)),
+                                 y: max(arena.minY, min(arena.maxY, location.y)))
     }
 
     private func movePlayer(deltaTime: TimeInterval) {

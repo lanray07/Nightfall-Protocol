@@ -5446,6 +5446,16 @@
           }
         }
       }
+    },
+    "receiver.departureHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your first step or Sounding starts the clock. Prepare your route before departing."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

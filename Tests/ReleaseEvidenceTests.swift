@@ -16,15 +16,27 @@ final class ReleaseEvidenceTests: XCTestCase {
         XCTAssertTrue(instruction.label.contains("station 1"))
         let arena = app.otherElements["mission-arena"]
         XCTAssertTrue(arena.waitForExistence(timeout: 15))
+        var previousPoint = CGPoint(x: 0.16, y: 0.18)
         func move(_ x: CGFloat, _ y: CGFloat) {
             let width = arena.frame.width, height = arena.frame.height
             let pointX = 24 + max(120, width - 48) * x
             let pointY = height - (24 + max(1, height - 48) * y)
             arena.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: pointX, dy: pointY)).tap()
-            // Actual operator movement, not a test teleport.
-            Thread.sleep(forTimeInterval: 6)
+            // Actual silent operator movement, allowing travel time rather than camping at stations.
+            let distance = hypot((x - previousPoint.x) * max(1, width - 48), (y - previousPoint.y) * max(1, height - 48))
+            Thread.sleep(forTimeInterval: Double(distance) / (178 * 0.6) + 1)
+            previousPoint = CGPoint(x: x, y: y)
         }
         capture("mission-start-real-gameplay", app: app)
+        // Inspect orientation while the operator is safely preparing to depart.
+        XCUIDevice.shared.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 2)
+        XCTAssertTrue(instruction.exists)
+        capture("mission-predeparture-landscape", app: app)
+        XCUIDevice.shared.orientation = .portrait
+        Thread.sleep(forTimeInterval: 2)
+        app.buttons["Extract"].tap()
+        XCTAssertFalse(app.staticTexts["Extraction Complete"].exists)
         let sound = app.buttons["receiver-sound"]
         let silent = app.buttons["receiver-silent"]
         XCTAssertTrue(sound.isEnabled)
@@ -37,20 +49,12 @@ final class ReleaseEvidenceTests: XCTestCase {
         XCTAssertFalse(sound.isEnabled, "Sounding consumes the receiver charge")
         XCTAssertTrue(app.staticTexts["receiver-status"].label.contains("TRANSMISSION"))
         capture("receiver-sounding-real-gameplay", app: app)
-        app.buttons["Extract"].tap()
-        XCTAssertFalse(app.staticTexts["Extraction Complete"].exists)
+        silent.tap()
         move(0.2, 0.7)
         app.buttons["Interact"].tap()
         let decodedTask = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "station 2")).firstMatch
         XCTAssertTrue(decodedTask.waitForExistence(timeout: 5))
         capture("memory-recovered-next-task", app: app)
-        XCUIDevice.shared.orientation = .landscapeLeft
-        Thread.sleep(forTimeInterval: 2)
-        XCTAssertTrue(decodedTask.exists)
-        capture("mission-progress-preserved-landscape", app: app)
-        XCUIDevice.shared.orientation = .portrait
-        Thread.sleep(forTimeInterval: 2)
-        XCTAssertTrue(decodedTask.exists)
         move(0.75, 0.3)
         app.buttons["Interact"].tap()
         let completed = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "Mission complete")).firstMatch

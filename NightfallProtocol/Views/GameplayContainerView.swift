@@ -66,7 +66,6 @@ struct GameplayContainerView: View {
                     viewModel.collapseLevel
                 }
             )
-            viewModel.start()
         }
         .onDisappear {
             viewModel.stop()
@@ -76,7 +75,7 @@ struct GameplayContainerView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active && viewModel.result == nil {
                 scene.isPaused = false
-                viewModel.start()
+                if viewModel.hasDeparted { viewModel.start() }
                 services.audio.setMusicEnabled(services.audio.musicEnabled)
             } else {
                 scene.isPaused = true
@@ -239,7 +238,7 @@ struct GameplayContainerView: View {
             }
             .font(.system(size: 10, weight: .semibold, design: .monospaced))
             .foregroundStyle(FieldPalette.paper.opacity(0.8))
-            ReceiverConsole(receiver: viewModel.receiver, onSound: {
+            ReceiverConsole(receiver: viewModel.receiver, hasDeparted: viewModel.hasDeparted, onSound: {
                 services.audio.playInterfacePulse()
                 scene.soundReceiver()
             }, onSilent: { scene.toggleSilentMovement() })
@@ -261,6 +260,7 @@ struct GameplayContainerView: View {
 
 private struct ReceiverConsole: View {
     let receiver: FieldReceiver
+    let hasDeparted: Bool
     let onSound: () -> Void
     let onSilent: () -> Void
 
@@ -293,7 +293,7 @@ private struct ReceiverConsole: View {
             .font(.system(size: 12, weight: .bold, design: .monospaced))
             .buttonStyle(.bordered)
             .tint(FieldPalette.signal)
-            Text(LocalizedStringKey(receiver.isSilent ? "receiver.silentHint" : "receiver.hint"))
+            Text(LocalizedStringKey(!hasDeparted ? "receiver.departureHint" : (receiver.isSilent ? "receiver.silentHint" : "receiver.hint")))
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundStyle(.white.opacity(0.75))
                 .fixedSize(horizontal: false, vertical: true)
