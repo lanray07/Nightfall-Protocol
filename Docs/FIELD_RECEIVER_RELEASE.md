@@ -16,8 +16,12 @@ Original code-drawn fractured-coil artwork, warm paper/brass/ink materials, a se
 
 Local pure Swift checks passed for charge limits, blocked repeated transmissions, silent transmission blocking, detection radius, reveal expiry before pursuit expiry, recharge and invalid elapsed time, plus all six mission-rule paths. All twelve Python tooling tests passed. Native simulator compilation passed at `10af301`. Commit `6779b39` adds only the iOS app-icon images and their renderer; gameplay/UI source are unchanged.
 
-Native iPhone/iPad touch, StoreKit and legal-link checks are in progress. Record their outcomes before claiming this revision verified or submitted. Store captures must be genuine output from this revision. Simulator tests are not external beta feedback or physical-device sandbox testing.
+The final [release evidence run 39010985203](https://github.com/lanray07/Nightfall-Protocol/actions/runs/39010985203) passed all three UI checks and all three app-model checks on both iPhone and iPad. It uses test commit `937a7ca`; its shipping sources are identical to `f15e603`, signed and uploaded as build 190 in [39010919448](https://github.com/lanray07/Nightfall-Protocol/actions/runs/39010919448). The later commit changes only two test actions to leave silent mode before checking recharged Sounding. [Audit 39011240122](https://github.com/lanray07/Nightfall-Protocol/actions/runs/39011240122) confirmed build 190 was VALID. Store captures must be genuine output from this revision. Simulator tests are not external beta feedback or physical-device sandbox testing.
 
 ## Reviewer path
 
 Title → Continue → Signal Campaign → first chapter. Turn Silent on: Sounding is disabled and movement slows. Turn it off and tap Sounding: charge is consumed, entities are revealed and the console says TRANSMISSION TRACED. Move away from the TX mark while entities investigate it. Reveal ends at four seconds, pursuit at seven and charge returns at fourteen. Recover at station 1, decode at station 2 and return to extraction to complete the first campaign mission.
+
+The first gameplay run on the earlier build-187 source failed after the operator took damage while initial controls were being inspected and during stationary test waits. The shipped revision starts the clock and entities only after the first movement or sounding; the real UI route uses silent movement and travel-time waits. No test-only invulnerability, teleporting, forced task completion or forced extraction was added. Premature extraction preserves the active task instruction.
+
+The orientation request is exercised during preparation. Portrait captures alone do not establish a landscape UI pass.

@@ -9,7 +9,9 @@ import zlib
 
 from localize import ROOT, digest, read_json
 
-PREVIEW_ONLY_SCENES = {"06-operator-progression"}
+# The hub no longer exposes the removed Co-op/Endless placeholders. Both native
+# device checks verify this before the evidence packager accepts its captures.
+PREVIEW_ONLY_SCENES: set[str] = set()
 
 
 def png_size(path):

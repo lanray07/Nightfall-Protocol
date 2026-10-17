@@ -1,5 +1,7 @@
 Nightfall Protocol is an offline single-player horror extraction game. No account or sign-in is required. This is the Field Receiver revision after rejection of build 175, with new mechanics and presentation in the binary.
 
+The operator can prepare safely: the mission clock and entities start with the first map movement or Sounding, rather than during instruction reading.
+
 NEW GAMEPLAY: distant entities and optional loot are hidden beyond the local radius. Sounding reveals them for four seconds. Entities investigate the transmission point for seven seconds, including after the useful reveal ends. The TX mark remains at the emitted location; move away to divert pursuit. Hollow marks remember heard positions and fade, without live tracking. Charge returns in fourteen active seconds. Silent movement blocks transmission, reduces speed to 60% and the detection radius to 55%; close entities can still detect you. Pausing does not advance these timers. Receiver access is part of free core gameplay.
 
 NEW PRESENTATION: original fractured-coil receiver artwork and matching icon, warm instrument materials, seismic contour playfields, labeled receiving chambers/reels, directional operator art and entity silhouettes. The receiver console exposes charge, transmission state and silence. The title, hub field guide and onboarding explain the new tradeoff.

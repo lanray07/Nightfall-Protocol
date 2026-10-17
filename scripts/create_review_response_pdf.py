@@ -1,6 +1,7 @@
 """Render the factual review response as a printable App Review attachment."""
 from pathlib import Path
 from html import escape
+import argparse
 import re
 
 from reportlab.lib import colors
@@ -12,12 +13,18 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 
 ROOT = Path(__file__).resolve().parents[1]
-destination = ROOT / "output/pdf/Nightfall-Protocol-App-Review-Response.pdf"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--source", type=Path, default=ROOT / "APP_REVIEW_RESPONSE.md")
+parser.add_argument("--output", type=Path, default=ROOT / "output/pdf/Nightfall-Protocol-App-Review-Response.pdf")
+parser.add_argument("--submission", default="da1d6268-85c6-4f57-ad4c-ad38726eab88")
+parser.add_argument("--subtitle", default="Response to App Review - iOS version 1.0")
+args = parser.parse_args()
+destination = args.output
 destination.parent.mkdir(parents=True, exist_ok=True)
 font_root = Path("C:/Windows/Fonts")
 pdfmetrics.registerFont(TTFont("ReviewText", str(font_root / "segoeui.ttf")))
 pdfmetrics.registerFont(TTFont("ReviewBold", str(font_root / "segoeuib.ttf")))
-text = (ROOT / "APP_REVIEW_RESPONSE.md").read_text(encoding="utf-8")
+text = args.source.read_text(encoding="utf-8")
 text = text[text.index("Hello App Review Team,"):]
 for dash in ("\u2011", "\u2013", "\u2014"):
     text = text.replace(dash, "-")
@@ -27,12 +34,19 @@ heading = ParagraphStyle("heading", parent=body, fontName="ReviewBold", fontSize
                          leading=15, spaceBefore=12, spaceAfter=6, keepWithNext=True)
 title = ParagraphStyle("title", parent=heading, fontSize=20, leading=26, spaceBefore=0)
 story = [Paragraph("Nightfall Protocol", title),
-         Paragraph("Response to App Review - iOS version 1.0", heading),
-         Paragraph("Submission da1d6268-85c6-4f57-ad4c-ad38726eab88", body), Spacer(1, 10)]
+         Paragraph(escape(args.subtitle), heading),
+         Paragraph("Submission " + escape(args.submission), body), Spacer(1, 10)]
+question_titles = ["App purpose", "Intended users", "Distinct experience", "Testing and feedback",
+                   "Standalone scope", "Consolidation", "Shared account components",
+                   "Third-party components", "Content provider"]
 for paragraph in re.split(r"\n\s*\n", text):
     paragraph = paragraph.strip()
     if not paragraph:
         continue
+    if re.match(r"^[1-9]\. ", paragraph):
+        number = int(paragraph[0])
+        story.append(Paragraph(f"{number}. {question_titles[number - 1]}", heading))
+        paragraph = paragraph[3:]
     style = heading if paragraph.startswith("## ") else body
     paragraph = paragraph.removeprefix("## ")
     story.append(Paragraph(escape(paragraph).replace("\n", "<br/>"), style))
