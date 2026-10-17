@@ -311,7 +311,7 @@ struct SanityBar: View {
     let sanity: Double
 
     var body: some View {
-        VStack(spacing: 8) {
+        HStack(spacing: 14) {
             bar(key: "gameplay.health", value: health, tint: .red, icon: "cross.case.fill")
             bar(key: "gameplay.sanity", value: sanity, tint: .purple, icon: "brain.head.profile")
         }

@@ -40,10 +40,7 @@ final class NightfallGameScene: SKScene {
     }
 
     private func arena(for dimensions: CGSize) -> CGRect {
-        if dimensions.width > dimensions.height {
-            return CGRect(x: dimensions.width * 0.36, y: 45, width: dimensions.width * 0.34, height: max(120, dimensions.height - 90))
-        }
-        return CGRect(x: 24, y: 265, width: max(120, dimensions.width - 48), height: max(160, dimensions.height - 490))
+        CGRect(x: 24, y: 24, width: max(1, dimensions.width - 48), height: max(1, dimensions.height - 48))
     }
 
     private func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {

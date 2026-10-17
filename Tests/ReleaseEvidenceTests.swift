@@ -19,7 +19,7 @@ final class ReleaseEvidenceTests: XCTestCase {
         func move(_ x: CGFloat, _ y: CGFloat) {
             let width = arena.frame.width, height = arena.frame.height
             let pointX = 24 + max(120, width - 48) * x
-            let pointY = height - (265 + max(160, height - 490) * y)
+            let pointY = height - (24 + max(1, height - 48) * y)
             arena.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: pointX, dy: pointY)).tap()
             // Actual operator movement, not a test teleport.
             Thread.sleep(forTimeInterval: 6)
