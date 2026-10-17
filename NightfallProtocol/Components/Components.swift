@@ -1,22 +1,104 @@
 import SwiftUI
 
+enum FieldPalette {
+    static let ink = Color(red: 0.055, green: 0.075, blue: 0.073)
+    static let paper = Color(red: 0.91, green: 0.86, blue: 0.72)
+    static let signal = Color(red: 0.77, green: 0.88, blue: 0.57)
+    static let brass = Color(red: 0.76, green: 0.53, blue: 0.28)
+}
+
+/// Original vector artwork: the fractured receiver coil is the game's recurring mark.
+struct ReceiverIllustration: View {
+    var body: some View {
+        Canvas { context, size in
+            let center = CGPoint(x: size.width * 0.48, y: size.height * 0.49)
+            let radius = min(size.width * 0.37, size.height * 0.43)
+            for ring in 0..<7 {
+                var path = Path()
+                let r = radius * (0.3 + Double(ring) * 0.115)
+                path.addArc(center: center, radius: r, startAngle: .degrees(-56 + Double(ring) * 4),
+                            endAngle: .degrees(258 - Double(ring) * 3), clockwise: false)
+                context.stroke(path, with: .color(FieldPalette.paper.opacity(ring.isMultiple(of: 2) ? 0.8 : 0.25)), lineWidth: ring == 6 ? 3 : 1)
+            }
+            for tick in 0..<48 {
+                let angle = Double(tick) / 48 * .pi * 2
+                let r = radius * (tick.isMultiple(of: 4) ? 1.03 : 1.08)
+                var path = Path()
+                path.move(to: CGPoint(x: center.x + cos(angle) * r, y: center.y + sin(angle) * r))
+                path.addLine(to: CGPoint(x: center.x + cos(angle) * radius * 1.14, y: center.y + sin(angle) * radius * 1.14))
+                context.stroke(path, with: .color(FieldPalette.brass), lineWidth: 1)
+            }
+            var wave = Path()
+            for step in 0...120 {
+                let x = Double(step) / 120
+                let envelope = exp(-pow((x - 0.55) * 5, 2))
+                let point = CGPoint(x: size.width * (0.07 + x * 0.86),
+                                    y: center.y + sin(x * 43) * envelope * radius * 0.72)
+                if step == 0 { wave.move(to: point) } else { wave.addLine(to: point) }
+            }
+            context.stroke(wave, with: .color(FieldPalette.signal), lineWidth: 2)
+            var needle = Path()
+            needle.move(to: center)
+            needle.addLine(to: CGPoint(x: center.x + radius * 0.73, y: center.y - radius * 0.52))
+            context.stroke(needle, with: .color(.orange), lineWidth: 2)
+            context.fill(Path(ellipseIn: CGRect(x: center.x - 4, y: center.y - 4, width: 8, height: 8)), with: .color(FieldPalette.paper))
+        }
+        .accessibilityHidden(true)
+    }
+}
+
+struct FieldReceiverMasthead: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("receiver.department").tracking(2)
+                Spacer()
+                Text("09 / NF").foregroundStyle(FieldPalette.brass)
+            }
+            .font(.system(size: 10, weight: .bold, design: .monospaced))
+            Rectangle().fill(FieldPalette.paper.opacity(0.3)).frame(height: 1)
+            ReceiverIllustration().frame(height: 190)
+            HStack {
+                Text("receiver.motto")
+                Spacer()
+                Text("receiver.offline")
+            }
+            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+        }
+        .foregroundStyle(FieldPalette.paper)
+        .padding(18)
+        .background(FieldPalette.ink)
+        .overlay(Rectangle().stroke(FieldPalette.brass.opacity(0.55), lineWidth: 1))
+    }
+}
+
 struct NightfallBackground: View {
     var body: some View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.015, green: 0.018, blue: 0.028),
-                    Color(red: 0.035, green: 0.05, blue: 0.09),
-                    Color(red: 0.08, green: 0.015, blue: 0.025)
+                    FieldPalette.ink,
+                    Color(red: 0.09, green: 0.12, blue: 0.10),
+                    Color(red: 0.035, green: 0.045, blue: 0.043)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
-            GridPattern()
-                .stroke(Color.cyan.opacity(0.06), lineWidth: 1)
-                .ignoresSafeArea()
+            Canvas { context, size in
+                for contour in 0..<20 {
+                    var path = Path()
+                    for step in 0...60 {
+                        let x = Double(step) / 60 * size.width
+                        let y = Double(contour) * 52 + sin(x / 115 + Double(contour) * 0.4) * 35
+                        if step == 0 { path.move(to: CGPoint(x: x, y: y)) }
+                        else { path.addLine(to: CGPoint(x: x, y: y)) }
+                    }
+                    context.stroke(path, with: .color(FieldPalette.paper.opacity(0.035)), lineWidth: 1)
+                }
+            }
+            .ignoresSafeArea()
         }
     }
 }
@@ -70,16 +152,16 @@ private struct NightfallButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.headline)
-            .foregroundStyle(prominent ? Color.white : Color.cyan.opacity(0.95))
+            .font(.system(.subheadline, design: .monospaced).weight(.bold))
+            .foregroundStyle(prominent ? FieldPalette.ink : FieldPalette.paper)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(prominent ? Color.red.opacity(0.72) : Color.black.opacity(0.36))
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(prominent ? FieldPalette.paper : FieldPalette.ink)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .stroke(prominent ? Color.red.opacity(0.95) : Color.cyan.opacity(0.32), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 2, style: .continuous)
+                            .stroke(FieldPalette.brass.opacity(0.7), lineWidth: 1)
                     }
             }
             .opacity(configuration.isPressed ? 0.72 : 1)

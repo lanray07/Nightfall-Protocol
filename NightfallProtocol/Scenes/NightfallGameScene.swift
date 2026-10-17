@@ -29,6 +29,11 @@ final class NightfallGameScene: SKScene {
     private var channelRing: SKShapeNode?
     private var mapDecor: [SKNode] = []
     private var worldSize: CGSize?
+    private var receiver = FieldReceiver()
+    private var transmissionPoint: CGPoint?
+    private var traceMarker: SKNode?
+    private var lastReceiverReadout = ""
+    private var lastTraceTime: TimeInterval = 0
 
     private var arena: CGRect {
         arena(for: size)
@@ -38,7 +43,7 @@ final class NightfallGameScene: SKScene {
         if dimensions.width > dimensions.height {
             return CGRect(x: dimensions.width * 0.36, y: 45, width: dimensions.width * 0.34, height: max(120, dimensions.height - 90))
         }
-        return CGRect(x: 24, y: 210, width: max(120, dimensions.width - 48), height: max(160, dimensions.height - 550))
+        return CGRect(x: 24, y: 265, width: max(120, dimensions.width - 48), height: max(160, dimensions.height - 490))
     }
 
     private func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
@@ -113,6 +118,8 @@ final class NightfallGameScene: SKScene {
         }
         targetPosition = targetPosition.map(remap)
         playerTrail = playerTrail.map(remap)
+        transmissionPoint = transmissionPoint.map(remap)
+        if let transmissionPoint { traceMarker?.position = transmissionPoint }
         staticOverlay.path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
         rebuildMapDecor()
         self.worldSize = size
@@ -121,6 +128,60 @@ final class NightfallGameScene: SKScene {
     func setPremiumEnabled(_ enabled: Bool) {
         premiumEnabled = enabled
         player.fillColor = enabled ? Self.monthlyCosmeticColor : SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
+    }
+
+    func soundReceiver() {
+        guard !runFinished, !isPaused, receiver.sound() else { return }
+        transmissionPoint = player.position
+        traceMarker?.removeFromParent()
+        let marker = SKNode()
+        marker.position = player.position
+        marker.zPosition = 7
+        for radius in [18, 26] {
+            let ring = SKShapeNode(circleOfRadius: CGFloat(radius))
+            ring.strokeColor = .systemOrange
+            ring.lineWidth = 1
+            marker.addChild(ring)
+        }
+        let label = SKLabelNode(fontNamed: "Menlo-Bold")
+        label.text = "TX / \(receiver.transmissions)"
+        label.fontSize = 10
+        label.fontColor = .systemOrange
+        label.position.y = -38
+        marker.addChild(label)
+        addChild(marker)
+        traceMarker = marker
+        let wave = SKShapeNode(circleOfRadius: 20)
+        wave.position = player.position
+        wave.strokeColor = .systemMint
+        wave.lineWidth = 2
+        wave.zPosition = 8
+        addChild(wave)
+        wave.run(.sequence([.group([.scale(to: 22, duration: 1.8), .fadeOut(withDuration: 1.8)]), .removeFromParent()]))
+        // Last heard positions remain as hollow marks, not live enemy tracking.
+        for agent in enemyAgents {
+            let echo = SKShapeNode(circleOfRadius: 21)
+            echo.position = agent.node.position
+            echo.strokeColor = .systemOrange.withAlphaComponent(0.6)
+            echo.lineWidth = 1
+            echo.zPosition = 0.7
+            addChild(echo)
+            echo.run(.sequence([.wait(forDuration: 4), .fadeOut(withDuration: 6), .removeFromParent()]))
+        }
+        publishReceiver()
+    }
+
+    func toggleSilentMovement() {
+        guard !runFinished else { return }
+        receiver.toggleSilent()
+        publishReceiver()
+    }
+
+    private func publishReceiver() {
+        let signature = "\(Int(receiver.charge * 100)) / \(Int(ceil(receiver.traceRemaining))) / \(receiver.isSilent) / \(receiver.revealRemaining > 0)"
+        guard signature != lastReceiverReadout else { return }
+        lastReceiverReadout = signature
+        onEvent?(.receiverChanged(receiver))
     }
 
     func performInteraction() {
@@ -202,6 +263,22 @@ final class NightfallGameScene: SKScene {
         lastUpdateTime = currentTime
 
         movePlayer(deltaTime: deltaTime)
+        receiver.tick(seconds: deltaTime)
+        publishReceiver()
+        if receiver.traceRemaining == 0 { traceMarker?.removeFromParent(); traceMarker = nil }
+        for node in artifactNodes + enemyAgents.map(\.node) {
+            node.alpha = receiver.revealRemaining > 0 || node.position.distance(to: player.position) < 105 ? 1 : 0
+        }
+        if currentTime - lastTraceTime > 0.3,
+           let targetPosition, targetPosition.distance(to: player.position) > 5 {
+            lastTraceTime = currentTime
+            let trace = SKShapeNode(circleOfRadius: 1.6)
+            trace.position = player.position
+            trace.fillColor = .systemMint.withAlphaComponent(0.5)
+            trace.strokeColor = .clear
+            addChild(trace)
+            trace.run(.sequence([.wait(forDuration: 8), .fadeOut(withDuration: 4), .removeFromParent()]))
+        }
         if premiumEnabled, currentTime - lastCosmeticTrailTime > 0.09,
            let targetPosition, targetPosition.distance(to: player.position) > 4 {
             lastCosmeticTrailTime = currentTime
@@ -234,6 +311,11 @@ final class NightfallGameScene: SKScene {
         playerTrail = []
         lastUpdateTime = 0
         lastCosmeticTrailTime = 0
+        receiver = FieldReceiver()
+        transmissionPoint = nil
+        traceMarker = nil
+        lastReceiverReadout = ""
+        lastTraceTime = 0
         exitRelocationThreshold = 0.35
         backgroundColor = SKColor(red: 0.015, green: 0.018, blue: 0.03, alpha: 1)
 
@@ -247,38 +329,31 @@ final class NightfallGameScene: SKScene {
         buildOverlay()
         worldSize = size
         publishMissionProgress()
+        publishReceiver()
     }
 
     private func drawGrid() {
-        let grid = SKNode()
-        grid.alpha = 0.18
-
-        let step: CGFloat = 56
-        var x: CGFloat = 0
-        while x <= size.width {
+        let plate = SKShapeNode(rect: arena.insetBy(dx: -7, dy: -7), cornerRadius: 2)
+        plate.fillColor = SKColor(red: 0.07, green: 0.10, blue: 0.09, alpha: 1)
+        plate.strokeColor = SKColor(red: 0.63, green: 0.53, blue: 0.36, alpha: 0.8)
+        plate.zPosition = -3
+        addChild(plate)
+        // Seismic contours, not a universal grid: each mission has a different phase.
+        let phase = CGFloat(abs((mission?.seed ?? 0) % 9))
+        for index in 0..<17 {
             let path = CGMutablePath()
-            path.move(to: CGPoint(x: x, y: 0))
-            path.addLine(to: CGPoint(x: x, y: size.height))
-            let line = SKShapeNode(path: path)
-            line.strokeColor = SKColor(red: 0.2, green: 0.35, blue: 0.55, alpha: 1)
-            line.lineWidth = 1
-            grid.addChild(line)
-            x += step
+            for sample in 0...45 {
+                let x = CGFloat(sample) / 45
+                let y = (CGFloat(index) + 0.5) / 17 + sin(x * 9 + phase + CGFloat(index) * 0.38) * 0.026
+                let location = point(x, max(0, min(1, y)))
+                if sample == 0 { path.move(to: location) } else { path.addLine(to: location) }
+            }
+            let contour = SKShapeNode(path: path)
+            contour.strokeColor = SKColor(red: 0.75, green: 0.77, blue: 0.57, alpha: 0.12)
+            contour.lineWidth = 1
+            contour.zPosition = -2
+            addChild(contour)
         }
-
-        var y: CGFloat = 0
-        while y <= size.height {
-            let path = CGMutablePath()
-            path.move(to: CGPoint(x: 0, y: y))
-            path.addLine(to: CGPoint(x: size.width, y: y))
-            let line = SKShapeNode(path: path)
-            line.strokeColor = SKColor(red: 0.2, green: 0.35, blue: 0.55, alpha: 1)
-            line.lineWidth = 1
-            grid.addChild(line)
-            y += step
-        }
-
-        addChild(grid)
     }
 
     private func rebuildMapDecor() {
@@ -295,24 +370,39 @@ final class NightfallGameScene: SKScene {
                       CGRect(x: 0.08, y: 0.58, width: 0.35, height: 0.34),
                       CGRect(x: 0.58, y: 0.56, width: 0.34, height: 0.36)]
         let theme = abs((mission?.seed ?? 0) % 3)
-        let colors: [SKColor] = [.systemCyan, .systemPurple, .systemOrange]
+        let colors: [SKColor] = [SKColor(red: 0.77, green: 0.85, blue: 0.57, alpha: 1),
+                                 SKColor(red: 0.75, green: 0.63, blue: 0.44, alpha: 1), .systemMint]
         for (index, panel) in panels.enumerated() {
             let origin = point(panel.minX, panel.minY)
             let rect = CGRect(x: origin.x, y: origin.y, width: panel.width * arena.width, height: panel.height * arena.height)
-            let room = SKShapeNode(rect: rect, cornerRadius: 5)
-            room.fillColor = colors[theme].withAlphaComponent(0.055)
-            room.strokeColor = colors[theme].withAlphaComponent(0.32)
-            room.lineWidth = 2
+            let shape = CGMutablePath()
+            shape.move(to: CGPoint(x: rect.minX, y: rect.minY))
+            shape.addLine(to: CGPoint(x: rect.maxX - 15, y: rect.minY))
+            shape.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + 15))
+            shape.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+            shape.addLine(to: CGPoint(x: rect.minX + 12, y: rect.maxY))
+            shape.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - 12))
+            shape.closeSubpath()
+            let room = SKShapeNode(path: shape)
+            room.fillColor = colors[theme].withAlphaComponent(0.075)
+            room.strokeColor = colors[theme].withAlphaComponent(0.45)
+            room.lineWidth = 1
             addChild(room)
+            let label = SKLabelNode(fontNamed: "Menlo")
+            label.text = ["A / RECEIVING", "B / SPOOL", "C / NULL ROOM", "D / RETURN"][index]
+            label.fontSize = min(10, rect.width / 12)
+            label.fontColor = colors[theme].withAlphaComponent(0.65)
+            label.position = CGPoint(x: rect.midX, y: rect.maxY - 14)
+            addChild(label)
             // Floor markings and machinery belong to this game's signal-map visual style.
             for line in 0..<4 {
                 let mark = SKShapeNode(rectOf: CGSize(width: rect.width * 0.7, height: 2))
                 mark.position = CGPoint(x: rect.midX, y: rect.minY + 10 + CGFloat(line) * 8)
-                mark.fillColor = colors[theme].withAlphaComponent(0.18)
+                mark.fillColor = colors[theme].withAlphaComponent(0.13)
                 mark.strokeColor = .clear
                 addChild(mark)
             }
-            let machinery = SKShapeNode(rectOf: CGSize(width: 22, height: 32), cornerRadius: 3)
+            let machinery = SKShapeNode(circleOfRadius: index.isMultiple(of: 2) ? 15 : 10)
             machinery.position = CGPoint(x: rect.maxX - 20, y: rect.maxY - 25)
             machinery.fillColor = .black
             machinery.strokeColor = colors[theme].withAlphaComponent(0.5)
@@ -323,6 +413,13 @@ final class NightfallGameScene: SKScene {
             light.strokeColor = .clear
             light.glowWidth = 4
             machinery.addChild(light)
+            for spindle in [-7, 7] {
+                let reel = SKShapeNode(circleOfRadius: 5)
+                reel.position.x = CGFloat(spindle)
+                reel.strokeColor = colors[theme].withAlphaComponent(0.5)
+                reel.lineWidth = 1
+                machinery.addChild(reel)
+            }
         }
         let perimeter = SKShapeNode(rect: arena, cornerRadius: 6)
         perimeter.strokeColor = colors[theme].withAlphaComponent(0.7)
@@ -333,11 +430,16 @@ final class NightfallGameScene: SKScene {
 
     private func buildPlayer() {
         player.removeAllChildren()
+        let silhouette = CGMutablePath()
+        silhouette.move(to: CGPoint(x: 0, y: 19))
+        for p in [CGPoint(x: 11, y: 4), CGPoint(x: 8, y: -13), CGPoint(x: 0, y: -7), CGPoint(x: -8, y: -13), CGPoint(x: -11, y: 4)] { silhouette.addLine(to: p) }
+        silhouette.closeSubpath()
+        player.path = silhouette
         player.position = point(0.16, 0.18)
         player.fillColor = premiumEnabled ? Self.monthlyCosmeticColor : SKColor(red: 0.3, green: 0.75, blue: 1.0, alpha: 1)
         player.strokeColor = .white
         player.lineWidth = 2
-        player.glowWidth = 5
+        player.glowWidth = 1
         player.zPosition = 1
         player.name = "player"
         let visor = SKShapeNode(rectOf: CGSize(width: 24, height: 6), cornerRadius: 2)
@@ -381,18 +483,26 @@ final class NightfallGameScene: SKScene {
         ]
         let positions = layouts[abs((mission?.seed ?? 0) % layouts.count)]
         for (index, position) in positions.enumerated() {
-            let station = SKShapeNode(rectOf: CGSize(width: 38, height: 38), cornerRadius: 7)
+            let station = SKShapeNode(circleOfRadius: 21)
             station.position = position
             station.fillColor = SKColor(red: 0.02, green: 0.1, blue: 0.13, alpha: 1)
-            station.strokeColor = [.systemCyan, .systemOrange, .systemPurple][index]
-            station.lineWidth = 3
-            station.glowWidth = 3
+            station.strokeColor = [.systemMint, .systemOrange, .systemYellow][index]
+            station.lineWidth = 2
+            station.glowWidth = 1
             station.zPosition = 5
             let label = SKLabelNode(fontNamed: "Menlo-Bold")
             label.text = String(index + 1)
             label.fontSize = 18
             label.verticalAlignmentMode = .center
             station.addChild(label)
+            for angle in [CGFloat(0), .pi / 2, .pi, .pi * 1.5] {
+                let contact = SKShapeNode(rectOf: CGSize(width: 7, height: 4))
+                contact.position = CGPoint(x: cos(angle) * 25, y: sin(angle) * 25)
+                contact.zRotation = angle
+                contact.fillColor = station.strokeColor
+                contact.strokeColor = .clear
+                station.addChild(contact)
+            }
             addChild(station)
             stations.append(station)
         }
@@ -471,11 +581,26 @@ final class NightfallGameScene: SKScene {
     }
 
     private func buildExtractionZone() {
+        extractionZone.removeAllChildren()
         extractionZone.position = point(0.86, 0.82)
         extractionZone.fillColor = SKColor(red: 0.05, green: 0.5, blue: 0.8, alpha: 0.18)
         extractionZone.strokeColor = SKColor(red: 0.3, green: 0.85, blue: 1, alpha: 0.95)
         extractionZone.lineWidth = 3
         extractionZone.glowWidth = 10
+        let label = SKLabelNode(fontNamed: "Menlo-Bold")
+        label.text = "RETURN"
+        label.fontSize = 10
+        label.fontColor = .systemMint
+        label.position.y = -5
+        extractionZone.addChild(label)
+        for index in 0..<3 {
+            let tick = SKShapeNode(rectOf: CGSize(width: 3, height: 11))
+            tick.fillColor = .systemMint
+            tick.strokeColor = .clear
+            tick.position.x = CGFloat(index - 1) * 8
+            tick.position.y = 13
+            extractionZone.addChild(tick)
+        }
         addChild(extractionZone)
     }
 
@@ -491,6 +616,11 @@ final class NightfallGameScene: SKScene {
 
         for spawn in spawns {
             let node = SKShapeNode(circleOfRadius: spawn.type == .sleeper ? 14 : 18)
+            let outline = CGMutablePath()
+            outline.move(to: CGPoint(x: -16, y: -17))
+            for p in [CGPoint(x: -11, y: 11), CGPoint(x: -5, y: 20), CGPoint(x: 0, y: 11), CGPoint(x: 7, y: 24), CGPoint(x: 14, y: 9), CGPoint(x: 17, y: -17), CGPoint(x: 5, y: -9), CGPoint(x: 0, y: -20), CGPoint(x: -7, y: -10)] { outline.addLine(to: p) }
+            outline.closeSubpath()
+            node.path = outline
             node.position = point(spawn.normalizedStart.x, spawn.normalizedStart.y)
             node.fillColor = color(for: spawn.type)
             node.strokeColor = .white.withAlphaComponent(spawn.type == .sleeper ? 0.2 : 0.55)
@@ -555,8 +685,10 @@ final class NightfallGameScene: SKScene {
         let distance = hypot(vector.dx, vector.dy)
         guard distance > 4 else { return }
 
+        player.zRotation = atan2(vector.dy, vector.dx) - .pi / 2
+
         let carryingCase = rules.kind == .extractDreamArtifact && rules.completed == 1
-        let speed: CGFloat = carryingCase ? 125 : 178
+        let speed: CGFloat = (carryingCase ? 125 : 178) * CGFloat(receiver.movementScale)
         let step = min(CGFloat(deltaTime) * speed, distance)
         player.position.x += vector.dx / distance * step
         player.position.y += vector.dy / distance * step
@@ -573,9 +705,15 @@ final class NightfallGameScene: SKScene {
             let speed = agent.type.baseSpeed * speedBoost * surgeBoost
 
             let destination: CGPoint
-            if agent.type == .echo, let echoTarget = playerTrail.dropLast(condition.echoDelay).last {
+            if receiver.traceRemaining > 0, let transmissionPoint {
+                destination = transmissionPoint
+            } else if agent.type == .echo, let echoTarget = playerTrail.dropLast(condition.echoDelay).last {
                 destination = echoTarget
-            } else if agent.type == .hollow, collapse > condition.pursuitThreshold {
+            } else if agent.type == .hollow, collapse > condition.pursuitThreshold,
+                      !receiver.isSilent || receiver.canBeHeard(distance: Double(agent.node.position.distance(to: player.position)), detectionRadius: Double(agent.type.detectionRadius)) {
+                destination = player.position
+            } else if agent.type != .echo,
+                      receiver.canBeHeard(distance: Double(agent.node.position.distance(to: player.position)), detectionRadius: Double(agent.type.detectionRadius) * (1 + collapse * 0.4)) {
                 destination = player.position
             } else {
                 destination = agent.currentPatrolPoint
@@ -598,7 +736,7 @@ final class NightfallGameScene: SKScene {
 
     private func evaluateDetection(for agent: EnemyAgent, currentTime: TimeInterval, collapse: Double) {
         let distance = agent.node.position.distance(to: player.position)
-        let detection = agent.type.detectionRadius * CGFloat(1 + collapse * 0.4)
+        let detection = agent.type.detectionRadius * CGFloat(1 + collapse * 0.4) * CGFloat(receiver.detectionScale)
 
         if distance < detection, currentTime - lastWarningTime > 2.0 {
             lastWarningTime = currentTime
@@ -627,7 +765,7 @@ final class NightfallGameScene: SKScene {
         if let mask = darknessMask {
             let path = CGMutablePath()
             path.addRect(arena)
-            let radius: CGFloat = 95 - CGFloat(collapse) * 30
+            let radius: CGFloat = receiver.revealRemaining > 0 ? max(arena.width, arena.height) : 95 - CGFloat(collapse) * 30
             // Reverse the aperture winding to cut a hole in the outer path.
             path.addPath(UIBezierPath(ovalIn: CGRect(x: player.position.x - radius, y: player.position.y - radius, width: radius * 2, height: radius * 2)).reversing().cgPath)
             mask.path = path

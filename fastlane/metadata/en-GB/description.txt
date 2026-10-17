@@ -1,3 +1,6 @@
+THE FIELD RECEIVER
+Your sounding reveals distant entities for four seconds, but they investigate its transmission point for seven. Leave the signal behind and switch to slower silent movement to reduce detection range. Hollow marks remember where an entity was heard; they are not live tracking. The receiver recharges in fourteen seconds. An original fractured-coil instrument, seismic contours and marked receiving chambers give each expedition its own field record.
+
 Nightfall Protocol is an offline, single-player survival horror game set inside unstable nightmare zones. Complete extraction missions, avoid enemy patrols and recover dream artifacts before Reality Collapse ends your run.
 
 NIGHTMARE EXTRACTION

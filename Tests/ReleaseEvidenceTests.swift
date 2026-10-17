@@ -19,12 +19,24 @@ final class ReleaseEvidenceTests: XCTestCase {
         func move(_ x: CGFloat, _ y: CGFloat) {
             let width = arena.frame.width, height = arena.frame.height
             let pointX = 24 + max(120, width - 48) * x
-            let pointY = height - (210 + max(160, height - 550) * y)
+            let pointY = height - (265 + max(160, height - 490) * y)
             arena.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: pointX, dy: pointY)).tap()
             // Actual operator movement, not a test teleport.
             Thread.sleep(forTimeInterval: 6)
         }
         capture("mission-start-real-gameplay", app: app)
+        let sound = app.buttons["receiver-sound"]
+        let silent = app.buttons["receiver-silent"]
+        XCTAssertTrue(sound.isEnabled)
+        silent.tap()
+        XCTAssertFalse(sound.isEnabled, "Silent movement blocks transmission")
+        XCTAssertTrue(silent.label.contains("on"))
+        capture("receiver-silent-real-gameplay", app: app)
+        silent.tap()
+        sound.tap()
+        XCTAssertFalse(sound.isEnabled, "Sounding consumes the receiver charge")
+        XCTAssertTrue(app.staticTexts["receiver-status"].label.contains("TRANSMISSION"))
+        capture("receiver-sounding-real-gameplay", app: app)
         app.buttons["Extract"].tap()
         XCTAssertFalse(app.staticTexts["Extraction Complete"].exists)
         move(0.2, 0.7)
@@ -43,6 +55,8 @@ final class ReleaseEvidenceTests: XCTestCase {
         app.buttons["Interact"].tap()
         let completed = app.staticTexts.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "mission-instruction", "Mission complete")).firstMatch
         XCTAssertTrue(completed.waitForExistence(timeout: 15))
+        XCTAssertTrue(sound.isEnabled, "Receiver recharges while the operator completes the mission")
+        XCTAssertTrue(app.staticTexts["receiver-status"].label.contains("CLEAR"))
         capture("memory-decoded-real-gameplay", app: app)
         move(0.86, 0.82)
         app.buttons["Extract"].tap()
@@ -51,6 +65,8 @@ final class ReleaseEvidenceTests: XCTestCase {
         for _ in 0..<3 where !app.buttons["Return to Hub"].isHittable { app.swipeUp() }
         app.buttons["Return to Hub"].tap()
         XCTAssertTrue(app.buttons["Signal Campaign"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Before you transmit"].exists)
+        capture("field-receiver-guide-real-hub", app: app)
         XCTAssertFalse(app.buttons["Co-op Placeholder"].exists)
         XCTAssertFalse(app.buttons["Endless"].exists)
         app.buttons["Signal Campaign"].tap()
@@ -67,6 +83,7 @@ final class ReleaseEvidenceTests: XCTestCase {
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_GB"]
         app.launch()
         XCTAssertTrue(app.buttons["Settings"].waitForExistence(timeout: 60))
+        capture("field-receiver-title", app: app)
         app.buttons["Settings"].tap()
         XCTAssertTrue(app.buttons["Privacy Policy"].waitForExistence(timeout: 15))
         capture("legal-links-from-settings", app: app)
